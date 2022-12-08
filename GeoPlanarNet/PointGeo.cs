@@ -294,5 +294,55 @@ namespace GeoPlanarNet
         {
             return Distance(segmentStartX, segmentStartY, pointX, pointY) + Distance(segmentEndX, segmentEndY, pointX, pointY) == Distance(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
         }
+
+        /// <summary>
+        /// Check if two points are equal
+        /// </summary>
+        /// <param name="point1"> Point 1 </param>
+        /// <param name="point2"> Point 2 </param>
+        /// <param name="eps"> Epsilon </param>
+        /// <returns> Flag if equals </returns>
+        public static bool Equals(this PointF point1, PointF point2, float eps)
+        {
+            return Distance(point1, point2) <= eps;
+        }
+
+        /// <summary>
+        /// Check if two points are equal
+        /// </summary>
+        /// <param name="point1"> Point 1 </param>
+        /// <param name="point2"> Point 2 </param>
+        /// <param name="eps"> Epsilon </param>
+        /// <returns> Flag if equals </returns>
+        public static bool Equals(this Point point1, Point point2, double eps)
+        {
+            return Distance(point1, point2) <= eps;
+        }
+
+        /// <summary>
+        /// Check if two points are equal
+        /// </summary>
+        /// <param name="point1X"> Point 1: X coordinate </param>
+        /// <param name="point1Y"> Point 1: Y coordinate </param>
+        /// <param name="point2X"> Point 2: X coordinate </param>
+        /// <param name="point2Y"> Point 2: Y coordinate </param>
+        /// <returns> Flag if equals </returns>
+        public static bool Equals(float point1X, float point1Y, float point2X, float point2Y, float eps)
+        {
+            return Distance(point1X, point1Y, point2X, point2Y) <= eps;
+        }
+
+        /// <summary>
+        /// Check if two points are equal
+        /// </summary>
+        /// <param name="point1X"> Point 1: X coordinate </param>
+        /// <param name="point1Y"> Point 1: Y coordinate </param>
+        /// <param name="point2X"> Point 2: X coordinate </param>
+        /// <param name="point2Y"> Point 2: Y coordinate </param>
+        /// <returns> Flag if equals </returns>
+        public static bool Equals(double point1X, double point1Y, double point2X, double point2Y, double eps)
+        {
+            return Distance(point1X, point1Y, point2X, point2Y) <= eps;
+        }
     }
 }

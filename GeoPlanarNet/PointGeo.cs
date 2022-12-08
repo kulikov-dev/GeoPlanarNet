@@ -38,19 +38,6 @@ namespace GeoPlanarNet
         /// <param name="point2X"> Point 2: X coordinate </param>
         /// <param name="point2Y"> Point 2: Y coordinate </param>
         /// <returns> Distance </returns>
-        public static double Distance(float point1X, float point1Y, float point2X, float point2Y)
-        {
-            return Distance((double)point1X, point1Y, point2X, point2Y);
-        }
-
-        /// <summary>
-        /// Get distance between two points
-        /// </summary>
-        /// <param name="point1X"> Point 1: X coordinate </param>
-        /// <param name="point1Y"> Point 1: Y coordinate </param>
-        /// <param name="point2X"> Point 2: X coordinate </param>
-        /// <param name="point2Y"> Point 2: Y coordinate </param>
-        /// <returns> Distance </returns>
         public static double Distance(double point1X, double point1Y, double point2X, double point2Y)
         {
             return Math.Sqrt(Math.Pow(point1X - point2X, 2) + Math.Pow(point1Y - point2Y, 2));
@@ -78,21 +65,6 @@ namespace GeoPlanarNet
         public static double DistanceToLine(this Point point, Point linePoint1, Point linePoint2)
         {
             return DistanceToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
-        }
-
-        /// <summary>
-        /// Get distance to a line
-        /// </summary>
-        /// <param name="pointX"> Point: X coordinate </param>
-        /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="linePoint1X">Line first point: X coordinate</param>
-        /// <param name="linePoint1Y">Line first point: X coordinate</param>
-        /// <param name="linePoint2X">Line second point: X coordinate</param>
-        /// <param name="linePoint2Y">Line second point: X coordinate</param>
-        /// <returns> Distance from a point to the line </returns>
-        public static double DistanceToLine(float pointX, float pointY, float linePoint1X, float linePoint1Y, float linePoint2X, float linePoint2Y)
-        {
-            return DistanceToLine((double)pointX, pointY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y);
         }
 
         /// <summary>
@@ -136,21 +108,6 @@ namespace GeoPlanarNet
         public static double DistanceToSegment(this Point point, Point segmentStart, Point segmentEnd)
         {
             return DistanceToSegment(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
-        }
-
-        /// <summary>
-        /// Get distance to segment
-        /// </summary>
-        /// <param name="pointX"> Point: X coordinate </param>
-        /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
-        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
-        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
-        /// <returns> Distance from point to segment </returns>
-        public static double DistanceToSegment(float pointX, float pointY, float segmentStartX, float segmentStartY, float segmentEndX, float segmentEndY)
-        {
-            return DistanceToSegment((double)pointX, pointY, segmentStartX, segmentStartY, segmentEndX, segmentEndY);
         }
 
         /// <summary>
@@ -251,7 +208,7 @@ namespace GeoPlanarNet
         /// <returns> Flag if the point belongs to the segment </returns>
         public static bool InSegment(this PointF point, PointF segmentStart, PointF segmentEnd)
         {
-            return Distance(segmentStart, point) + Distance(segmentEnd, point) == Distance(segmentStart, segmentEnd);
+            return InSegment(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
 
         /// <summary>
@@ -263,22 +220,7 @@ namespace GeoPlanarNet
         /// <returns> Flag if the point belongs to the segment </returns>
         public static bool InSegment(this Point point, Point segmentStart, Point segmentEnd)
         {
-            return Distance(segmentStart, point) + Distance(segmentEnd, point) == Distance(segmentStart, segmentEnd);
-        }
-
-        /// <summary>
-        /// Check if a point belongs to a segment
-        /// </summary>
-        /// <param name="pointX"> Point: X coordinate </param>
-        /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
-        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
-        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
-        /// <returns> Flag if the point belongs to the segment </returns>
-        public static bool InSegment(float pointX, float pointY, float segmentStartX, float segmentStartY, float segmentEndX, float segmentEndY)
-        {
-            return Distance(segmentStartX, segmentStartY, pointX, pointY) + Distance(segmentEndX, segmentEndY, pointX, pointY) == Distance(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+            return InSegment(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
 
         /// <summary>
@@ -294,6 +236,45 @@ namespace GeoPlanarNet
         public static bool InSegment(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
             return Distance(segmentStartX, segmentStartY, pointX, pointY) + Distance(segmentEndX, segmentEndY, pointX, pointY) == Distance(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+        }
+
+        /// <summary>
+        /// Check if a point belongs to a circle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <returns> Flag if the point belongs to the cirle </returns>
+        public static bool InCircle(this PointF point, PointF circleCenter, float radius)
+        {
+            return InCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius);
+        }
+
+        /// <summary>
+        /// Check if a point belongs to a circle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <returns> Flag if the point belongs to the cirle </returns>
+        public static bool InCircle(this Point point, Point circleCenter, double radius)
+        {
+            return InCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius);
+
+        }
+
+        /// <summary>
+        /// Check if a point belongs to a circle
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="circleX"> Circle center: X coordinate </param>
+        /// <param name="circleY"> Circle center: X coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <returns> Flag if the point belongs to the cirle </returns>
+        public static bool InCircle(double pointX, double pointY, double circleX, double circleY, double radius)
+        {
+            return Math.Pow(pointX - circleX, 2) + Math.Pow(pointY - circleY, 2) <= Math.Pow(radius, 2);
         }
 
         /// <summary>
@@ -387,34 +368,6 @@ namespace GeoPlanarNet
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <returns> Point relative location </returns>
         /// <remarks> Faster </remarks>
-        public static PointSimpleRelativeLocation GetPointLocationFast(float pointX, float pointY, float segmentStartX, float segmentStartY, float segmentEndX, float segmentEndY)
-        {
-            var vectorProduct = GetVectorProduct(pointX, pointY, segmentStartX, segmentStartY, segmentEndX, segmentEndY);
-
-            if (vectorProduct > 0)
-            {
-                return PointSimpleRelativeLocation.Right;
-            }
-
-            if (vectorProduct < 0)
-            {
-                return PointSimpleRelativeLocation.Left;
-            }
-
-            return PointSimpleRelativeLocation.OnTheSegment;
-        }
-
-        /// <summary>
-        /// Get a point location relative to a segment
-        /// </summary>
-        /// <param name="pointX"> Point: X coordinate </param>
-        /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
-        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
-        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
-        /// <returns> Point relative location </returns>
-        /// <remarks> Faster </remarks>
         public static PointSimpleRelativeLocation GetPointLocationFast(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
             return GetPointLocationFast((float)pointX, pointY, segmentStartX, segmentStartY, segmentEndX, segmentEndY);
@@ -442,19 +395,6 @@ namespace GeoPlanarNet
         public static bool Equals(this Point point1, Point point2, double eps)
         {
             return Distance(point1, point2) <= eps;
-        }
-
-        /// <summary>
-        /// Check if two points are equal
-        /// </summary>
-        /// <param name="point1X"> Point 1: X coordinate </param>
-        /// <param name="point1Y"> Point 1: Y coordinate </param>
-        /// <param name="point2X"> Point 2: X coordinate </param>
-        /// <param name="point2Y"> Point 2: Y coordinate </param>
-        /// <returns> Flag if equals </returns>
-        public static bool Equals(float point1X, float point1Y, float point2X, float point2Y, float eps)
-        {
-            return Distance(point1X, point1Y, point2X, point2Y) <= eps;
         }
 
         /// <summary>

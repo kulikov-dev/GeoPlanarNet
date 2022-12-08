@@ -24,5 +24,22 @@
         {
             return angleDegree * Math.PI / 180;
         }
+
+        /// <summary>
+        /// Check if a dot located between an interval
+        /// </summary>
+        /// <param name="dot"> Dot </param>
+        /// <param name="intervalStart"> Left point of the interval </param>
+        /// <param name="intervalEnd"> Right point of the interval </param>
+        /// <returns> Flag if dot between interval </returns>
+        public static bool CheckDotBetweenInterval(double dot, double intervalStart, double intervalEnd)
+        {
+            if (intervalStart < intervalEnd)
+            {
+                return (dot >= intervalStart) && (dot <= intervalEnd);
+            }
+
+            return (dot <= intervalStart) && (dot >= intervalEnd);
+        }
     }
 }

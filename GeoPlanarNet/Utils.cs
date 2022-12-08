@@ -1,4 +1,6 @@
-﻿namespace GeoPlanarNet
+﻿using System.Drawing;
+
+namespace GeoPlanarNet
 {
     /// <summary>
     /// Supporting methods for library

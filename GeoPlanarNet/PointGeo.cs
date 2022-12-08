@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using GeoPlanarNet.Enums;
+using System.Drawing;
 
 namespace GeoPlanarNet
 {
@@ -53,6 +54,64 @@ namespace GeoPlanarNet
         public static double Distance(double point1X, double point1Y, double point2X, double point2Y)
         {
             return Math.Sqrt(Math.Pow(point1X - point2X, 2) + Math.Pow(point1Y - point2Y, 2));
+        }
+
+        /// <summary>
+        /// Get distance to a line
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="linePoint1"> Line first point </param>
+        /// <param name="linePoint2"> Line second point </param>
+        /// <returns> Distance from a point to the line </returns>
+        public static double DistanceToLine(this PointF point, PointF linePoint1, PointF linePoint2)
+        {
+            return DistanceToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
+        }
+
+        /// <summary>
+        /// Get distance to a line
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="linePoint1"> Line first point </param>
+        /// <param name="linePoint2"> Line second point </param>
+        /// <returns> Distance from a point to the line </returns>
+        public static double DistanceToLine(this Point point, Point linePoint1, Point linePoint2)
+        {
+            return DistanceToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
+        }
+
+        /// <summary>
+        /// Get distance to a line
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="linePoint1X">Line first point: X coordinate</param>
+        /// <param name="linePoint1Y">Line first point: X coordinate</param>
+        /// <param name="linePoint2X">Line second point: X coordinate</param>
+        /// <param name="linePoint2Y">Line second point: X coordinate</param>
+        /// <returns> Distance from a point to the line </returns>
+        public static double DistanceToLine(float pointX, float pointY, float linePoint1X, float linePoint1Y, float linePoint2X, float linePoint2Y)
+        {
+            return DistanceToLine((double)pointX, pointY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y);
+        }
+
+        /// <summary>
+        /// Get distance to a line
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="linePoint1X">Line first point: X coordinate</param>
+        /// <param name="linePoint1Y">Line first point: X coordinate</param>
+        /// <param name="linePoint2X">Line second point: X coordinate</param>
+        /// <param name="linePoint2Y">Line second point: X coordinate</param>
+        /// <returns> Distance from a point to the line </returns>
+        public static double DistanceToLine(double pointX, double pointY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
+        {
+            var koef = (((linePoint2X - linePoint1X) * (pointX - linePoint1X)) + ((linePoint2Y - linePoint1Y) * (pointY - linePoint1Y))) / (Math.Pow(linePoint2X - linePoint1X, 2) + Math.Pow(linePoint2Y - linePoint1Y, 2));
+            var koefX = linePoint1X + ((linePoint2X - linePoint1X) * koef);
+            var koefY = linePoint1Y + ((linePoint2Y - linePoint1Y) * koef);
+
+            return Math.Sqrt(Math.Pow(pointX - koefX, 2) + Math.Pow(pointY - koefY, 2));
         }
 
         /// <summary>
@@ -125,64 +184,6 @@ namespace GeoPlanarNet
             return Math.Min(
                             Math.Sqrt(Math.Pow(diffPointSegmentStartX, 2) + Math.Pow(diffPointSegmentStartY, 2)),
                             Math.Sqrt(Math.Pow(diffPointSegmentEndX, 2) + Math.Pow(diffPointSegmentEndY, 2)));
-        }
-
-        /// <summary>
-        /// Get distance to a line
-        /// </summary>
-        /// <param name="point"> Point </param>
-        /// <param name="linePoint1"> Line first point </param>
-        /// <param name="linePoint2"> Line second point </param>
-        /// <returns> Distance from a point to the line </returns>
-        public static double DistanceToLine(this PointF point, PointF linePoint1, PointF linePoint2)
-        {
-            return DistanceToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
-        }
-
-        /// <summary>
-        /// Get distance to a line
-        /// </summary>
-        /// <param name="point"> Point </param>
-        /// <param name="linePoint1"> Line first point </param>
-        /// <param name="linePoint2"> Line second point </param>
-        /// <returns> Distance from a point to the line </returns>
-        public static double DistanceToLine(this Point point, Point linePoint1, Point linePoint2)
-        {
-            return DistanceToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
-        }
-
-        /// <summary>
-        /// Get distance to a line
-        /// </summary>
-        /// <param name="pointX"> Point: X coordinate </param>
-        /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="linePoint1X">Line first point: X coordinate</param>
-        /// <param name="linePoint1Y">Line first point: X coordinate</param>
-        /// <param name="linePoint2X">Line second point: X coordinate</param>
-        /// <param name="linePoint2Y">Line second point: X coordinate</param>
-        /// <returns> Distance from a point to the line </returns>
-        public static double DistanceToLine(float pointX, float pointY, float linePoint1X, float linePoint1Y, float linePoint2X, float linePoint2Y)
-        {
-            return DistanceToLine((double)pointX, pointY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y);
-        }
-
-        /// <summary>
-        /// Get distance to a line
-        /// </summary>
-        /// <param name="pointX"> Point: X coordinate </param>
-        /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="linePoint1X">Line first point: X coordinate</param>
-        /// <param name="linePoint1Y">Line first point: X coordinate</param>
-        /// <param name="linePoint2X">Line second point: X coordinate</param>
-        /// <param name="linePoint2Y">Line second point: X coordinate</param>
-        /// <returns> Distance from a point to the line </returns>
-        public static double DistanceToLine(double pointX, double pointY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
-        {
-            var koef = (((linePoint2X - linePoint1X) * (pointX - linePoint1X)) + ((linePoint2Y - linePoint1Y) * (pointY - linePoint1Y))) / (Math.Pow(linePoint2X - linePoint1X, 2) + Math.Pow(linePoint2Y - linePoint1Y, 2));
-            var koefX = linePoint1X + ((linePoint2X - linePoint1X) * koef);
-            var koefY = linePoint1Y + ((linePoint2Y - linePoint1Y) * koef);
-
-            return Math.Sqrt(Math.Pow(pointX - koefX, 2) + Math.Pow(pointY - koefY, 2));
         }
 
         /// <summary>
@@ -293,6 +294,130 @@ namespace GeoPlanarNet
         public static bool InSegment(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
             return Distance(segmentStartX, segmentStartY, pointX, pointY) + Distance(segmentEndX, segmentEndY, pointX, pointY) == Distance(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+        }
+
+        /// <summary>
+        /// Calc vector product between point and segment
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> Vector product </returns>
+        public static float GetVectorProduct(PointF point, PointF segmentStart, PointF segmentEnd)
+        {
+            return GetVectorProduct(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Calc vector product between point and segment
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> Vector product </returns>
+        public static float GetVectorProduct(Point point, Point segmentStart, Point segmentEnd)
+        {
+            return GetVectorProduct(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Calc vector product between point and segment
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
+        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> Vector product </returns>
+        public static float GetVectorProduct(float pointX, float pointY, float segmentStartX, float segmentStartY, float segmentEndX, float segmentEndY)
+        {
+            return ((segmentEndY - segmentStartY) * (pointX - segmentStartX)) - ((segmentEndX - segmentStartX) * (pointY - segmentStartY));
+        }
+
+        /// <summary>
+        /// Calc vector product between point and segment
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
+        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> Vector product </returns>
+        public static double GetVectorProduct(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        {
+            return ((segmentEndY - segmentStartY) * (pointX - segmentStartX)) - ((segmentEndX - segmentStartX) * (pointY - segmentStartY));
+        }
+
+        /// <summary>
+        /// Get a point location relative to a segment
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> Point relative location </returns>
+        /// <remarks> Faster </remarks>
+        public static PointSimpleRelativeLocation GetPointLocationFast(this PointF point, PointF segmentStart, PointF segmentEnd)
+        {
+            return GetPointLocationFast(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Get a point location relative to a segment
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> Point relative location </returns>
+        /// <remarks> Faster </remarks>
+        public static PointSimpleRelativeLocation GetPointLocationFast(this Point point, Point segmentStart, Point segmentEnd)
+        {
+            return GetPointLocationFast(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Get a point location relative to a segment
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
+        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> Point relative location </returns>
+        /// <remarks> Faster </remarks>
+        public static PointSimpleRelativeLocation GetPointLocationFast(float pointX, float pointY, float segmentStartX, float segmentStartY, float segmentEndX, float segmentEndY)
+        {
+            var vectorProduct = GetVectorProduct(pointX, pointY, segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+
+            if (vectorProduct > 0)
+            {
+                return PointSimpleRelativeLocation.Right;
+            }
+
+            if (vectorProduct < 0)
+            {
+                return PointSimpleRelativeLocation.Left;
+            }
+
+            return PointSimpleRelativeLocation.OnTheSegment;
+        }
+
+        /// <summary>
+        /// Get a point location relative to a segment
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
+        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> Point relative location </returns>
+        /// <remarks> Faster </remarks>
+        public static PointSimpleRelativeLocation GetPointLocationFast(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        {
+            return GetPointLocationFast((float)pointX, pointY, segmentStartX, segmentStartY, segmentEndX, segmentEndY);
         }
 
         /// <summary>

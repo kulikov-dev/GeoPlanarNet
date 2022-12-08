@@ -278,6 +278,47 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
+        /// Check if a point belongs to an ellipse
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="ellipseCenter"> Ellipse center </param>
+        /// <param name="radiusX"> Radius on X axis </param>
+        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <returns> Flag if the point belongs to the ellipse </returns>
+        public static bool InEllipse(this PointF point, PointF ellipseCenter, float radiusX, float radiusY)
+        {
+            return InEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY);
+        }
+
+        /// <summary>
+        /// Check if a point belongs to an ellipse
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="ellipseCenter"> Ellipse center </param>
+        /// <param name="radiusX"> Radius on X axis </param>
+        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <returns> Flag if the point belongs to the ellipse </returns>
+        public static bool InEllipse(this Point point, Point ellipseCenter, float radiusX, float radiusY)
+        {
+            return InEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY);
+        }
+
+        /// <summary>
+        /// Check if a point belongs to an ellipse
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="circleX"> Ellipse center: X coordinate </param>
+        /// <param name="circleY"> Ellipse center: X coordinate </param>
+        /// <param name="radiusX"> Radius on X axis </param>
+        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <returns> Flag if the point belongs to the ellipse </returns>
+        public static bool InEllipse(double pointX, double pointY, double circleX, double circleY, double radiusX, double radiusY)
+        {
+            return (Math.Pow(pointX - circleX, 2) / Math.Pow(radiusX, 2)) + (Math.Pow(pointY - circleY, 2) / Math.Pow(radiusY, 2)) <= 1;
+        }
+
+        /// <summary>
         /// Calc vector product between point and segment
         /// </summary>
         /// <param name="point"> Point </param>

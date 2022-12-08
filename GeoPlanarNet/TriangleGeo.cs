@@ -43,39 +43,9 @@ namespace GeoPlanarNet
         /// <param name="apex3X"> Apex 3: X coordinate </param>
         /// <param name="apex3Y"> Apex 3: Y coordinate </param>
         /// <returns> Triangle area </returns>
-        private static float Area(float apex1X, float apex1Y, float apex2X, float apex2Y, float apex3X, float apex3Y)
-        {
-            return ((apex2X - apex1X) * (apex3Y - apex1Y)) - ((apex2Y - apex1Y) * (apex3X - apex1X));
-        }
-
-        /// <summary>
-        /// Get triangle area
-        /// </summary>
-        /// <param name="apex1X"> Apex 1: X coordinate </param>
-        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
-        /// <param name="apex2X"> Apex 2: X coordinate </param>
-        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
-        /// <param name="apex3X"> Apex 3: X coordinate </param>
-        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
-        /// <returns> Triangle area </returns>
         private static double Area(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
         {
-            return ((apex2X - apex1X) * (apex3Y - apex1Y)) - ((apex2Y - apex1Y) * (apex3X - apex1X));
-        }
-
-        /// <summary>
-        /// Get triangle area
-        /// </summary>
-        /// <param name="apex1X"> Apex 1: X coordinate </param>
-        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
-        /// <param name="apex2X"> Apex 2: X coordinate </param>
-        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
-        /// <param name="apex3X"> Apex 3: X coordinate </param>
-        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
-        /// <returns> Triangle area </returns>
-        private static int Area(int apex1X, int apex1Y, int apex2X, int apex2Y, int apex3X, int apex3Y)
-        {
-            return ((apex2X - apex1X) * (apex3Y - apex1Y)) - ((apex2Y - apex1Y) * (apex3X - apex1X));
+            return 0.5d * (((apex2X - apex1X) * (apex3Y - apex1Y)) - ((apex2Y - apex1Y) * (apex3X - apex1X)));
         }
     }
 }

@@ -240,5 +240,59 @@ namespace GeoPlanarNet
 
             return new Point((int)(centerX + (diff.X * Math.Cos(angleRadian)) - (diff.Y * Math.Sin(angleRadian))), (int)(centerY + (diff.X * Math.Sin(angleRadian)) + (diff.Y * Math.Cos(angleRadian))));
         }
+
+        /// <summary>
+        /// Check if a point belongs to a segment
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> Flag if the point belongs to the segment </returns>
+        public static bool InSegment(this PointF point, PointF segmentStart, PointF segmentEnd)
+        {
+            return Distance(segmentStart, point) + Distance(segmentEnd, point) == Distance(segmentStart, segmentEnd);
+        }
+
+        /// <summary>
+        /// Check if a point belongs to a segment
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> Flag if the point belongs to the segment </returns>
+        public static bool InSegment(this Point point, Point segmentStart, Point segmentEnd)
+        {
+            return Distance(segmentStart, point) + Distance(segmentEnd, point) == Distance(segmentStart, segmentEnd);
+        }
+
+        /// <summary>
+        /// Check if a point belongs to a segment
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
+        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> Flag if the point belongs to the segment </returns>
+        public static bool InSegment(float pointX, float pointY, float segmentStartX, float segmentStartY, float segmentEndX, float segmentEndY)
+        {
+            return Distance(segmentStartX, segmentStartY, pointX, pointY) + Distance(segmentEndX, segmentEndY, pointX, pointY) == Distance(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+        }
+
+        /// <summary>
+        /// Check if a point belongs to a segment
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
+        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> Flag if the point belongs to the segment </returns>
+        public static bool InSegment(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        {
+            return Distance(segmentStartX, segmentStartY, pointX, pointY) + Distance(segmentEndX, segmentEndY, pointX, pointY) == Distance(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+        }
     }
 }

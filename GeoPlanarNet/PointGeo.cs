@@ -319,6 +319,226 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
+        /// Check if a point belongs to an area
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="area"> Area </param>
+        /// <param name="epsilon"> Accuracy </param>
+        /// <returns> Flag if the point belongs to the area </returns>
+        public static bool InArea(this PointF point, IList<PointF> area, float epsilon = float.Epsilon)
+        {
+            var pointsInAreaCount = area.Count - 1;
+
+            if (pointsInAreaCount < 1)
+            {
+                return false;
+            }
+
+            for (var i = 1; i < area.Count; ++i)
+            {
+                if (DistanceToSegment(point.X, point.Y, area[i - 1].X, area[i - 1].Y, area[i].X, area[i].Y) <= epsilon)
+                {
+                    return true;
+                }
+            }
+
+            var firstIndex = 0;
+            while (firstIndex < area.Count && area[firstIndex].Y.AboutEquals(point.Y))
+            {
+                firstIndex++;
+            }
+
+            if (firstIndex == area.Count)
+            {
+                return false;
+            }
+
+            var indFirst = firstIndex;
+            var secondIndex = (firstIndex + 1) % pointsInAreaCount;
+            var iterations = 0;
+            var left = 0;
+
+            do
+            {
+                var yDiff = (area[firstIndex].Y - point.Y) * (area[secondIndex].Y - point.Y);
+                iterations++;
+
+                float xDiff;
+                if (yDiff < 0)
+                {
+                    xDiff = area[firstIndex].X + ((area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y));
+
+                    if (xDiff < point.X)
+                    {
+                        left++;
+                    }
+                    else
+                    {
+                        if (xDiff.AboutEquals(point.X))
+                        {
+                            return true;
+                        }
+                    }
+                }
+                else
+                {
+                    if (yDiff == 0)
+                    {
+                        var firstYDiff = area[firstIndex].Y - point.Y;
+                        while (area[secondIndex].Y.AboutEquals(point.Y))
+                        {
+                            firstIndex = secondIndex;
+                            secondIndex = (secondIndex + 1) % pointsInAreaCount;
+
+                            if (area[firstIndex].Y.AboutEquals(point.Y) && area[secondIndex].Y.AboutEquals(point.Y))
+                            {
+                                if (((area[firstIndex].X - point.X) * (area[secondIndex].X - point.X)) <= 0)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+
+                        yDiff = firstYDiff * (area[secondIndex].Y - point.Y);
+
+                        if (yDiff < 0)
+                        {
+                            xDiff = area[firstIndex].X + ((area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y));
+
+                            if (xDiff < point.X)
+                            {
+                                left++;
+                            }
+                            else
+                            {
+                                if (xDiff.AboutEquals(point.X))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                firstIndex = secondIndex;
+                secondIndex = (secondIndex + 1) % pointsInAreaCount;
+            }
+            while ((secondIndex != (indFirst + 1)) && iterations < pointsInAreaCount);
+
+            return (left % 2 == 1) && iterations <= pointsInAreaCount;
+        }
+
+        /// <summary>
+        /// Check if a point belongs to an area
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="area"> Area </param>
+        /// <param name="epsilon"> Accuracy </param>
+        /// <returns> Flag if the point belongs to the area </returns>
+        public static bool InArea(this Point point, IList<Point> area, double epsilon = double.Epsilon)
+        {
+            var pointsInAreaCount = area.Count - 1;
+
+            if (pointsInAreaCount < 1)
+            {
+                return false;
+            }
+
+            for (var i = 1; i < area.Count; ++i)
+            {
+                if (DistanceToSegment(point.X, point.Y, area[i - 1].X, area[i - 1].Y, area[i].X, area[i].Y) <= epsilon)
+                {
+                    return true;
+                }
+            }
+
+            var firstIndex = 0;
+            while (firstIndex < area.Count && area[firstIndex].Y == point.Y)
+            {
+                firstIndex++;
+            }
+
+            if (firstIndex == area.Count)
+            {
+                return false;
+            }
+
+            var indFirst = firstIndex;
+            var secondIndex = (firstIndex + 1) % pointsInAreaCount;
+            var iterations = 0;
+            var left = 0;
+
+            do
+            {
+                var yDiff = (area[firstIndex].Y - point.Y) * (area[secondIndex].Y - point.Y);
+                iterations++;
+
+                int xDiff;
+                if (yDiff < 0)
+                {
+                    xDiff = area[firstIndex].X + ((area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y));
+
+                    if (xDiff < point.X)
+                    {
+                        left++;
+                    }
+                    else
+                    {
+                        if (xDiff == point.X)
+                        {
+                            return true;
+                        }
+                    }
+                }
+                else
+                {
+                    if (yDiff == 0)
+                    {
+                        var firstYDiff = area[firstIndex].Y - point.Y;
+                        while (area[secondIndex].Y == point.Y)
+                        {
+                            firstIndex = secondIndex;
+                            secondIndex = (secondIndex + 1) % pointsInAreaCount;
+
+                            if (area[firstIndex].Y == point.Y && area[secondIndex].Y == point.Y)
+                            {
+                                if (((area[firstIndex].X - point.X) * (area[secondIndex].X - point.X)) <= 0)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+
+                        yDiff = firstYDiff * (area[secondIndex].Y - point.Y);
+
+                        if (yDiff < 0)
+                        {
+                            xDiff = area[firstIndex].X + ((area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y));
+
+                            if (xDiff < point.X)
+                            {
+                                left++;
+                            }
+                            else
+                            {
+                                if (xDiff == point.X)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                firstIndex = secondIndex;
+                secondIndex = (secondIndex + 1) % pointsInAreaCount;
+            }
+            while ((secondIndex != (indFirst + 1)) && iterations < pointsInAreaCount);
+
+            return (left % 2 == 1) && iterations <= pointsInAreaCount;
+        }
+
+        /// <summary>
         /// Calc vector product between point and segment
         /// </summary>
         /// <param name="point"> Point </param>

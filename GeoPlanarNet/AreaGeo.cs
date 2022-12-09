@@ -257,5 +257,51 @@ namespace GeoPlanarNet
 
             return centerPoint;
         }
+        
+        /// <summary>
+        /// Get a rectangle covering an entire area
+        /// </summary>
+        /// <param name="points"> Area </param>
+        /// <returns> Rectangle </returns>
+        public static RectangleF GetRectangle(PointF[] points)
+        {
+            var xMin = float.MaxValue;
+            var xMax = -float.MaxValue;
+            var yMin = float.MaxValue;
+            var yMax = -float.MaxValue;
+
+            foreach (var point in points)
+            {
+                xMin = Math.Min(xMin, point.X);
+                xMax = Math.Max(xMax, point.X);
+                yMin = Math.Min(yMin, point.Y);
+                yMax = Math.Max(yMax, point.Y);
+            }
+
+            return new RectangleF(xMin, yMin, xMax - xMin, yMax - yMin);
+        }
+
+        /// <summary>
+        /// Get a rectangle covering an entire area
+        /// </summary>
+        /// <param name="points"> Area </param>
+        /// <returns> Rectangle </returns>
+        public static Rectangle GetRectangle(Point[] points)
+        {
+            var xMin = int.MaxValue;
+            var xMax = -int.MaxValue;
+            var yMin = int.MaxValue;
+            var yMax = -int.MaxValue;
+
+            foreach (var point in points)
+            {
+                xMin = Math.Min(xMin, point.X);
+                xMax = Math.Max(xMax, point.X);
+                yMin = Math.Min(yMin, point.Y);
+                yMax = Math.Max(yMax, point.Y);
+            }
+
+            return new Rectangle(xMin, yMin, xMax - xMin, yMax - yMin);
+        }
     }
 }

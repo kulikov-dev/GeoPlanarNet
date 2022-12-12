@@ -5,6 +5,41 @@ namespace GeoPlanarNet
     public static class SegmentGeo
     {
         /// <summary>
+        /// Get segment length
+        /// </summary>
+        /// <param name="lineStart"> Start segment point </param>
+        /// <param name="lineEnd"> End segment point </param>
+        /// <returns> Segment length </returns>
+        public static double Length(PointF lineStart, PointF lineEnd)
+        {
+            return Length(lineStart.X, lineStart.Y, lineEnd.X, lineEnd.Y);
+        }
+
+        /// <summary>
+        /// Get segment length
+        /// </summary>
+        /// <param name="lineStart"> Start segment point </param>
+        /// <param name="lineEnd"> End segment point </param>
+        /// <returns> Segment length </returns>
+        public static double Length(Point lineStart, Point lineEnd)
+        {
+            return Length(lineStart.X, lineStart.Y, lineEnd.X, lineEnd.Y);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lineStartX"></param>
+        /// <param name="lineStartY"></param>
+        /// <param name="lineEndX"></param>
+        /// <param name="lineEndY"></param>
+        /// <returns></returns>
+        public static double Length(double lineStartX, double lineStartY, double lineEndX, double lineEndY)
+        {
+            return PointGeo.Distance(lineStartX, lineStartY, lineEndX, lineEndY);
+        }
+
+        /// <summary>
         /// Get a segment tilt angle relative to the X axis
         /// </summary>
         /// <param name="pointStart"> Segment start point </param>
@@ -141,7 +176,6 @@ namespace GeoPlanarNet
 
             return Math.Acos(Math.Round(angle, 3));
         }
-
 
         /// <summary>
         /// Check if two segments have intersection

@@ -104,6 +104,7 @@ namespace GeoPlanarNet
             if (projectionLengthX1 == 0 && projectionLengthY1 == 0)
             {
                 var line1IsPoint = PointGeo.DistanceToSegment(line1x1, line1y1, line2x1, line2y1, line2x2, line2y2) < 0.0001;
+
                 if (line1IsPoint)
                 {
                     intesectionX = line1x1;
@@ -126,6 +127,7 @@ namespace GeoPlanarNet
             }
 
             var div = (projectionLengthY2 * projectionLengthX1) - (projectionLengthX2 * projectionLengthY1);
+
             if (div == 0)
             {
                 return false;

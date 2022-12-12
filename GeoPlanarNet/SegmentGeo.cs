@@ -141,5 +141,133 @@ namespace GeoPlanarNet
 
             return Math.Acos(Math.Round(angle, 3));
         }
+
+
+        /// <summary>
+        /// Check if two segments have intersection
+        /// </summary>
+        /// <param name="segment1Point1"> Segment 1, point 1 </param>
+        /// <param name="segment1Point2"> Segment 1, point 2 </param>
+        /// <param name="segment2Point1"> Segment 2, point 1 </param>
+        /// <param name="segment2Point2"> Segment 2, point 2 </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool HasIntersection(PointF segment1Point1, PointF segment1Point2, PointF segment2Point1, PointF segment2Point2)
+        {
+            return HasIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out _, out _);
+        }
+
+        /// <summary>
+        /// Check if two segments have intersection
+        /// </summary>
+        /// <param name="segment1Point1"> Segment 1, point 1 </param>
+        /// <param name="segment1Point2"> Segment 1, point 2 </param>
+        /// <param name="segment2Point1"> Segment 2, point 1 </param>
+        /// <param name="segment2Point2"> Segment 2, point 2 </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool HasIntersection(Point segment1Point1, Point segment1Point2, Point segment2Point1, Point segment2Point2)
+        {
+            return HasIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out _, out _);
+        }
+
+        /// <summary>
+        /// Check if two segments have intersection
+        /// </summary>
+        /// <param name="segment1Point1"> Segment 1, point 1 </param>
+        /// <param name="segment1Point2"> Segment 1, point 2 </param>
+        /// <param name="segment2Point1"> Segment 2, point 1 </param>
+        /// <param name="segment2Point2"> Segment 2, point 2 </param>
+        /// <param name="intersectionPoint"> Intersection point </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool HasIntersection(PointF segment1Point1, PointF segment1Point2, PointF segment2Point1, PointF segment2Point2, out PointF intersectionPoint)
+        {
+            var hasIntersection = HasIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out double x, out double y);
+            intersectionPoint = hasIntersection ? new PointF((float)x, (float)y) : PointF.Empty;
+
+            return hasIntersection;
+        }
+
+        /// <summary>
+        /// Check if two segments have intersection
+        /// </summary>
+        /// <param name="segment1Point1"> Segment 1, point 1 </param>
+        /// <param name="segment1Point2"> Segment 1, point 2 </param>
+        /// <param name="segment2Point1"> Segment 2, point 1 </param>
+        /// <param name="segment2Point2"> Segment 2, point 2 </param>
+        /// <param name="intersectionPoint"> Intersection point </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool HasIntersection(Point segment1Point1, Point segment1Point2, Point segment2Point1, Point segment2Point2, out Point intersectionPoint)
+        {
+            var hasIntersection = HasIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out double x, out double y);
+            intersectionPoint = hasIntersection ? new Point((int)x, (int)y) : Point.Empty;
+
+            return hasIntersection;
+        }
+
+        /// <summary>
+        /// Check if two segments have intersection
+        /// </summary>
+        /// <param name="segment1x1"> segment 1, point 1: coordinate X </param>
+        /// <param name="segment1y1"> segment 1, point 1: coordinate Y </param>
+        /// <param name="segment1x2"> segment 1, point 2: coordinate X </param>
+        /// <param name="segment1y2"> segment 1, point 2: coordinate Y </param>
+        /// <param name="segment2x1"> segment 2, point 1: coordinate X </param>
+        /// <param name="segment2y1"> segment 2, point 1: coordinate Y </param>
+        /// <param name="segment2x2"> segment 2, point 2: coordinate X </param>
+        /// <param name="segment2y2"> segment 2, point 2: coordinate Y </param>
+        /// <param name="intesectionX"> Intersection point: coordinate X; NaN if not intersects </param>
+        /// <param name="intersectionY"> Intersection point: coordinate Y; NaN if not intersects </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool HasIntersection(double segment1x1, double segment1y1, double segment1x2, double segment1y2, double segment2x1, double segment2y1, double segment2x2, double segment2y2, out double intesectionX, out double intersectionY)
+        {
+            intesectionX = intersectionY = 0;
+            var minx1 = Math.Min(segment1x1, segment1x2);
+            var miny1 = Math.Min(segment1y1, segment1y2);
+            var maxx1 = Math.Max(segment1x1, segment1x2);
+            var maxy1 = Math.Max(segment1y1, segment1y2);
+            var minx2 = Math.Min(segment2x1, segment2x2);
+            var miny2 = Math.Min(segment2y1, segment2y2);
+            var maxx2 = Math.Max(segment2x1, segment2x2);
+            var maxy2 = Math.Max(segment2y1, segment2y2);
+
+            if (minx1 > maxx2 + 0.0001 || maxx1 + 0.0001 < minx2 || miny1 > maxy2 + 0.0001 || maxy1 + 0.0001 < miny2)
+            {
+                return false;
+            }
+
+            // Длина проекций первой линии на ось x и y
+            var segment1ProjectionX = segment1x2 - segment1x1;
+            var segment1ProjectionY = segment1y2 - segment1y1;
+
+            // Длина проекций второй линии на ось x и y
+            var segment2ProjectionX = segment2x2 - segment2x1;
+            var segment2ProjectionН = segment2y2 - segment2y1;
+            var div = (segment2ProjectionН * segment1ProjectionX) - (segment2ProjectionX * segment1ProjectionY);
+
+            if (Math.Abs(div) < 0.0001)
+            {
+                return false;
+            }
+
+            var segment12ProjectionX = segment1x1 - segment2x1;
+            var segment12ProjectionY = segment1y1 - segment2y1;
+            var koef = ((segment1ProjectionX * segment12ProjectionY) - (segment1ProjectionY * segment12ProjectionX)) / div;
+
+            if (koef < -0.0001 || koef > 1 + 0.0001)
+            {
+                return false;
+            }
+
+            koef = ((segment2ProjectionX * segment12ProjectionY) - (segment2ProjectionН * segment12ProjectionX)) / div;
+
+            if (koef < -0.0001 || koef > 1 + 0.0001)
+            {
+                return false;
+            }
+
+            intesectionX = segment1x1 + (koef * (segment1x2 - segment1x1));
+            intersectionY = segment1y1 + (koef * (segment1y2 - segment1y1));
+
+            return true;
+        }
     }
 }

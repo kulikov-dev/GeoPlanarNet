@@ -7,36 +7,36 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get segment length
         /// </summary>
-        /// <param name="lineStart"> Start segment point </param>
-        /// <param name="lineEnd"> End segment point </param>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
         /// <returns> Segment length </returns>
-        public static double Length(PointF lineStart, PointF lineEnd)
+        public static double Length(PointF segmentStart, PointF segmentEnd)
         {
-            return Length(lineStart.X, lineStart.Y, lineEnd.X, lineEnd.Y);
+            return Length(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
 
         /// <summary>
         /// Get segment length
         /// </summary>
-        /// <param name="lineStart"> Start segment point </param>
-        /// <param name="lineEnd"> End segment point </param>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
         /// <returns> Segment length </returns>
-        public static double Length(Point lineStart, Point lineEnd)
+        public static double Length(Point segmentStart, Point segmentEnd)
         {
-            return Length(lineStart.X, lineStart.Y, lineEnd.X, lineEnd.Y);
+            return Length(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
 
         /// <summary>
-        /// 
+        /// Get segment length
         /// </summary>
-        /// <param name="lineStartX"></param>
-        /// <param name="lineStartY"></param>
-        /// <param name="lineEndX"></param>
-        /// <param name="lineEndY"></param>
-        /// <returns></returns>
-        public static double Length(double lineStartX, double lineStartY, double lineEndX, double lineEndY)
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: X coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> Segment length </returns>
+        public static double Length(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
-            return PointGeo.Distance(lineStartX, lineStartY, lineEndX, lineEndY);
+            return PointGeo.Distance(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace GeoPlanarNet
         /// <returns> True, if segments have intersection </returns>
         public static bool HasIntersection(PointF segment1Point1, PointF segment1Point2, PointF segment2Point1, PointF segment2Point2)
         {
-            return HasIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out _, out _);
+            return FindIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out _, out _);
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace GeoPlanarNet
         /// <returns> True, if segments have intersection </returns>
         public static bool HasIntersection(Point segment1Point1, Point segment1Point2, Point segment2Point1, Point segment2Point2)
         {
-            return HasIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out _, out _);
+            return FindIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out _, out _);
         }
 
         /// <summary>
@@ -212,9 +212,9 @@ namespace GeoPlanarNet
         /// <param name="segment2Point2"> Segment 2, point 2 </param>
         /// <param name="intersectionPoint"> Intersection point </param>
         /// <returns> True, if segments have intersection </returns>
-        public static bool HasIntersection(PointF segment1Point1, PointF segment1Point2, PointF segment2Point1, PointF segment2Point2, out PointF intersectionPoint)
+        public static bool FindIntersection(PointF segment1Point1, PointF segment1Point2, PointF segment2Point1, PointF segment2Point2, out PointF intersectionPoint)
         {
-            var hasIntersection = HasIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out double x, out double y);
+            var hasIntersection = FindIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out double x, out double y);
             intersectionPoint = hasIntersection ? new PointF((float)x, (float)y) : PointF.Empty;
 
             return hasIntersection;
@@ -229,9 +229,9 @@ namespace GeoPlanarNet
         /// <param name="segment2Point2"> Segment 2, point 2 </param>
         /// <param name="intersectionPoint"> Intersection point </param>
         /// <returns> True, if segments have intersection </returns>
-        public static bool HasIntersection(Point segment1Point1, Point segment1Point2, Point segment2Point1, Point segment2Point2, out Point intersectionPoint)
+        public static bool FindIntersection(Point segment1Point1, Point segment1Point2, Point segment2Point1, Point segment2Point2, out Point intersectionPoint)
         {
-            var hasIntersection = HasIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out double x, out double y);
+            var hasIntersection = FindIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out double x, out double y);
             intersectionPoint = hasIntersection ? new Point((int)x, (int)y) : Point.Empty;
 
             return hasIntersection;
@@ -251,7 +251,7 @@ namespace GeoPlanarNet
         /// <param name="intesectionX"> Intersection point: coordinate X; NaN if not intersects </param>
         /// <param name="intersectionY"> Intersection point: coordinate Y; NaN if not intersects </param>
         /// <returns> True, if segments have intersection </returns>
-        public static bool HasIntersection(double segment1x1, double segment1y1, double segment1x2, double segment1y2, double segment2x1, double segment2y1, double segment2x2, double segment2y2, out double intesectionX, out double intersectionY)
+        public static bool FindIntersection(double segment1x1, double segment1y1, double segment1x2, double segment1y2, double segment2x1, double segment2y1, double segment2x2, double segment2y2, out double intesectionX, out double intersectionY)
         {
             intesectionX = intersectionY = 0;
             var minx1 = Math.Min(segment1x1, segment1x2);

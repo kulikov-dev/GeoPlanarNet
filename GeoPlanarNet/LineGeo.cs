@@ -14,7 +14,7 @@ namespace GeoPlanarNet
         /// <returns> True, if lines have intersection </returns>
         public static bool HasIntersection(PointF line1Point1, PointF line1Point2, PointF line2Point1, PointF line2Point2)
         {
-            return HasIntersection(line1Point1.X, line1Point1.Y, line1Point2.X, line1Point2.Y, line2Point1.X, line2Point1.Y, line2Point2.X, line2Point2.Y, out _, out _);
+            return FindIntersection(line1Point1.X, line1Point1.Y, line1Point2.X, line1Point2.Y, line2Point1.X, line2Point1.Y, line2Point2.X, line2Point2.Y, out _, out _);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace GeoPlanarNet
         /// <returns> True, if lines have intersection </returns>
         public static bool HasIntersection(Point line1Point1, Point line1Point2, Point line2Point1, Point line2Point2)
         {
-            return HasIntersection(line1Point1.X, line1Point1.Y, line1Point2.X, line1Point2.Y, line2Point1.X, line2Point1.Y, line2Point2.X, line2Point2.Y, out _, out _);
+            return FindIntersection(line1Point1.X, line1Point1.Y, line1Point2.X, line1Point2.Y, line2Point1.X, line2Point1.Y, line2Point2.X, line2Point2.Y, out _, out _);
         }
 
         /// <summary>
@@ -39,9 +39,9 @@ namespace GeoPlanarNet
         /// <param name="line2Point2"> Line 2, point 2 </param>
         /// <param name="intersectionPoint"> Intersection point </param>
         /// <returns> True, if lines have intersection </returns>
-        public static bool HasIntersection(PointF line1Point1, PointF line1Point2, PointF line2Point1, PointF line2Point2, out PointF intersectionPoint)
+        public static bool FindIntersection(PointF line1Point1, PointF line1Point2, PointF line2Point1, PointF line2Point2, out PointF intersectionPoint)
         {
-            var hasIntersection = HasIntersection(line1Point1.X, line1Point1.Y, line1Point2.X, line1Point2.Y, line2Point1.X, line2Point1.Y, line2Point2.X, line2Point2.Y, out double x, out double y);
+            var hasIntersection = FindIntersection(line1Point1.X, line1Point1.Y, line1Point2.X, line1Point2.Y, line2Point1.X, line2Point1.Y, line2Point2.X, line2Point2.Y, out double x, out double y);
             intersectionPoint = hasIntersection ? new PointF((float)x, (float)y) : PointF.Empty;
 
             return hasIntersection;
@@ -56,9 +56,9 @@ namespace GeoPlanarNet
         /// <param name="line2Point2"> Line 2, point 2 </param>
         /// <param name="intersectionPoint"> Intersection point </param>
         /// <returns> True, if lines have intersection </returns>
-        public static bool HasIntersection(Point line1Point1, Point line1Point2, Point line2Point1, Point line2Point2, out Point intersectionPoint)
+        public static bool FindIntersection(Point line1Point1, Point line1Point2, Point line2Point1, Point line2Point2, out Point intersectionPoint)
         {
-            var hasIntersection = HasIntersection(line1Point1.X, line1Point1.Y, line1Point2.X, line1Point2.Y, line2Point1.X, line2Point1.Y, line2Point2.X, line2Point2.Y, out double x, out double y);
+            var hasIntersection = FindIntersection(line1Point1.X, line1Point1.Y, line1Point2.X, line1Point2.Y, line2Point1.X, line2Point1.Y, line2Point2.X, line2Point2.Y, out double x, out double y);
             intersectionPoint = hasIntersection ? new Point((int)x, (int)y) : Point.Empty;
 
             return hasIntersection;
@@ -78,7 +78,7 @@ namespace GeoPlanarNet
         /// <param name="intesectionX"> Intersection point: coordinate X; NaN if not intersects </param>
         /// <param name="intersectionY"> Intersection point: coordinate Y; NaN if not intersects </param>
         /// <returns> True, if lines have intersection </returns>
-        public static bool HasIntersection(double line1x1, double line1y1, double line1x2, double line1y2, double line2x1, double line2y1, double line2x2, double line2y2, out double intesectionX, out double intersectionY)
+        public static bool FindIntersection(double line1x1, double line1y1, double line1x2, double line1y2, double line2x1, double line2y1, double line2x2, double line2y2, out double intesectionX, out double intersectionY)
         {
             intesectionX = intersectionY = double.NaN;
 
@@ -138,6 +138,170 @@ namespace GeoPlanarNet
             intersectionY = line1y1 + (koefIv * (line1y2 - line1y1));
 
             return true;
+        }
+
+        /// <summary>
+        /// Find intersection between line and rectangle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <returns> True if line and rectangle has intersection </returns>
+        public static bool HasRectIntersection(PointF linePoint1, PointF linePoint2, RectangleF rect)
+        {
+            return FindRectIntersection(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
+                                     out double _, out double _, out double _, out double _);
+        }
+
+        /// <summary>
+        /// Find intersection between line and rectangle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <returns> True if line and rectangle has intersection </returns>
+        public static bool HasRectIntersection(Point linePoint1, Point linePoint2, Rectangle rect)
+        {
+            return FindRectIntersection(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
+                                              out double _, out double _, out double _, out double _);
+        }
+
+        /// <summary>
+        /// Find intersection between line and rectangle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <param name="intersection1"> Intersection point 1 </param>
+        /// <param name="intersection2"> Intersection point 2 </param>
+        /// <returns> True if line and rectangle has intersection </returns>
+        public static bool FindRectIntersection(PointF linePoint1, PointF linePoint2, RectangleF rect, out PointF intersection1, out PointF intersection2)
+        {
+            intersection1 = intersection2 = PointF.Empty;
+            var hasIntersection = FindRectIntersection(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
+                                              out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y);
+
+            if (hasIntersection)
+            {
+                intersection1 = new PointF((float)intersection1X, (float)intersection1Y);
+                intersection2 = new PointF((float)intersection2X, (float)intersection2Y);
+            }
+
+            return hasIntersection;
+        }
+
+        /// <summary>
+        /// Find intersection between line and rectangle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <param name="intersection1"> Intersection point 1 </param>
+        /// <param name="intersection2"> Intersection point 2 </param>
+        /// <returns> True if line and rectangle has intersection </returns>
+        public static bool FindRectIntersection(Point linePoint1, Point linePoint2, Rectangle rect, out Point intersection1, out Point intersection2)
+        {
+            intersection1 = intersection2 = Point.Empty;
+            var hasIntersection = FindRectIntersection(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
+                                              out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y);
+
+            if (hasIntersection)
+            {
+                intersection1 = new Point((int)intersection1X, (int)intersection1Y);
+                intersection2 = new Point((int)intersection2X, (int)intersection2Y);
+            }
+
+            return hasIntersection;
+        }
+
+        /// <summary>
+        /// Find intersection between line and rectangle
+        /// </summary>
+        /// <param name="linePoint1X"> Line point 1: X coordinate </param>
+        /// <param name="linePoint1Y"> Line point 1: Y coordinate </param>
+        /// <param name="linePoint2X"> Line point 2: X coordinate </param>
+        /// <param name="linePoint2Y"> Line point 2: Y coordinate </param>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="intersection1X"> Intersection point 1: X coordinate </param>
+        /// <param name="intersection1Y"> Intersection point 1: Y coordinate </param>
+        /// <param name="intersection2X"> Intersection point 2: X coordinate </param>
+        /// <param name="intersection2Y"> Intersection point 2: Y coordinate </param>
+        /// <returns> True if line and rectangle has intersection </returns>
+        public static bool FindRectIntersection(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY,
+                                                out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y)
+        {
+            intersection1X = intersection1Y = intersection2X = intersection2Y = double.NaN;
+            double tempX, tempY;
+
+            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY, out tempX, out tempY))
+            {
+                intersection1X = tempX;
+                intersection1Y = tempY;
+            }
+
+            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, rectLeftTopX, rectRightBottomY, rectRightBottomX, rectRightBottomY, out tempX, out tempY))
+            {
+                if (double.IsNaN(intersection1X) && double.IsNaN(intersection1Y))
+                {
+                    intersection1X = tempX;
+                    intersection1Y = tempY;
+                }
+                else
+                {
+                    intersection2X = tempX;
+                    intersection2Y = tempY;
+                }
+            }
+
+            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, rectRightBottomX, rectRightBottomY, rectRightBottomX, rectLeftTopY, out tempX, out tempY))
+            {
+                if (double.IsNaN(intersection1X) && double.IsNaN(intersection1Y))
+                {
+                    intersection1X = tempX;
+                    intersection1Y = tempY;
+                }
+                else
+                {
+                    intersection2X = tempX;
+                    intersection2Y = tempY;
+                }
+            }
+
+            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, rectRightBottomX, rectLeftTopY, rectLeftTopX, rectLeftTopY, out tempX, out tempY))
+            {
+                if (double.IsNaN(intersection1X) && double.IsNaN(intersection1Y))
+                {
+                    intersection1X = tempX;
+                    intersection1Y = tempY;
+                }
+                else
+                {
+                    intersection2X = tempX;
+                    intersection2Y = tempY;
+                }
+            }
+
+            var hasIntersection = !double.IsNaN(intersection2X) && !double.IsNaN(intersection2Y);
+
+            if (hasIntersection)
+            {
+                if (PointGeo.Distance(linePoint1X, linePoint1Y, intersection2X, intersection2Y) < PointGeo.Distance(linePoint1X, linePoint1Y, intersection1X, intersection1Y))
+                {
+                    tempX = intersection1X;
+                    tempY = intersection1Y;
+
+                    intersection1X = intersection2X;
+                    intersection1Y = intersection2Y;
+
+                    intersection2X = tempX;
+                    intersection2Y = tempY;
+                }
+            }
+
+            return hasIntersection;
         }
     }
 }

@@ -303,5 +303,44 @@ namespace GeoPlanarNet
 
             return hasIntersection;
         }
+
+        /// <summary>
+        /// Get koefficients of line linear function K and B
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="k"> K koef </param>
+        /// <param name="b"> B koef </param>
+        internal static void GetLinearKoefs(PointF linePoint1, PointF linePoint2, out double k, out double b)
+        {
+            GetLinearKoefs(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out k, out b);
+        }
+
+        /// <summary>
+        /// Get koefficients of line linear function K and B
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="k"> K koef </param>
+        /// <param name="b"> B koef </param>
+        internal static void GetLinearKoefs(Point linePoint1, Point linePoint2, out double k, out double b)
+        {
+            GetLinearKoefs(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out k, out b);
+        }
+
+        /// <summary>
+        /// Get koefficients of line linear function K and B
+        /// </summary>
+        /// <param name="linePoint1X"> Line point 1: X </param>
+        /// <param name="linePoint1Y"> Line point 1: Y </param>
+        /// <param name="linePoint2X"> Line point 2: X </param>
+        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <param name="k"> K koef </param>
+        /// <param name="b"> B koef </param>
+        internal static void GetLinearKoefs(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double k, out double b)
+        {
+            k = (linePoint1Y - linePoint2Y) / (linePoint1X - linePoint2X);
+            b = double.IsInfinity(k) ? linePoint2X : linePoint2Y - (linePoint2X * k);
+        }
     }
 }

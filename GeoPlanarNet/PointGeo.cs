@@ -670,5 +670,154 @@ namespace GeoPlanarNet
         {
             return Distance(point1X, point1Y, point2X, point2Y) <= eps;
         }
+
+        /// <summary>
+        /// Get projection point to a line
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Projection point </returns>
+        public static PointF GetProjectionToLine(this PointF point, PointF linePoint1, PointF linePoint2)
+        {
+            GetProjectionToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out double projectionPoint1, out double projectionPoint2);
+            return new PointF((float)projectionPoint1, (float)projectionPoint2);
+        }
+
+        /// <summary>
+        /// Get projection point to a line
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Projection point </returns>
+        public static Point GetProjectionToLine(this Point point, Point linePoint1, Point linePoint2)
+        {
+            GetProjectionToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out double projectionPoint1, out double projectionPoint2);
+            return new Point((int)projectionPoint1, (int)projectionPoint2);
+        }
+
+        /// <summary>
+        /// Get projection point to a line
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="linePoint1X"> Line point 1: X coordinate </param>
+        /// <param name="linePoint1Y"> Line point 1: Y coordinate </param>
+        /// <param name="linePoint2X"> Line point 2: X coordinate </param>
+        /// <param name="linePoint2Y"> Line point 2: Y coordinate </param>
+        /// <param name="projectionPointX"> Projection point: X coordinate </param>
+        /// <param name="projectionPointY"> Projection point: Y coordinate </param>
+        public static void GetProjectionToLine(double pointX, double pointY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double projectionPointX, out double projectionPointY)
+        {
+            LineGeo.GetLinearKoefs(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out double k, out double b);
+
+            if (k == 0.0)
+            {
+                projectionPointX = pointX;
+                projectionPointY = b;
+                return;
+            }
+
+            if (double.IsInfinity(k))
+            {
+                projectionPointX = b;
+                projectionPointY = pointY;
+                return;
+            }
+
+            var k2 = -1 / k;
+            var b2 = pointY - (pointX * k2);
+            projectionPointX = (b2 - b) / (k - k2);
+            projectionPointY = (k * projectionPointX) + b;
+        }
+
+        /// <summary>
+        /// Check if a point has projection to a segment
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <returns> True, if has intersection with the segment </returns>
+        public static bool HasProjectionToSegment(this PointF point, PointF segmentStartPoint, PointF segmentEndPoint)
+        {
+            return HasProjectionToSegment(point.X, point.Y, segmentStartPoint.X, segmentStartPoint.Y, segmentEndPoint.X, segmentEndPoint.Y);
+        }
+
+        /// <summary>
+        /// Check if a point has projection to a segment
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <returns> True, if has intersection with the segment </returns>
+        public static bool HasProjectionToSegment(this Point point, Point segmentStartPoint, Point segmentEndPoint)
+        {
+            return HasProjectionToSegment(point.X, point.Y, segmentStartPoint.X, segmentStartPoint.Y, segmentEndPoint.X, segmentEndPoint.Y);
+        }
+
+        /// <summary>
+        /// Check if a point has projection to a segment
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="segmentStartPointX"> Start segment point 1: X coordinate </param>
+        /// <param name="segmentStartPointY"> Start segment point 1: Y coordinate </param>
+        /// <param name="segmentEndPointX"> End segment point 2: X coordinate </param>
+        /// <param name="segmentEndPointY"> End segment point 2: Y coordinate </param>
+        /// <returns> True, if has intersection with the segment </returns>
+        public static bool HasProjectionToSegment(double pointX, double pointY, double segmentStartPointX, double segmentStartPointY, double segmentEndPointX, double segmentEndPointY)
+        {
+            GetProjectionToLine(pointX, pointY, segmentStartPointX, segmentStartPointY, segmentEndPointX, segmentEndPointY, out double projectionPointX, out double projectionPointY);
+
+            var startToProjectionDiff = Distance(segmentStartPointX, segmentStartPointY, projectionPointX, projectionPointY);
+            var endToProjectionDiff = Distance(segmentEndPointX, segmentEndPointY, projectionPointX, projectionPointY);
+            var segmentDiff = Distance(segmentStartPointX, segmentStartPointY, segmentEndPointX, segmentEndPointY);
+
+            return Math.Abs(startToProjectionDiff + endToProjectionDiff - segmentDiff) <= 0.0001;
+        }
+
+        /// <summary>
+        /// Get projection point to a line
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStartPoint"> Line point 1 </param>
+        /// <param name="segmentEndPoint"> Line point 2 </param>
+        /// <returns> Projection point </returns>
+        public static PointF GetProjectionToSegment(this PointF point, PointF segmentStartPoint, PointF segmentEndPoint)
+        {
+            GetProjectionToSegment(point.X, point.Y, segmentStartPoint.X, segmentStartPoint.Y, segmentEndPoint.X, segmentEndPoint.Y, out double projectionPoint1, out double projectionPoint2);
+            return new PointF((float)projectionPoint1, (float)projectionPoint2);
+        }
+
+        /// <summary>
+        /// Get projection point to a line
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStartPoint"> Line point 1 </param>
+        /// <param name="segmentEndPoint"> Line point 2 </param>
+        /// <returns> Projection point </returns>
+        public static Point GetProjectionToSegment(this Point point, Point segmentStartPoint, Point segmentEndPoint)
+        {
+            GetProjectionToSegment(point.X, point.Y, segmentStartPoint.X, segmentStartPoint.Y, segmentEndPoint.X, segmentEndPoint.Y, out double projectionPoint1, out double projectionPoint2);
+            return new Point((int)projectionPoint1, (int)projectionPoint2);
+        }
+
+        /// <summary>
+        /// Get projection point to a line
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="segmentStartPointX"> Line point 1: X coordinate </param>
+        /// <param name="segmentStartPointY"> Line point 1: Y coordinate </param>
+        /// <param name="segmentEndPointX"> Line point 2: X coordinate </param>
+        /// <param name="segmentEndPointY"> Line point 2: Y coordinate </param>
+        /// <param name="projectionPointX"> Projection point: X coordinate </param>
+        /// <param name="projectionPointY"> Projection point: Y coordinate </param>
+        public static void GetProjectionToSegment(double pointX, double pointY, double segmentStartPointX, double segmentStartPointY, double segmentEndPointX, double segmentEndPointY,
+                                                  out double projectionPointX, out double projectionPointY)
+        {
+            GetProjectionToLine(pointX, pointY, segmentStartPointX, segmentStartPointY, segmentEndPointX, segmentEndPointY, out projectionPointX, out projectionPointY);
+        }
     }
 }

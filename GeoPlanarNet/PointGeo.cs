@@ -319,6 +319,51 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
+        /// Check if a point belongs to a triangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="apex1"> Triangle apex 1 </param>
+        /// <param name="apex2"> Triangle apex 2 </param>
+        /// <param name="apex3"> Triangle apex 3 </param>
+        /// <returns> Flag if the point belongs to the triangle </returns>
+        public static bool InTriangle(this PointF point, PointF apex1, PointF apex2, PointF apex3)
+        {
+            return InTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Check if a point belongs to a triangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="apex1"> Triangle apex 1 </param>
+        /// <param name="apex2"> Triangle apex 2 </param>
+        /// <param name="apex3"> Triangle apex 3 </param>
+        /// <returns> Flag if the point belongs to the triangle </returns>
+        public static bool InTriangle(this Point point, Point apex1, Point apex2, Point apex3)
+        {
+            return InTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Check if a point belongs to a triangle
+        /// </summary>
+        /// <param name="pointX"> Point: X Coordinate </param>
+        /// <param name="pointY"> Point: Y Coordinate </param>
+        /// <param name="apex1X"> Apex 1: X Coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y Coordinate </param>
+        /// <param name="apex2X"> Apex 2: X Coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y Coordinate </param>
+        /// <param name="apex3X"> Apex 3: X Coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y Coordinate </param>
+        /// <returns> Flag if the point belongs to the triangle </returns>
+        public static bool InTriangle(double pointX, double pointY, double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
+        {
+            return (GetRelativeLocation(pointX, pointY, apex1X, apex1Y, apex2X, apex2Y) != PointRelativeLocation.Left) &&
+                    (GetRelativeLocation(pointX, pointY, apex2X, apex2Y, apex3X, apex3Y) != PointRelativeLocation.Left) &&
+                    (GetRelativeLocation(pointX, pointY, apex3X, apex3Y, apex1X, apex1Y) != PointRelativeLocation.Left);
+        }
+
+        /// <summary>
         /// Check if a point belongs to an area
         /// </summary>
         /// <param name="point"> Point </param>
@@ -600,9 +645,9 @@ namespace GeoPlanarNet
         /// <param name="segmentEnd"> Segment end point </param>
         /// <returns> Point relative location </returns>
         /// <remarks> Faster </remarks>
-        public static PointSimpleRelativeLocation GetPointLocationFast(this PointF point, PointF segmentStart, PointF segmentEnd)
+        public static PointSimpleRelativeLocation GetRelativeLocationFast(this PointF point, PointF segmentStart, PointF segmentEnd)
         {
-            return GetPointLocationFast(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+            return GetRelativeLocationFast(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
 
         /// <summary>
@@ -613,9 +658,9 @@ namespace GeoPlanarNet
         /// <param name="segmentEnd"> Segment end point </param>
         /// <returns> Point relative location </returns>
         /// <remarks> Faster </remarks>
-        public static PointSimpleRelativeLocation GetPointLocationFast(this Point point, Point segmentStart, Point segmentEnd)
+        public static PointSimpleRelativeLocation GetRelativeLocationFast(this Point point, Point segmentStart, Point segmentEnd)
         {
-            return GetPointLocationFast(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+            return GetRelativeLocationFast(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
 
         /// <summary>
@@ -629,9 +674,86 @@ namespace GeoPlanarNet
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <returns> Point relative location </returns>
         /// <remarks> Faster </remarks>
-        public static PointSimpleRelativeLocation GetPointLocationFast(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        public static PointSimpleRelativeLocation GetRelativeLocationFast(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
-            return GetPointLocationFast((float)pointX, pointY, segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+            return GetRelativeLocationFast((float)pointX, pointY, segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+        }
+
+        /// <summary>
+        /// Get a point location relative to a segment
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> Point relative location </returns>
+        public static PointRelativeLocation GetRelativeLocation(PointF point, PointF segmentStart, PointF segmentEnd)
+        {
+            return GetRelativeLocation(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Get a point location relative to a segment
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> Point relative location </returns>
+        public static PointRelativeLocation GetRelativeLocation(Point point, Point segmentStart, Point segmentEnd)
+        {
+            return GetRelativeLocation(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Get a point location relative to a segment
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
+        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> Point relative location </returns>
+        public static PointRelativeLocation GetRelativeLocation(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        {
+            var diffSegmentX = segmentEndX - segmentStartX;
+            var diffSegmentY = segmentEndY - segmentStartY;
+
+            var diffToPointX = pointX - segmentStartX;
+            var diffToPointY = pointY - segmentStartY;
+
+            var diffKoef = (diffSegmentX * diffToPointY) - (diffToPointX * diffSegmentY);
+
+            if (diffKoef > 0.0)
+            {
+                return PointRelativeLocation.Left;
+            }
+
+            if (diffKoef < 0.0)
+            {
+                return PointRelativeLocation.Right;
+            }
+
+            if ((diffSegmentX * diffToPointX < 0.0) || (diffSegmentY * diffToPointY < 0.0))
+            {
+                return PointRelativeLocation.Behind;
+            }
+
+            if (((diffSegmentX * diffSegmentX) + (diffSegmentY * diffSegmentY)) < ((diffToPointX * diffToPointX) + (diffToPointY * diffToPointY)))
+            {
+                return PointRelativeLocation.Beyond;
+            }
+
+            if (segmentStartX == pointX && segmentStartY == pointY)
+            {
+                return PointRelativeLocation.Start;
+            }
+
+            if (segmentEndX == pointX && segmentEndY == pointY)
+            {
+                return PointRelativeLocation.End;
+            }
+
+            return PointRelativeLocation.Between;
         }
 
         /// <summary>

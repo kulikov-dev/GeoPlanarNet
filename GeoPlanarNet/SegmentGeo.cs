@@ -268,11 +268,9 @@ namespace GeoPlanarNet
                 return false;
             }
 
-            // Длина проекций первой линии на ось x и y
             var segment1ProjectionX = segment1x2 - segment1x1;
             var segment1ProjectionY = segment1y2 - segment1y1;
 
-            // Длина проекций второй линии на ось x и y
             var segment2ProjectionX = segment2x2 - segment2x1;
             var segment2ProjectionН = segment2y2 - segment2y1;
             var div = (segment2ProjectionН * segment1ProjectionX) - (segment2ProjectionX * segment1ProjectionY);

@@ -129,27 +129,27 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get angle in radians between two segments
         /// </summary>
-        /// <param name="startPoint1"> Start point of 1 segment </param>
-        /// <param name="endPoint1"> End point of 1 segment </param>
-        /// <param name="startPoint2"> Start point of 2 segment </param>
-        /// <param name="endPoint2"> End point of 2 segment </param>
+        /// <param name="segment1Start"> Start point of 1 segment </param>
+        /// <param name="segment1End"> End point of 1 segment </param>
+        /// <param name="segment2Start"> Start point of 2 segment </param>
+        /// <param name="segment2End"> End point of 2 segment </param>
         /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(PointF startPoint1, PointF endPoint1, PointF startPoint2, PointF endPoint2)
+        public static double GetAngleRadians(PointF segment1Start, PointF segment1End, PointF segment2Start, PointF segment2End)
         {
-            return AngleBetweenVectors(startPoint1.X, startPoint1.Y, endPoint1.X, endPoint1.Y, startPoint2.X, startPoint2.Y, endPoint2.X, endPoint2.Y);
+            return AngleBetweenVectors(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y);
         }
 
         /// <summary>
         /// Get angle in radians between two segments
         /// </summary>
-        /// <param name="startPoint1"> Start point of 1 segment </param>
-        /// <param name="endPoint1"> End point of 1 segment </param>
-        /// <param name="startPoint2"> Start point of 2 segment </param>
-        /// <param name="endPoint2"> End point of 2 segment </param>
+        /// <param name="segment1Start"> Start point of 1 segment </param>
+        /// <param name="segment1End"> End point of 1 segment </param>
+        /// <param name="segment2Start"> Start point of 2 segment </param>
+        /// <param name="segment2End"> End point of 2 segment </param>
         /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(Point startPoint1, Point endPoint1, Point startPoint2, Point endPoint2)
+        public static double GetAngleRadians(Point segment1Start, Point segment1End, Point segment2Start, Point segment2End)
         {
-            return AngleBetweenVectors(startPoint1.X, startPoint1.Y, endPoint1.X, endPoint1.Y, startPoint2.X, startPoint2.Y, endPoint2.X, endPoint2.Y);
+            return AngleBetweenVectors(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y);
         }
 
         /// <summary>
@@ -180,41 +180,41 @@ namespace GeoPlanarNet
         /// <summary>
         /// Check if two segments have intersection
         /// </summary>
-        /// <param name="segment1Point1"> Segment 1, point 1 </param>
-        /// <param name="segment1Point2"> Segment 1, point 2 </param>
-        /// <param name="segment2Point1"> Segment 2, point 1 </param>
-        /// <param name="segment2Point2"> Segment 2, point 2 </param>
+        /// <param name="segment1Start"> Segment 1, point 1 </param>
+        /// <param name="segment1End"> Segment 1, point 2 </param>
+        /// <param name="segment2Start"> Segment 2, point 1 </param>
+        /// <param name="segment2End"> Segment 2, point 2 </param>
         /// <returns> True, if segments have intersection </returns>
-        public static bool HasIntersection(PointF segment1Point1, PointF segment1Point2, PointF segment2Point1, PointF segment2Point2)
+        public static bool HasIntersection(PointF segment1Start, PointF segment1End, PointF segment2Start, PointF segment2End)
         {
-            return FindIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out _, out _);
+            return FindIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y, out _, out _);
         }
 
         /// <summary>
         /// Check if two segments have intersection
         /// </summary>
-        /// <param name="segment1Point1"> Segment 1, point 1 </param>
-        /// <param name="segment1Point2"> Segment 1, point 2 </param>
-        /// <param name="segment2Point1"> Segment 2, point 1 </param>
-        /// <param name="segment2Point2"> Segment 2, point 2 </param>
+        /// <param name="segment1Start"> Segment 1, point 1 </param>
+        /// <param name="segment1End"> Segment 1, point 2 </param>
+        /// <param name="segment2Start"> Segment 2, point 1 </param>
+        /// <param name="segment2End"> Segment 2, point 2 </param>
         /// <returns> True, if segments have intersection </returns>
-        public static bool HasIntersection(Point segment1Point1, Point segment1Point2, Point segment2Point1, Point segment2Point2)
+        public static bool HasIntersection(Point segment1Start, Point segment1End, Point segment2Start, Point segment2End)
         {
-            return FindIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out _, out _);
+            return FindIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y, out _, out _);
         }
 
         /// <summary>
         /// Check if two segments have intersection
         /// </summary>
-        /// <param name="segment1Point1"> Segment 1, point 1 </param>
-        /// <param name="segment1Point2"> Segment 1, point 2 </param>
-        /// <param name="segment2Point1"> Segment 2, point 1 </param>
-        /// <param name="segment2Point2"> Segment 2, point 2 </param>
+        /// <param name="segment1Start"> Segment 1, point 1 </param>
+        /// <param name="segment1End"> Segment 1, point 2 </param>
+        /// <param name="segment2Start"> Segment 2, point 1 </param>
+        /// <param name="segment2End"> Segment 2, point 2 </param>
         /// <param name="intersectionPoint"> Intersection point </param>
         /// <returns> True, if segments have intersection </returns>
-        public static bool FindIntersection(PointF segment1Point1, PointF segment1Point2, PointF segment2Point1, PointF segment2Point2, out PointF intersectionPoint)
+        public static bool FindIntersection(PointF segment1Start, PointF segment1End, PointF segment2Start, PointF segment2End, out PointF intersectionPoint)
         {
-            var hasIntersection = FindIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out double x, out double y);
+            var hasIntersection = FindIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y, out double x, out double y);
             intersectionPoint = hasIntersection ? new PointF((float)x, (float)y) : PointF.Empty;
 
             return hasIntersection;
@@ -223,15 +223,15 @@ namespace GeoPlanarNet
         /// <summary>
         /// Check if two segments have intersection
         /// </summary>
-        /// <param name="segment1Point1"> Segment 1, point 1 </param>
-        /// <param name="segment1Point2"> Segment 1, point 2 </param>
-        /// <param name="segment2Point1"> Segment 2, point 1 </param>
-        /// <param name="segment2Point2"> Segment 2, point 2 </param>
+        /// <param name="segment1Start"> Segment 1, point 1 </param>
+        /// <param name="segment1End"> Segment 1, point 2 </param>
+        /// <param name="segment2Start"> Segment 2, point 1 </param>
+        /// <param name="segment2End"> Segment 2, point 2 </param>
         /// <param name="intersectionPoint"> Intersection point </param>
         /// <returns> True, if segments have intersection </returns>
-        public static bool FindIntersection(Point segment1Point1, Point segment1Point2, Point segment2Point1, Point segment2Point2, out Point intersectionPoint)
+        public static bool FindIntersection(Point segment1Start, Point segment1End, Point segment2Start, Point segment2End, out Point intersectionPoint)
         {
-            var hasIntersection = FindIntersection(segment1Point1.X, segment1Point1.Y, segment1Point2.X, segment1Point2.Y, segment2Point1.X, segment2Point1.Y, segment2Point2.X, segment2Point2.Y, out double x, out double y);
+            var hasIntersection = FindIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y, out double x, out double y);
             intersectionPoint = hasIntersection ? new Point((int)x, (int)y) : Point.Empty;
 
             return hasIntersection;
@@ -240,39 +240,39 @@ namespace GeoPlanarNet
         /// <summary>
         /// Check if two segments have intersection
         /// </summary>
-        /// <param name="segment1x1"> segment 1, point 1: coordinate X </param>
-        /// <param name="segment1y1"> segment 1, point 1: coordinate Y </param>
-        /// <param name="segment1x2"> segment 1, point 2: coordinate X </param>
-        /// <param name="segment1y2"> segment 1, point 2: coordinate Y </param>
-        /// <param name="segment2x1"> segment 2, point 1: coordinate X </param>
-        /// <param name="segment2y1"> segment 2, point 1: coordinate Y </param>
-        /// <param name="segment2x2"> segment 2, point 2: coordinate X </param>
-        /// <param name="segment2y2"> segment 2, point 2: coordinate Y </param>
+        /// <param name="segment1StartX"> Segment 1, start point: coordinate X </param>
+        /// <param name="segment1StartY"> Segment 1, start point: coordinate Y </param>
+        /// <param name="segment1EndX"> Segment 1, end point: coordinate X </param>
+        /// <param name="segment1EndY"> Segment 1, end point: coordinate Y </param>
+        /// <param name="segment2BeginX"> Segment 2, start point: coordinate X </param>
+        /// <param name="segment2BeginY"> Segment 2, start point: coordinate Y </param>
+        /// <param name="segment2EndX"> Segment 2, end point: coordinate X </param>
+        /// <param name="segment2EndY"> Segment 2, end point: coordinate Y </param>
         /// <param name="intesectionX"> Intersection point: coordinate X; NaN if not intersects </param>
         /// <param name="intersectionY"> Intersection point: coordinate Y; NaN if not intersects </param>
         /// <returns> True, if segments have intersection </returns>
-        public static bool FindIntersection(double segment1x1, double segment1y1, double segment1x2, double segment1y2, double segment2x1, double segment2y1, double segment2x2, double segment2y2, out double intesectionX, out double intersectionY)
+        public static bool FindIntersection(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY, double segment2BeginX, double segment2BeginY, double segment2EndX, double segment2EndY, out double intesectionX, out double intersectionY)
         {
             intesectionX = intersectionY = 0;
-            var minx1 = Math.Min(segment1x1, segment1x2);
-            var miny1 = Math.Min(segment1y1, segment1y2);
-            var maxx1 = Math.Max(segment1x1, segment1x2);
-            var maxy1 = Math.Max(segment1y1, segment1y2);
-            var minx2 = Math.Min(segment2x1, segment2x2);
-            var miny2 = Math.Min(segment2y1, segment2y2);
-            var maxx2 = Math.Max(segment2x1, segment2x2);
-            var maxy2 = Math.Max(segment2y1, segment2y2);
+            var minx1 = Math.Min(segment1StartX, segment1EndX);
+            var miny1 = Math.Min(segment1StartY, segment1EndY);
+            var maxx1 = Math.Max(segment1StartX, segment1EndX);
+            var maxy1 = Math.Max(segment1StartY, segment1EndY);
+            var minx2 = Math.Min(segment2BeginX, segment2EndX);
+            var miny2 = Math.Min(segment2BeginY, segment2EndY);
+            var maxx2 = Math.Max(segment2BeginX, segment2EndX);
+            var maxy2 = Math.Max(segment2BeginY, segment2EndY);
 
             if (minx1 > maxx2 + 0.0001 || maxx1 + 0.0001 < minx2 || miny1 > maxy2 + 0.0001 || maxy1 + 0.0001 < miny2)
             {
                 return false;
             }
 
-            var segment1ProjectionX = segment1x2 - segment1x1;
-            var segment1ProjectionY = segment1y2 - segment1y1;
+            var segment1ProjectionX = segment1EndX - segment1StartX;
+            var segment1ProjectionY = segment1EndY - segment1StartY;
 
-            var segment2ProjectionX = segment2x2 - segment2x1;
-            var segment2ProjectionН = segment2y2 - segment2y1;
+            var segment2ProjectionX = segment2EndX - segment2BeginX;
+            var segment2ProjectionН = segment2EndY - segment2BeginY;
             var div = (segment2ProjectionН * segment1ProjectionX) - (segment2ProjectionX * segment1ProjectionY);
 
             if (Math.Abs(div) < 0.0001)
@@ -280,8 +280,8 @@ namespace GeoPlanarNet
                 return false;
             }
 
-            var segment12ProjectionX = segment1x1 - segment2x1;
-            var segment12ProjectionY = segment1y1 - segment2y1;
+            var segment12ProjectionX = segment1StartX - segment2BeginX;
+            var segment12ProjectionY = segment1StartY - segment2BeginY;
             var koef = ((segment1ProjectionX * segment12ProjectionY) - (segment1ProjectionY * segment12ProjectionX)) / div;
 
             if (koef < -0.0001 || koef > 1 + 0.0001)
@@ -296,10 +296,132 @@ namespace GeoPlanarNet
                 return false;
             }
 
-            intesectionX = segment1x1 + (koef * (segment1x2 - segment1x1));
-            intersectionY = segment1y1 + (koef * (segment1y2 - segment1y1));
+            intesectionX = segment1StartX + (koef * (segment1EndX - segment1StartX));
+            intersectionY = segment1StartY + (koef * (segment1EndY - segment1StartY));
 
             return true;
+        }
+
+        /// <summary>
+        /// Get a point away from a segment start point on a specified distance
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="distance"> Distance from start point to a new point </param>
+        /// <returns> New point awaw from a segment start </returns>
+        public static PointF GetPointAwayFromStart(PointF segmentStart, PointF segmentEnd, double distance)
+        {
+            GetPointAwayFromStart(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out double newPointX, out double newPointY);
+            return new PointF((float)newPointX, (float)newPointY);
+        }
+
+        /// <summary>
+        /// Get a point away from a segment start point on a specified distance
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="distance"> Distance from start point to a new point </param>
+        /// <returns> New point awaw from a segment start </returns>
+        public static Point GetPointAwayFromStart(Point segmentStart, Point segmentEnd, int distance)
+        {
+            GetPointAwayFromStart(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out double newPointX, out double newPointY);
+            return new Point((int)newPointX, (int)newPointY);
+        }
+
+        /// <summary>
+        /// Get a point away from a segment start point on a specified distance
+        /// </summary>
+        /// <param name="segment1StartX"> Segment, start point: coordinate X </param>
+        /// <param name="segment1StartY"> Segment, start point: coordinate Y </param>
+        /// <param name="segment1EndX"> Segment, end point: coordinate X </param>
+        /// <param name="segment1EndY"> Segment, end point: coordinate Y </param>
+        /// <param name="distance"> Distance from start point to a new point </param>
+        /// <param name="newPointX"> New point: coordinate X </param>
+        /// <param name="newPointY"> New point: coordinate Y </param>
+        public static void GetPointAwayFromStart(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY, double distance, out double newPointX, out double newPointY)
+        {
+            if (distance == 0)
+            {
+                newPointX = segment1StartX;
+                newPointY = segment1StartY;
+                return;
+            }
+
+            var segmentLength = PointGeo.Distance(segment1StartX, segment1StartY, segment1EndX, segment1EndY);
+            if (Math.Abs(segmentLength) < 0.0001)
+            {
+                newPointX = segment1StartX;
+                newPointY = segment1StartY;
+                return;
+            }
+
+            var koef = distance / segmentLength;
+            var x = segment1StartX + (koef * (segment1EndX - segment1StartX));
+            var y = segment1StartY + (koef * (segment1EndY - segment1StartY));
+
+            newPointX = x;
+            newPointY = y;
+        }
+
+        /// <summary>
+        /// Get a point away from a segment end point on a specified distance
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="distance"> Distance from end point to a new point </param>
+        /// <returns> New point awaw from a segment end </returns>
+        public static PointF GetPointAwayFromEnd(PointF segmentStart, PointF segmentEnd, double distance)
+        {
+            GetPointAwayFromEnd(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out double newPointX, out double newPointY);
+            return new PointF((float)newPointX, (float)newPointY);
+        }
+
+        /// <summary>
+        /// Get a point away from a segment end point on a specified distance
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="distance"> Distance from end point to a new point </param>
+        /// <returns> New point awaw from a segment end </returns>
+        public static Point GetPointAwayFromEnd(Point segmentStart, Point segmentEnd, int distance)
+        {
+            GetPointAwayFromEnd(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out double newPointX, out double newPointY);
+            return new Point((int)newPointX, (int)newPointY);
+        }
+
+        /// <summary>
+        /// Get a point away from a segment end point on a specified distance
+        /// </summary>
+        /// <param name="segment1StartX"> Segment, start point: coordinate X </param>
+        /// <param name="segment1StartY"> Segment, start point: coordinate Y </param>
+        /// <param name="segment1EndX"> Segment, end point: coordinate X </param>
+        /// <param name="segment1EndY"> Segment, end point: coordinate Y </param>
+        /// <param name="distance"> Distance from end point to a new point </param>
+        /// <param name="newPointX"> New point: coordinate X </param>
+        /// <param name="newPointY"> New point: coordinate Y </param>
+        public static void GetPointAwayFromEnd(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY, double distance, out double newPointX, out double newPointY)
+        {
+            if (distance == 0)
+            {
+                newPointX = segment1StartX;
+                newPointY = segment1StartY;
+                return;
+            }
+
+            var segmentLength = PointGeo.Distance(segment1StartX, segment1StartY, segment1EndX, segment1EndY);
+            if (Math.Abs(segmentLength) < 0.0001)
+            {
+                newPointX = segment1StartX;
+                newPointY = segment1StartY;
+                return;
+            }
+
+            var koef = (distance + segmentLength) / segmentLength;
+            var x = segment1StartX + (koef * (segment1EndX - segment1StartX));
+            var y = segment1StartY + (koef * (segment1EndY - segment1StartY));
+
+            newPointX = x;
+            newPointY = y;
         }
     }
 }

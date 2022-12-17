@@ -121,5 +121,51 @@ namespace GeoPlanarNet
 
             return resultLength;
         }
+
+        /// <summary>
+        /// Split a curve line to small parts by a segments length
+        /// </summary>
+        /// <param name="curve"> Curve </param>
+        /// <param name="partsLength"> Length of each part of the curve line </param>
+        /// <returns> Curve with segments of the parts length </returns>
+        public static PointF[] Split(PointF[] curve, double partsLength)
+        {
+            var result = new List<PointF>();
+
+            if (curve.Length <= 1)
+            {
+                return curve;
+            }
+
+            for (var i = 0; i < curve.Length - 1; i++)
+            {
+                result.AddRange(SegmentGeo.Split(curve[i], curve[i + 1], partsLength));
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Split a curve line to small parts by a segments length
+        /// </summary>
+        /// <param name="curve"> Curve </param>
+        /// <param name="partsLength"> Length of each part of the curve line </param>
+        /// <returns> Curve with segments of the parts length </returns>
+        public static Point[] Split(Point[] curve, int partsLength)
+        {
+            var result = new List<Point>();
+
+            if (curve.Length <= 1)
+            {
+                return curve;
+            }
+
+            for (var i = 0; i < curve.Length - 1; i++)
+            {
+                result.AddRange(SegmentGeo.Split(curve[i], curve[i + 1], partsLength));
+            }
+
+            return result.ToArray();
+        }
     }
 }

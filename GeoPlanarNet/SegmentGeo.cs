@@ -425,7 +425,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Split segment to small parts by segments length
+        /// Split a segment to small parts by a segments length
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>

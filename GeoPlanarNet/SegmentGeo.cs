@@ -423,5 +423,67 @@ namespace GeoPlanarNet
             newPointX = x;
             newPointY = y;
         }
+
+        /// <summary>
+        /// Split segment to small parts by segments length
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="segmentsLength"> Length of each new segment </param>
+        /// <returns> List of consecutive segments </returns>
+        public static PointF[] Split(PointF segmentStart, PointF segmentEnd, double segmentsLength)
+        {
+            var segmentLength = Length(segmentStart, segmentEnd);
+            var newSegmentsCount = (int)(segmentLength / segmentsLength);
+
+            newSegmentsCount += segmentLength <= newSegmentsCount * segmentsLength ? 1 : 2;
+            newSegmentsCount -= 1;
+
+            var result = new PointF[newSegmentsCount];
+            var currentLength = segmentsLength;
+
+            for (var i = 1; i < newSegmentsCount; ++i)
+            {
+                result[i] = GetPointAwayFromStart(segmentStart, segmentEnd, currentLength);
+
+                currentLength += segmentsLength;
+            }
+
+            result[0] = segmentStart;
+            result[newSegmentsCount] = segmentEnd;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Split segment to small parts by segments length
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="segmentsLength"> Length of each new segment </param>
+        /// <returns> List of consecutive segments </returns>
+        public static Point[] Split(Point segmentStart, Point segmentEnd, int segmentsLength)
+        {
+            var segmentLength = Length(segmentStart, segmentEnd);
+            var newSegmentsCount = (int)(segmentLength / segmentsLength);
+
+            newSegmentsCount += segmentLength <= newSegmentsCount * segmentsLength ? 1 : 2;
+            newSegmentsCount -= 1;
+
+            var result = new Point[newSegmentsCount];
+            var currentLength = segmentsLength;
+
+            for (var i = 1; i < newSegmentsCount; ++i)
+            {
+                result[i] = GetPointAwayFromStart(segmentStart, segmentEnd, currentLength);
+
+                currentLength += segmentsLength;
+            }
+
+            result[0] = segmentStart;
+            result[newSegmentsCount] = segmentEnd;
+
+            return result;
+        }
     }
 }

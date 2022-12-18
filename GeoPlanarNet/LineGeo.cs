@@ -5,6 +5,32 @@ namespace GeoPlanarNet
     public static class LineGeo
     {
         /// <summary>
+        /// Find angle coefficients of a line
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2</param>
+        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
+        /// <param name="yZeroValue"> Y value if x = 0 </param>
+        public static void FindSlopeKoef(PointF linePoint1, PointF linePoint2, out float slopeKoef, out float yZeroValue)
+        {
+            slopeKoef = (linePoint1.Y - linePoint2.Y) / (linePoint1.X - linePoint2.X);
+            yZeroValue = float.IsInfinity(slopeKoef) ? linePoint2.X : linePoint2.Y - (linePoint2.X * slopeKoef);
+        }
+
+        /// <summary>
+        /// Find koeficients of a line
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2</param>
+        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
+        /// <param name="yZeroValue"> Y value if x = 0 </param>
+        public static void FindSlopeKoef(Point linePoint1, Point linePoint2, out double slopeKoef, out double yZeroValue)
+        {
+            slopeKoef = (linePoint1.Y - linePoint2.Y) / (linePoint1.X - linePoint2.X);
+            yZeroValue = double.IsInfinity(slopeKoef) ? linePoint2.X : linePoint2.Y - (linePoint2.X * slopeKoef);
+        }
+
+        /// <summary>
         /// Check if two lines have intersection
         /// </summary>
         /// <param name="line1Point1"> Line 1, point 1 </param>

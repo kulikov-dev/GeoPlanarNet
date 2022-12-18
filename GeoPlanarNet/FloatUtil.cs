@@ -12,5 +12,10 @@ namespace GeoPlanarNet
         {
             return Math.Abs(a - b) < tolerance;
         }
+
+        public static bool AboutZero(this float a, float tolerance = 0.001f)
+        {
+            return Math.Abs(a) < tolerance;
+        }
     }
 }

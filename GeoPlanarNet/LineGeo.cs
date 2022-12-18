@@ -5,32 +5,6 @@ namespace GeoPlanarNet
     public static class LineGeo
     {
         /// <summary>
-        /// Find angle coefficients of a line
-        /// </summary>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2</param>
-        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
-        /// <param name="yZeroValue"> Y value if x = 0 </param>
-        public static void FindSlopeKoef(PointF linePoint1, PointF linePoint2, out float slopeKoef, out float yZeroValue)
-        {
-            slopeKoef = (linePoint1.Y - linePoint2.Y) / (linePoint1.X - linePoint2.X);
-            yZeroValue = float.IsInfinity(slopeKoef) ? linePoint2.X : linePoint2.Y - (linePoint2.X * slopeKoef);
-        }
-
-        /// <summary>
-        /// Find koeficients of a line
-        /// </summary>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2</param>
-        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
-        /// <param name="yZeroValue"> Y value if x = 0 </param>
-        public static void FindSlopeKoef(Point linePoint1, Point linePoint2, out double slopeKoef, out double yZeroValue)
-        {
-            slopeKoef = (linePoint1.Y - linePoint2.Y) / (linePoint1.X - linePoint2.X);
-            yZeroValue = double.IsInfinity(slopeKoef) ? linePoint2.X : linePoint2.Y - (linePoint2.X * slopeKoef);
-        }
-
-        /// <summary>
         /// Check if two lines have intersection
         /// </summary>
         /// <param name="line1Point1"> Line 1, point 1 </param>
@@ -335,11 +309,11 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
-        /// <param name="k"> K koef </param>
-        /// <param name="b"> B koef </param>
-        internal static void GetLinearKoefs(PointF linePoint1, PointF linePoint2, out double k, out double b)
+        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
+        /// <param name="yZeroValue"> Y value if x = 0 </param>
+        internal static void FindSlopeKoef(PointF linePoint1, PointF linePoint2, out double slopeKoef, out double yZeroValue)
         {
-            GetLinearKoefs(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out k, out b);
+            FindSlopeKoef(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out slopeKoef, out yZeroValue);
         }
 
         /// <summary>
@@ -347,11 +321,11 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
-        /// <param name="k"> K koef </param>
-        /// <param name="b"> B koef </param>
-        internal static void GetLinearKoefs(Point linePoint1, Point linePoint2, out double k, out double b)
+        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
+        /// <param name="yZeroValue"> Y value if x = 0 </param>
+        internal static void FindSlopeKoef(Point linePoint1, Point linePoint2, out double slopeKoef, out double yZeroValue)
         {
-            GetLinearKoefs(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out k, out b);
+            FindSlopeKoef(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out slopeKoef, out yZeroValue);
         }
 
         /// <summary>
@@ -361,12 +335,105 @@ namespace GeoPlanarNet
         /// <param name="linePoint1Y"> Line point 1: Y </param>
         /// <param name="linePoint2X"> Line point 2: X </param>
         /// <param name="linePoint2Y"> Line point 2: Y </param>
-        /// <param name="k"> K koef </param>
-        /// <param name="b"> B koef </param>
-        internal static void GetLinearKoefs(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double k, out double b)
+        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
+        /// <param name="yZeroValue"> Y value if x = 0 </param>
+        internal static void FindSlopeKoef(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double slopeKoef, out double yZeroValue)
         {
-            k = (linePoint1Y - linePoint2Y) / (linePoint1X - linePoint2X);
-            b = double.IsInfinity(k) ? linePoint2X : linePoint2Y - (linePoint2X * k);
+            slopeKoef = (linePoint1Y - linePoint2Y) / (linePoint1X - linePoint2X);
+            yZeroValue = double.IsInfinity(slopeKoef) ? linePoint2X : linePoint2Y - (linePoint2X * slopeKoef);
+        }
+
+        /// <summary>
+        /// Cut line to segment by X bounds
+        /// </summary>
+        /// <param name="xBoundsMin"> Bounds X: min value </param>
+        /// <param name="xBoundsMax"> Bounds X: max value </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Flag, if success </returns>
+        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, ref PointF linePoint1, ref PointF linePoint2)
+        {
+            var linePoint1X = (double)linePoint1.X;
+            var linePoint1Y = (double)linePoint1.Y;
+            var linePoint2X = (double)linePoint2.X;
+            var linePoint2Y = (double)linePoint2.Y;
+
+            var result = CutByXBounds(xBoundsMin, xBoundsMax, ref linePoint1X, ref linePoint1Y, ref linePoint2X, ref linePoint2Y);
+            linePoint1 = new PointF((float)linePoint1X, (float)linePoint1Y);
+            linePoint2 = new PointF((float)linePoint2X, (float)linePoint2Y);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Cut line to segment by X bounds
+        /// </summary>
+        /// <param name="xBoundsMin"> Bounds X: min value </param>
+        /// <param name="xBoundsMax"> Bounds X: max value </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Flag, if success </returns>
+        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, ref Point linePoint1, ref Point linePoint2)
+        {
+            var linePoint1X = (double)linePoint1.X;
+            var linePoint1Y = (double)linePoint1.Y;
+            var linePoint2X = (double)linePoint2.X;
+            var linePoint2Y = (double)linePoint2.Y;
+
+            var result = CutByXBounds(xBoundsMin, xBoundsMax, ref linePoint1X, ref linePoint1Y, ref linePoint2X, ref linePoint2Y);
+            linePoint1 = new Point((int)linePoint1X, (int)linePoint1Y);
+            linePoint2 = new Point((int)linePoint2X, (int)linePoint2Y);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Cut line to segment by X bounds
+        /// </summary>
+        /// <param name="xBoundsMin"> Bounds X: min value </param>
+        /// <param name="xBoundsMax"> Bounds X: max value </param>
+        /// <param name="linePoint1X"> Line point 1: X </param>
+        /// <param name="linePoint1Y"> Line point 1: Y </param>
+        /// <param name="linePoint2X"> Line point 2: X </param>
+        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <returns> Flag, if success </returns>
+        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, ref double linePoint1X, ref double linePoint1Y, ref double linePoint2X, ref double linePoint2Y)
+        {
+            if (Math.Min(linePoint1X, linePoint2X) > xBoundsMax || Math.Max(linePoint1X, linePoint2X) < xBoundsMin)
+            {
+                return false;
+            }
+
+
+            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, xBoundsMin, Math.Min(linePoint1Y, linePoint2Y) - 1, xBoundsMin, Math.Max(linePoint1Y, linePoint2Y) + 1, out double x, out double y))
+            {
+                if (linePoint1X <= xBoundsMin)
+                {
+                    linePoint1X = x;
+                    linePoint1Y = y;
+                }
+                else
+                {
+                    linePoint2X = x;
+                    linePoint2Y = y;
+                }
+            }
+
+            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, xBoundsMax, Math.Min(linePoint1Y, linePoint2Y) - 1, xBoundsMax, Math.Max(linePoint1Y, linePoint2Y) + 1, out x, out y))
+            {
+                if (linePoint1X >= xBoundsMax)
+                {
+                    linePoint1X = x;
+                    linePoint1Y = y;
+                }
+                else
+                {
+                    linePoint2X = x;
+                    linePoint2Y = y;
+                }
+            }
+
+            return true;
         }
     }
 }

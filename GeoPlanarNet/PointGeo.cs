@@ -923,7 +923,7 @@ namespace GeoPlanarNet
         /// <param name="projectionPointY"> Projection point: Y coordinate </param>
         public static void GetProjectionToLine(double pointX, double pointY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double projectionPointX, out double projectionPointY)
         {
-            LineGeo.GetLinearKoefs(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out double k, out double b);
+            LineGeo.FindSlopeKoef(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out double k, out double b);
 
             if (k == 0.0)
             {

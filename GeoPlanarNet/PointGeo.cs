@@ -946,6 +946,34 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
+        /// Get projection point to a line
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
+        /// <param name="yZeroValue"> Y value if x = 0 </param>
+        /// <returns> Projection point </returns>
+        public static PointF GetProjectionToLine(this PointF point, float slopeKoef, float yZeroValue)
+        {
+            if (FloatUtil.AboutZero(slopeKoef))
+            {
+                return new PointF(point.X, yZeroValue);
+            }
+
+            if (double.IsInfinity(slopeKoef))
+            {
+                return new PointF(yZeroValue, point.Y);
+            }
+
+            var diffSlopeKoef = -1 / slopeKoef;
+            var yZeroValueKoef = point.Y - (point.X * diffSlopeKoef);
+
+            var x = (yZeroValueKoef - yZeroValue) / (slopeKoef - diffSlopeKoef);
+            var y = (slopeKoef * x) + yZeroValue;
+
+            return new PointF(x, y);
+        }
+
+        /// <summary>
         /// Check if a point has projection to a segment
         /// </summary>
         /// <param name="point"> Point </param>

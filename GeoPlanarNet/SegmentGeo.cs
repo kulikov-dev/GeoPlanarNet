@@ -42,37 +42,37 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get a segment tilt angle relative to the X axis
         /// </summary>
-        /// <param name="pointStart"> Segment start point </param>
-        /// <param name="pointEnd"> Segment end point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
         /// <returns> Angle (radians) </returns>
-        public static double GetXAngleRadians(this PointF pointStart, PointF pointEnd)
+        public static double GetXAngleRadians(this PointF segmentStart, PointF segmentEnd)
         {
-            return GetXAngleRadians(pointStart.X, pointStart.Y, pointEnd.X, pointEnd.Y);
+            return GetXAngleRadians(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
 
         /// <summary>
         /// Get a segment tilt angle relative to the X axis
         /// </summary>
-        /// <param name="pointStart"> Segment start point </param>
-        /// <param name="pointEnd"> Segment end point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
         /// <returns> Angle (radians) </returns>
-        public static double GetXAngleRadians(this Point pointStart, PointF pointEnd)
+        public static double GetXAngleRadians(this Point segmentStart, PointF segmentEnd)
         {
-            return GetXAngleRadians(pointStart.X, pointStart.Y, pointEnd.X, pointEnd.Y);
+            return GetXAngleRadians(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
 
         /// <summary>
         /// Get a segment tilt angle relative to the X axis
         /// </summary>
-        /// <param name="pointStartX"> Start point: X coordinate </param>
-        /// <param name="pointStartY"> Start point: Y coordinate </param>
-        /// <param name="pointEndX"> End point: X coordinate </param>
-        /// <param name="pointEndY"> End point: Y coordinate </param>
+        /// <param name="segmentStartX"> Start point: X coordinate </param>
+        /// <param name="segmentStartY"> Start point: Y coordinate </param>
+        /// <param name="segmentEndX"> End point: X coordinate </param>
+        /// <param name="segmentEndY"> End point: Y coordinate </param>
         /// <returns> Angle (radians) </returns>
-        public static double GetXAngleRadians(double pointStartX, double pointStartY, double pointEndX, double pointEndY)
+        public static double GetXAngleRadians(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
-            var diffX = pointEndX - pointStartX;
-            var diffY = pointEndY - pointStartY;
+            var diffX = segmentEndX - segmentStartX;
+            var diffY = segmentEndY - segmentStartY;
 
             if (diffX == 0)
             {
@@ -88,24 +88,24 @@ namespace GeoPlanarNet
         /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
         /// </summary>
         /// <param name="commonPoint"> Common point </param>
-        /// <param name="startPoint1"> Start point of a segment 1 </param>
-        /// <param name="startPoint2"> Start point of a segment 2 </param>
+        /// <param name="segment1Start"> Start point of a segment 1 </param>
+        /// <param name="segment2Start"> Start point of a segment 2 </param>
         /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(PointF commonPoint, PointF startPoint1, PointF startPoint2)
+        public static double GetAngleRadians(PointF commonPoint, PointF segment1Start, PointF segment2Start)
         {
-            return GetAngleRadians(commonPoint.X, commonPoint.Y, startPoint1.X, startPoint1.Y, startPoint2.X, startPoint2.Y);
+            return GetAngleRadians(commonPoint.X, commonPoint.Y, segment1Start.X, segment1Start.Y, segment2Start.X, segment2Start.Y);
         }
 
         /// <summary>
         /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
         /// </summary>
         /// <param name="commonPoint"> Common point </param>
-        /// <param name="startPoint1"> Start point of a segment 1 </param>
-        /// <param name="startPoint2"> Start point of a segment 2 </param>
+        /// <param name="segment1Start"> Start point of a segment 1 </param>
+        /// <param name="segment2Start"> Start point of a segment 2 </param>
         /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(Point commonPoint, Point startPoint1, Point startPoint2)
+        public static double GetAngleRadians(Point commonPoint, Point segment1Start, Point segment2Start)
         {
-            return GetAngleRadians(commonPoint.X, commonPoint.Y, startPoint1.X, startPoint1.Y, startPoint2.X, startPoint2.Y);
+            return GetAngleRadians(commonPoint.X, commonPoint.Y, segment1Start.X, segment1Start.Y, segment2Start.X, segment2Start.Y);
         }
 
         /// <summary>
@@ -113,15 +113,15 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="commonPointX"> Common point: X coordinate </param>
         /// <param name="commonPointY"> Common point: Y coordinate </param>
-        /// <param name="startPoint1X"> Start point of 1 segment: X coordinate </param>
-        /// <param name="startPoint1Y"> Start point of 1 segment: Y coordinate </param>
-        /// <param name="startPoint2X"> Start point of 2 segment: X coordinate </param>
-        /// <param name="startPoint2Y"> Start point of 2 segment: Y coordinate </param>
+        /// <param name="segment1StartX"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment1StartY"> Start point of 1 segment: Y coordinate </param>
+        /// <param name="segment2StartX"> Start point of 2 segment: X coordinate </param>
+        /// <param name="segment2StartY"> Start point of 2 segment: Y coordinate </param>
         /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(double commonPointX, double commonPointY, double startPoint1X, double startPoint1Y, double startPoint2X, double startPoint2Y)
+        public static double GetAngleRadians(double commonPointX, double commonPointY, double segment1StartX, double segment1StartY, double segment2StartX, double segment2StartY)
         {
-            var numerator = ((startPoint1X - commonPointX) * (startPoint2X - commonPointX)) + ((startPoint1Y - commonPointY) * (startPoint2Y - commonPointY));
-            var denominator = Math.Sqrt(Math.Pow(startPoint1X - commonPointX, 2) + Math.Pow(startPoint1Y - commonPointY, 2)) * Math.Sqrt(Math.Pow(startPoint2X - commonPointX, 2) + Math.Pow(startPoint2Y - commonPointY, 2));
+            var numerator = ((segment1StartX - commonPointX) * (segment2StartX - commonPointX)) + ((segment1StartY - commonPointY) * (segment2StartY - commonPointY));
+            var denominator = Math.Sqrt(Math.Pow(segment1StartX - commonPointX, 2) + Math.Pow(segment1StartY - commonPointY, 2)) * Math.Sqrt(Math.Pow(segment2StartX - commonPointX, 2) + Math.Pow(segment2StartY - commonPointY, 2));
 
             return Math.Acos(numerator / denominator);
         }
@@ -155,26 +155,63 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get angle in radians between two segments
         /// </summary>
-        /// <param name="startPoint1X"> Start point of 1 segment: X coordinate </param>
-        /// <param name="startPoint1Y"> Start point of 1 segment: X coordinate </param>
-        /// <param name="endPoint1X"> Start point of 1 segment: X coordinate </param>
-        /// <param name="endPoint1Y"> Start point of 1 segment: X coordinate </param>
-        /// <param name="startPoint2X"> Start point of 1 segment: X coordinate </param>
-        /// <param name="startPoint2Y"> Start point of 1 segment: X coordinate </param>
-        /// <param name="endPoint2X"> Start point of 1 segment: X coordinate </param>
-        /// <param name="endPoint2Y"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment1StartX"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment1StartY"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment1EndX"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment1EndY"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment2StartX"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment2StartY"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment2EndX"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment2EndY"> Start point of 1 segment: X coordinate </param>
         /// <returns> Angle (radians) </returns>
-        public static double AngleBetweenVectors(double startPoint1X, double startPoint1Y, double endPoint1X, double endPoint1Y,
-                                                 double startPoint2X, double startPoint2Y, double endPoint2X, double endPoint2Y)
+        public static double AngleBetweenVectors(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY,
+                                                 double segment2StartX, double segment2StartY, double segment2EndX, double segment2EndY)
         {
-            var diff1X = endPoint1X - startPoint1X;
-            var diff1Y = endPoint1Y - startPoint1Y;
-            var diff2X = endPoint2X - startPoint2X;
-            var diff2Y = endPoint2Y - startPoint2Y;
+            var diff1X = segment1EndX - segment1StartX;
+            var diff1Y = segment1EndY - segment1StartY;
+            var diff2X = segment2EndX - segment2StartX;
+            var diff2Y = segment2EndY - segment2StartY;
 
             var angle = ((diff1X * diff2X) + (diff1Y * diff2Y)) / (Math.Sqrt((diff1X * diff1X) + (diff1Y * diff1Y)) * Math.Sqrt((diff2X * diff2X) + (diff2Y * diff2Y)));
 
             return Math.Acos(Math.Round(angle, 3));
+        }
+
+        /// <summary>
+        /// Check if a segment lays between start angle and end angle (angles from the start point)
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="sectorStartAngleRad"> Start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Start angle (radians) </param>
+        /// <returns> Flag if the segment lays between angles </returns>
+        public static bool IsBetweenAngles(PointF segmentStart, PointF segmentEnd, float sectorStartAngleRad, float sectorEndAngleRad)
+        {
+            return IsBetweenAngles(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, sectorStartAngleRad, sectorEndAngleRad);
+        }
+
+        /// <summary>
+        /// Check if a segment lays between start angle and end angle (angles from the start point)
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="sectorStartAngleRad"> Start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Start angle (radians) </param>
+        /// <returns> Flag if the segment lays between angles </returns>
+        public static bool IsBetweenAngles(Point segmentStart, Point segmentEnd, double sectorStartAngleRad, double sectorEndAngleRad)
+        {
+            return IsBetweenAngles(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, sectorStartAngleRad, sectorEndAngleRad);
+        }
+
+        public static bool IsBetweenAngles(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double sectorStartAngleRad, double sectorEndAngleRad)
+        {
+            var ang = Math.Atan2(segmentEndY - segmentStartY, segmentEndX - segmentStartX);
+            if (ang < 0)
+            {
+                ang += Math.PI * 2;
+            }
+
+            return ang >= sectorStartAngleRad && ang <= sectorEndAngleRad;
         }
 
         /// <summary>
@@ -244,24 +281,24 @@ namespace GeoPlanarNet
         /// <param name="segment1StartY"> Segment 1, start point: coordinate Y </param>
         /// <param name="segment1EndX"> Segment 1, end point: coordinate X </param>
         /// <param name="segment1EndY"> Segment 1, end point: coordinate Y </param>
-        /// <param name="segment2BeginX"> Segment 2, start point: coordinate X </param>
-        /// <param name="segment2BeginY"> Segment 2, start point: coordinate Y </param>
+        /// <param name="segment2StartX"> Segment 2, start point: coordinate X </param>
+        /// <param name="segment2StartY"> Segment 2, start point: coordinate Y </param>
         /// <param name="segment2EndX"> Segment 2, end point: coordinate X </param>
         /// <param name="segment2EndY"> Segment 2, end point: coordinate Y </param>
         /// <param name="intesectionX"> Intersection point: coordinate X; NaN if not intersects </param>
         /// <param name="intersectionY"> Intersection point: coordinate Y; NaN if not intersects </param>
         /// <returns> True, if segments have intersection </returns>
-        public static bool FindIntersection(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY, double segment2BeginX, double segment2BeginY, double segment2EndX, double segment2EndY, out double intesectionX, out double intersectionY)
+        public static bool FindIntersection(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY, double segment2StartX, double segment2StartY, double segment2EndX, double segment2EndY, out double intesectionX, out double intersectionY)
         {
             intesectionX = intersectionY = 0;
             var minx1 = Math.Min(segment1StartX, segment1EndX);
             var miny1 = Math.Min(segment1StartY, segment1EndY);
             var maxx1 = Math.Max(segment1StartX, segment1EndX);
             var maxy1 = Math.Max(segment1StartY, segment1EndY);
-            var minx2 = Math.Min(segment2BeginX, segment2EndX);
-            var miny2 = Math.Min(segment2BeginY, segment2EndY);
-            var maxx2 = Math.Max(segment2BeginX, segment2EndX);
-            var maxy2 = Math.Max(segment2BeginY, segment2EndY);
+            var minx2 = Math.Min(segment2StartX, segment2EndX);
+            var miny2 = Math.Min(segment2StartY, segment2EndY);
+            var maxx2 = Math.Max(segment2StartX, segment2EndX);
+            var maxy2 = Math.Max(segment2StartY, segment2EndY);
 
             if (minx1 > maxx2 + 0.0001 || maxx1 + 0.0001 < minx2 || miny1 > maxy2 + 0.0001 || maxy1 + 0.0001 < miny2)
             {
@@ -271,8 +308,8 @@ namespace GeoPlanarNet
             var segment1ProjectionX = segment1EndX - segment1StartX;
             var segment1ProjectionY = segment1EndY - segment1StartY;
 
-            var segment2ProjectionX = segment2EndX - segment2BeginX;
-            var segment2ProjectionН = segment2EndY - segment2BeginY;
+            var segment2ProjectionX = segment2EndX - segment2StartX;
+            var segment2ProjectionН = segment2EndY - segment2StartY;
             var div = (segment2ProjectionН * segment1ProjectionX) - (segment2ProjectionX * segment1ProjectionY);
 
             if (Math.Abs(div) < 0.0001)
@@ -280,8 +317,8 @@ namespace GeoPlanarNet
                 return false;
             }
 
-            var segment12ProjectionX = segment1StartX - segment2BeginX;
-            var segment12ProjectionY = segment1StartY - segment2BeginY;
+            var segment12ProjectionX = segment1StartX - segment2StartX;
+            var segment12ProjectionY = segment1StartY - segment2StartY;
             var koef = ((segment1ProjectionX * segment12ProjectionY) - (segment1ProjectionY * segment12ProjectionX)) / div;
 
             if (koef < -0.0001 || koef > 1 + 0.0001)

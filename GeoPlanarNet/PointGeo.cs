@@ -268,13 +268,57 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="circleX"> Circle center: X coordinate </param>
-        /// <param name="circleY"> Circle center: X coordinate </param>
+        /// <param name="circleCenterX"> Circle center: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center: X coordinate </param>
         /// <param name="radius"> Circle radius </param>
         /// <returns> Flag if the point belongs to the cirle </returns>
-        public static bool InCircle(double pointX, double pointY, double circleX, double circleY, double radius)
+        public static bool InCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius)
         {
-            return Math.Pow(pointX - circleX, 2) + Math.Pow(pointY - circleY, 2) <= Math.Pow(radius, 2);
+            return Math.Pow(pointX - circleCenterX, 2) + Math.Pow(pointY - circleCenterY, 2) <= Math.Pow(radius, 2);
+        }
+
+        /// <summary>
+        /// Check if a point belong to a specific circle sector
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
+        /// <returns> Flag if the point belongs to the cirle sector </returns>
+        public static bool InCircleSector(this PointF point, PointF circleCenter, float radius, float sectorStartAngleRad, float sectorEndAngleRad)
+        {
+            return InCircleSector(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, sectorStartAngleRad, sectorEndAngleRad);
+        }
+
+        /// <summary>
+        /// Check if a point belong to a specific circle sector
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
+        /// <returns> Flag if the point belongs to the cirle sector </returns>
+        public static bool InCircleSector(this Point point, Point circleCenter, double radius, double sectorStartAngleRad, double sectorEndAngleRad)
+        {
+            return InCircleSector(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, sectorStartAngleRad, sectorEndAngleRad);
+        }
+
+        /// <summary>
+        /// Check if a point belong to a specific circle sector
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="circleCenterX"> Circle center: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center: X coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
+        /// <returns> Flag if the point belongs to the cirle sector </returns>
+        public static bool InCircleSector(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius, double sectorStartAngleRad, double sectorEndAngleRad)
+        {
+            return InCircle(pointX, pointY, circleCenterX, circleCenterY, radius) && SegmentGeo.IsBetweenAngles(pointX, pointY, circleCenterX, circleCenterY, sectorStartAngleRad, sectorEndAngleRad);
         }
 
         /// <summary>

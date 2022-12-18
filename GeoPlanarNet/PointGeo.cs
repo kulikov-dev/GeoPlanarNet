@@ -300,7 +300,7 @@ namespace GeoPlanarNet
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
         /// <returns> Flag if the point belongs to the cirle sector </returns>
-        public static bool InCircleSector(this Point point, Point circleCenter, double radius, double sectorStartAngleRad, double sectorEndAngleRad)
+        public static bool InCircleSector(this Point point, Point circleCenter, int radius, int sectorStartAngleRad, int sectorEndAngleRad)
         {
             return InCircleSector(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, sectorStartAngleRad, sectorEndAngleRad);
         }
@@ -342,7 +342,7 @@ namespace GeoPlanarNet
         /// <param name="radiusX"> Radius on X axis </param>
         /// <param name="radiusY"> Radius on Y axis </param>
         /// <returns> Flag if the point belongs to the ellipse </returns>
-        public static bool InEllipse(this Point point, Point ellipseCenter, float radiusX, float radiusY)
+        public static bool InEllipse(this Point point, Point ellipseCenter, int radiusX, int radiusY)
         {
             return InEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY);
         }
@@ -352,14 +352,61 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="circleX"> Ellipse center: X coordinate </param>
-        /// <param name="circleY"> Ellipse center: X coordinate </param>
+        /// <param name="ellipseCenterX"> Ellipse center: X coordinate </param>
+        /// <param name="ellipseCenterY"> Ellipse center: Y coordinate </param>
         /// <param name="radiusX"> Radius on X axis </param>
         /// <param name="radiusY"> Radius on Y axis </param>
         /// <returns> Flag if the point belongs to the ellipse </returns>
-        public static bool InEllipse(double pointX, double pointY, double circleX, double circleY, double radiusX, double radiusY)
+        public static bool InEllipse(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double radiusX, double radiusY)
         {
-            return (Math.Pow(pointX - circleX, 2) / Math.Pow(radiusX, 2)) + (Math.Pow(pointY - circleY, 2) / Math.Pow(radiusY, 2)) <= 1;
+            return (Math.Pow(pointX - ellipseCenterX, 2) / Math.Pow(radiusX, 2)) + (Math.Pow(pointY - ellipseCenterY, 2) / Math.Pow(radiusY, 2)) <= 1;
+        }
+
+        /// <summary>
+        /// Check if a point belong to a specific ellipse sector
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="ellipseCenter"> Ellipse center </param>
+        /// <param name="radiusX"> Radius on X axis </param>
+        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
+        /// <returns> Flag if the point belongs to the ellipse sector </returns>
+        public static bool InEllipseSector(PointF point, PointF ellipseCenter, float radiusX, float radiusY, float sectorStartAngleRad, float sectorEndAngleRad)
+        {
+            return InEllipseSector(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY, sectorStartAngleRad, sectorEndAngleRad);
+        }
+
+        /// <summary>
+        /// Check if a point belong to a specific ellipse sector
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="ellipseCenter"> Ellipse center </param>
+        /// <param name="radiusX"> Radius on X axis </param>
+        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
+        /// <returns> Flag if the point belongs to the ellipse sector </returns>
+        public static bool InEllipseSector(Point point, Point ellipseCenter, int radiusX, int radiusY, int sectorStartAngleRad, int sectorEndAngleRad)
+        {
+            return InEllipseSector(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY, sectorStartAngleRad, sectorEndAngleRad);
+        }
+
+        /// <summary>
+        /// Check if a point belong to a specific ellipse sector
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="ellipseCenterX"> Ellipse center: X coordinate </param>
+        /// <param name="ellipseCenterY"> Ellipse center: Y coordinate </param>
+        /// <param name="radiusX"> Radius on X axis </param>
+        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
+        /// <returns> Flag if the point belongs to the ellipse sector </returns>
+        public static bool InEllipseSector(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double radiusX, double radiusY, double sectorStartAngleRad, double sectorEndAngleRad)
+        {
+            return InEllipse(pointX, pointY, ellipseCenterX, ellipseCenterY, radiusX, radiusY) && SegmentGeo.IsBetweenAngles(pointX, pointY, ellipseCenterX, ellipseCenterY, sectorStartAngleRad, sectorEndAngleRad);
         }
 
         /// <summary>

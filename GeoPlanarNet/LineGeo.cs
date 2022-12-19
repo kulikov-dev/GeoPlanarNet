@@ -435,5 +435,56 @@ namespace GeoPlanarNet
 
             return true;
         }
+
+        /// <summary>
+        /// Find the point on the line closest to the given one
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="point"> Given point </param>
+        /// <returns> Closest point on the line </returns>
+        public static PointF FindClosestPoint(PointF linePoint1, PointF linePoint2, PointF point)
+        {
+            FindClosestPoint(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, point.X, point.Y, out double x, out double y);
+            return new PointF((float)x, (float)y);
+        }
+
+        /// <summary>
+        /// Find the point on the line closest to the given one
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="point"> Given point </param>
+        /// <returns> Closest point on the line </returns>
+        public static Point FindClosestPoint(Point linePoint1, Point linePoint2, Point point)
+        {
+            FindClosestPoint(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, point.X, point.Y, out double x, out double y);
+            return new Point((int)x, (int)y);
+        }
+
+        /// <summary>
+        /// Find the point on the line closest to the given one
+        /// </summary>
+        /// <param name="linePoint1X"> Line point 1: X </param>
+        /// <param name="linePoint1Y"> Line point 1: Y </param>
+        /// <param name="linePoint2X"> Line point 2: X </param>
+        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <param name="pointX"> Given point: X </param>
+        /// <param name="pointY"> Given point: Y </param>
+        /// <param name="closestPointX"> Closest point on the line: X </param>
+        /// <param name="closestPointY"> Closest point on the line: Y </param>
+        public static void FindClosestPoint(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double pointX, double pointY, out double closestPointX, out double closestPointY)
+        {
+            var projectionLineX = linePoint2X - linePoint1X;
+            var projectionLineY = linePoint2Y - linePoint1Y;
+            var toPointX = pointX - linePoint1X;
+            var toPointY = pointY - linePoint1Y;
+            var koefC1 = (projectionLineX * toPointX) + (projectionLineY * toPointY);
+            var koefC2 = (projectionLineX * projectionLineX) + (projectionLineY * projectionLineY);
+            var ratio = koefC1 / koefC2;
+
+            closestPointX = linePoint1X + (ratio * projectionLineX);
+            closestPointY = linePoint1Y + (ratio * projectionLineY);
+        }
     }
 }

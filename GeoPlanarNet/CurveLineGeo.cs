@@ -167,5 +167,75 @@ namespace GeoPlanarNet
 
             return result.ToArray();
         }
+
+        /// <summary>
+        /// Check if a curve line and a segment has intersection
+        /// </summary>
+        /// <param name="curve"> Curve </param>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool HasIntersection(PointF[] curve, PointF segmentStartPoint, PointF segmentEndPoint)
+        {
+            return FindIntersection(curve, segmentStartPoint, segmentEndPoint, out _);
+        }
+
+        /// <summary>
+        /// Check if a curve line and a segment has intersection
+        /// </summary>
+        /// <param name="curve"> Curve </param>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool HasIntersection(Point[] curve, Point segmentStartPoint, Point segmentEndPoint)
+        {
+            return FindIntersection(curve, segmentStartPoint, segmentEndPoint, out _);
+        }
+
+        /// <summary>
+        /// Check if a curve line and a segment has intersection
+        /// </summary>
+        /// <param name="curve"> Curve </param>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="intersectionPoint"> Intersection point </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool FindIntersection(PointF[] curve, PointF segmentStartPoint, PointF segmentEndPoint, out PointF intersectionPoint)
+        {
+            intersectionPoint = PointF.Empty;
+
+            for (int i = 0; i < curve.Length - 1; i++)
+            {
+                if (SegmentGeo.FindIntersection(segmentStartPoint, segmentEndPoint, curve[i], curve[i + 1], out intersectionPoint))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Check if a curve line and a segment has intersection
+        /// </summary>
+        /// <param name="curve"> Curve </param>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="intersectionPoint"> Intersection point </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool FindIntersection(Point[] curve, Point segmentStartPoint, Point segmentEndPoint, out Point intersectionPoint)
+        {
+            intersectionPoint = Point.Empty;
+
+            for (int i = 0; i < curve.Length - 1; i++)
+            {
+                if (SegmentGeo.FindIntersection(segmentStartPoint, segmentEndPoint, curve[i], curve[i + 1], out intersectionPoint))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

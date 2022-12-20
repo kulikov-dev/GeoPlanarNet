@@ -429,33 +429,33 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get a point away from a segment end point on a specified distance
         /// </summary>
-        /// <param name="segment1StartX"> Segment, start point: coordinate X </param>
-        /// <param name="segment1StartY"> Segment, start point: coordinate Y </param>
-        /// <param name="segment1EndX"> Segment, end point: coordinate X </param>
-        /// <param name="segment1EndY"> Segment, end point: coordinate Y </param>
+        /// <param name="segmentStartX"> Segment, start point: coordinate X </param>
+        /// <param name="segmentStartY"> Segment, start point: coordinate Y </param>
+        /// <param name="segmentEndX"> Segment, end point: coordinate X </param>
+        /// <param name="segmentEndY"> Segment, end point: coordinate Y </param>
         /// <param name="distance"> Distance from end point to a new point </param>
         /// <param name="newPointX"> New point: coordinate X </param>
         /// <param name="newPointY"> New point: coordinate Y </param>
-        public static void GetPointAwayFromEnd(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY, double distance, out double newPointX, out double newPointY)
+        public static void GetPointAwayFromEnd(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double distance, out double newPointX, out double newPointY)
         {
             if (distance == 0)
             {
-                newPointX = segment1StartX;
-                newPointY = segment1StartY;
+                newPointX = segmentStartX;
+                newPointY = segmentStartY;
                 return;
             }
 
-            var segmentLength = PointGeo.Distance(segment1StartX, segment1StartY, segment1EndX, segment1EndY);
+            var segmentLength = PointGeo.Distance(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
             if (Math.Abs(segmentLength) < 0.0001)
             {
-                newPointX = segment1StartX;
-                newPointY = segment1StartY;
+                newPointX = segmentStartX;
+                newPointY = segmentStartY;
                 return;
             }
 
             var koef = (distance + segmentLength) / segmentLength;
-            var x = segment1StartX + (koef * (segment1EndX - segment1StartX));
-            var y = segment1StartY + (koef * (segment1EndY - segment1StartY));
+            var x = segmentStartX + (koef * (segmentEndX - segmentStartX));
+            var y = segmentStartY + (koef * (segmentEndY - segmentStartY));
 
             newPointX = x;
             newPointY = y;
@@ -521,6 +521,55 @@ namespace GeoPlanarNet
             result[newSegmentsCount] = segmentEnd;
 
             return result;
+        }
+
+        /// <summary>
+        /// Linear interpolation for point on the segment
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <returns> Point with X-Y coordinates </returns>
+        public static PointF LinearInterpolation(PointF segmentStart, PointF segmentEnd, float pointX)
+        {
+            LinearInterpolation(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, pointX, out double pointY);
+            return new PointF(pointX, (float)pointY);
+        }
+
+        /// <summary>
+        /// Linear interpolation for point on the segment
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <returns> Point with X-Y coordinates </returns>
+        public static Point LinearInterpolation(Point segmentStart, Point segmentEnd, int pointX)
+        {
+            LinearInterpolation(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, pointX, out double pointY);
+            return new Point(pointX, (int)pointY);
+        }
+
+        /// <summary>
+        /// Linear interpolation for point on the segment
+        /// </summary>
+        /// <param name="segmentStartX"> Segment, start point: coordinate X </param>
+        /// <param name="segmentStartY"> Segment, start point: coordinate Y </param>
+        /// <param name="segmentEndX"> Segment, end point: coordinate X </param>
+        /// <param name="segmentEndY"> Segment, end point: coordinate Y </param>
+        /// <param name="pointX"> Point: X coordiante</param>
+        /// <param name="pointY"> Searchable point: Y coordinate </param>
+        public static void LinearInterpolation(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double pointX, out double pointY)
+        {
+            var projectionX = segmentEndX - segmentStartX;
+
+            if (projectionX == 0)
+            {
+                pointY = (segmentStartY + segmentEndY) / 2;
+            }
+            else
+            {
+                pointY = segmentStartY + (((pointX - segmentStartX) * (segmentEndY - segmentStartY)) / projectionX);
+            }
         }
     }
 }

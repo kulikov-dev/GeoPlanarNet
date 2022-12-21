@@ -571,5 +571,75 @@ namespace GeoPlanarNet
                 pointY = segmentStartY + (((pointX - segmentStartX) * (segmentEndY - segmentStartY)) / projectionX);
             }
         }
+
+        /// <summary>
+        /// Linear interpolation with specified step
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="step"> Interpolation step </param>
+        /// <returns> List of interpolated points </returns>
+        /// <exception cref="ArgumentException"> Exception if segmentStart more than segmentEnd </exception>
+        public static List<PointF> LinearInterpolationByStep(PointF segmentStart, PointF segmentEnd, float step)
+        {
+            if (segmentStart.X > segmentEnd.X)
+            {
+                throw new ArgumentException("Segment start point must be less than a segment end point");
+            }
+
+            var points = new List<PointF> { segmentStart };
+
+            if (segmentStart.X == segmentEnd.X)
+            {
+                points.Add(LinearInterpolation(segmentStart, segmentEnd, segmentStart.X));
+                return points;
+            }
+
+            var i = segmentStart.X + step;
+
+            while (i < segmentEnd.X)
+            {
+                points.Add(LinearInterpolation(segmentStart, segmentEnd, i));
+                i += step;
+            }
+
+            points.Add(segmentEnd);
+            return points;
+        }
+
+        /// <summary>
+        /// Linear interpolation with specified step
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="step"> Interpolation step </param>
+        /// <returns> List of interpolated points </returns>
+        /// <exception cref="ArgumentException"> Exception if segmentStart more than segmentEnd </exception>
+        public static List<Point> LinearInterpolationByStep(Point segmentStart, Point segmentEnd, int step)
+        {
+            if (segmentStart.X > segmentEnd.X)
+            {
+                throw new ArgumentException("Segment start point must be less than a segment end point");
+            }
+
+            var points = new List<Point> { segmentStart };
+
+            if (segmentStart.X == segmentEnd.X)
+            {
+                points.Add(LinearInterpolation(segmentStart, segmentEnd, segmentStart.X));
+                return points;
+            }
+
+            var i = segmentStart.X + step;
+
+            while (i < segmentEnd.X)
+            {
+                points.Add(LinearInterpolation(segmentStart, segmentEnd, i));
+                i += step;
+            }
+
+            points.Add(segmentEnd);
+            return points;
+        }
     }
 }

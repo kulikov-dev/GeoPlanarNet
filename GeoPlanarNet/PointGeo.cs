@@ -347,6 +347,47 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
+        /// Check if the point belongs to the line
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Flag if the point belongs to the line </returns>
+        public static bool BelongsToLine(this PointF point, PointF linePoint1, PointF linePoint2)
+        {
+            return BelongsToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
+        }
+
+        /// <summary>
+        /// Check if the point belongs to the line
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Flag if the point belongs to the line </returns>
+        public static bool BelongsToLine(this Point point, Point linePoint1, Point linePoint2)
+        {
+            return BelongsToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
+        }
+
+        /// <summary>
+        /// Check if the point belongs to the line
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="linePoint1X"> Segment start point: X coordinate </param>
+        /// <param name="linePoint1Y"> Segment start point: Y coodinate </param>
+        /// <param name="linePoint2X"> Segment end point: X coordinate </param>
+        /// <param name="linePoint2Y"> Segment end point: Y coordinate </param>
+        /// <returns> Flag if the point belongs to the line </returns>
+        public static bool BelongsToLine(double pointX, double pointY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
+        {
+            LineGeo.FindSlopeKoef(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out double slopeKoef, out double yIntersection);
+
+            return pointY == slopeKoef * pointX + yIntersection;
+        }
+
+        /// <summary>
         /// Check if a point belongs to a circle
         /// </summary>
         /// <param name="point"> Point </param>
@@ -1255,7 +1296,7 @@ namespace GeoPlanarNet
         /// <returns> Flag, if points are collinear </returns>
         public static bool IsCollinear(double point1X, double point1Y, double point2X, double point2Y, double point3X, double point3Y)
         {
-            return Math.Abs((point3Y - point2Y) * (point2X - point1X) - (point2Y - point1Y) * (point3X - point2X)) < GeoPlanarNet.Epsilon;
+            return (point3Y - point2Y) * (point2X - point1X) == (point2Y - point1Y) * (point3X - point2X);
         }
     }
 }

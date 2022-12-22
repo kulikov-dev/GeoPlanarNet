@@ -311,13 +311,13 @@ namespace GeoPlanarNet
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
         /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
-        /// <param name="yZeroValue"> Y value if x = 0 </param>
-        internal static void FindSlopeKoef(PointF linePoint1, PointF linePoint2, out float slopeKoef, out float yZeroValue)
+        /// <param name="yIntersection"> Y value if x = 0 </param>
+        internal static void FindSlopeKoef(PointF linePoint1, PointF linePoint2, out float slopeKoef, out float yIntersection)
         {
-            FindSlopeKoef(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out double slopeKoefD, out double yZeroValueD);
+            FindSlopeKoef(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out double slopeKoefD, out double yIntersectionD);
 
             slopeKoef = (float)slopeKoefD;
-            yZeroValue = (float)yZeroValueD;
+            yIntersection = (float)yIntersectionD;
         }
 
         /// <summary>
@@ -326,10 +326,10 @@ namespace GeoPlanarNet
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
         /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
-        /// <param name="yZeroValue"> Y value if x = 0 </param>
-        internal static void FindSlopeKoef(Point linePoint1, Point linePoint2, out double slopeKoef, out double yZeroValue)
+        /// <param name="yIntersection"> Y value if x = 0 </param>
+        internal static void FindSlopeKoef(Point linePoint1, Point linePoint2, out double slopeKoef, out double yIntersection)
         {
-            FindSlopeKoef(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out slopeKoef, out yZeroValue);
+            FindSlopeKoef(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out slopeKoef, out yIntersection);
         }
 
         /// <summary>
@@ -340,11 +340,11 @@ namespace GeoPlanarNet
         /// <param name="linePoint2X"> Line point 2: X </param>
         /// <param name="linePoint2Y"> Line point 2: Y </param>
         /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
-        /// <param name="yZeroValue"> Y value if x = 0 </param>
-        internal static void FindSlopeKoef(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double slopeKoef, out double yZeroValue)
+        /// <param name="yIntersection"> Y value if x = 0 </param>
+        internal static void FindSlopeKoef(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double slopeKoef, out double yIntersection)
         {
             slopeKoef = (linePoint1Y - linePoint2Y) / (linePoint1X - linePoint2X);
-            yZeroValue = double.IsInfinity(slopeKoef) ? linePoint2X : linePoint2Y - (linePoint2X * slopeKoef);
+            yIntersection = double.IsInfinity(slopeKoef) ? linePoint2X : linePoint2Y - (linePoint2X * slopeKoef);
         }
 
         /// <summary>

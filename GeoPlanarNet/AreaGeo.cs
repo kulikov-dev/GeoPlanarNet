@@ -12,6 +12,7 @@ namespace GeoPlanarNet
         public static float Square(PointF[] points)
         {
             var sum = 0f;
+
             for (var i = 1; i < points.Length; i++)
             {
                 sum += (points[i - 1].X * points[i].Y) - (points[i].X * points[i - 1].Y);
@@ -28,6 +29,7 @@ namespace GeoPlanarNet
         public static double Square(Point[] points)
         {
             double sum = 0;
+
             for (var i = 1; i < points.Length; i++)
             {
                 sum += (points[i - 1].X * points[i].Y) - (points[i].X * points[i - 1].Y);
@@ -53,6 +55,7 @@ namespace GeoPlanarNet
             for (var i = 1; i < points.Length; i++)
             {
                 var prevPoint = points[i - 1];
+
                 if (prevPoint.X < result.X)
                 {
                     result.X = prevPoint.X;
@@ -64,6 +67,7 @@ namespace GeoPlanarNet
                 }
 
                 var currentPoint = points[i];
+
                 if (currentPoint.X < result.X)
                 {
                     result.X = currentPoint.X;
@@ -138,6 +142,7 @@ namespace GeoPlanarNet
             for (var i = 1; i < points.Length; i++)
             {
                 var prevPoint = points[i - 1];
+
                 if (prevPoint.X < result.X)
                 {
                     result.X = prevPoint.X;
@@ -149,6 +154,7 @@ namespace GeoPlanarNet
                 }
 
                 var currentPoint = points[i];
+
                 if (currentPoint.X < result.X)
                 {
                     result.X = currentPoint.X;
@@ -217,6 +223,7 @@ namespace GeoPlanarNet
             var maxPoint = GetMaxPoint(points);
 
             var sumSquare = 0f;
+
             for (var i = 0; i < points.Length; i++)
             {
                 var currentSquare = (float)TriangleGeo.Square(maxPoint.X, maxPoint.Y, points[i].X, points[i].Y, points[(i + 1) % points.Length].X, points[(i + 1) % points.Length].Y);
@@ -243,6 +250,7 @@ namespace GeoPlanarNet
             var maxPoint = GetMaxPoint(points);
 
             var sumSquare = 0;
+
             for (var i = 0; i < points.Length; i++)
             {
                 var currentSquare = (int)TriangleGeo.Square(maxPoint.X, maxPoint.Y, points[i].X, points[i].Y, points[(i + 1) % points.Length].X, points[(i + 1) % points.Length].Y);

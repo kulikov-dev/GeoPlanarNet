@@ -103,7 +103,7 @@ namespace GeoPlanarNet
 
             if (projectionLengthX1 == 0 && projectionLengthY1 == 0)
             {
-                var line1IsPoint = PointGeo.DistanceToSegment(line1x1, line1y1, line2x1, line2y1, line2x2, line2y2) < 0.0001;
+                var line1IsPoint = PointGeo.DistanceToSegment(line1x1, line1y1, line2x1, line2y1, line2x2, line2y2) < Constants.Epsilon;
 
                 if (line1IsPoint)
                 {
@@ -116,7 +116,8 @@ namespace GeoPlanarNet
 
             if (projectionLengthX2 == 0 && projectionLengthY2 == 0)
             {
-                var line2IsPoint = PointGeo.DistanceToSegment(line2x1, line2y1, line1x1, line1y1, line1x2, line1y2) < 0.0001;
+                var line2IsPoint = PointGeo.DistanceToSegment(line2x1, line2y1, line1x1, line1y1, line1x2, line1y2) < Constants.Epsilon;
+
                 if (line2IsPoint)
                 {
                     intesectionX = line2x1;
@@ -311,9 +312,12 @@ namespace GeoPlanarNet
         /// <param name="linePoint2"> Line point 2 </param>
         /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
         /// <param name="yZeroValue"> Y value if x = 0 </param>
-        internal static void FindSlopeKoef(PointF linePoint1, PointF linePoint2, out double slopeKoef, out double yZeroValue)
+        internal static void FindSlopeKoef(PointF linePoint1, PointF linePoint2, out float slopeKoef, out float yZeroValue)
         {
-            FindSlopeKoef(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out slopeKoef, out yZeroValue);
+            FindSlopeKoef(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out double slopeKoefD, out double yZeroValueD);
+
+            slopeKoef = (float)slopeKoefD;
+            yZeroValue = (float)yZeroValueD;
         }
 
         /// <summary>

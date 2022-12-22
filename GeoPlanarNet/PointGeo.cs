@@ -479,6 +479,7 @@ namespace GeoPlanarNet
             }
 
             var firstIndex = 0;
+
             while (firstIndex < area.Count && area[firstIndex].Y.AboutEquals(point.Y))
             {
                 firstIndex++;
@@ -589,6 +590,7 @@ namespace GeoPlanarNet
             }
 
             var firstIndex = 0;
+
             while (firstIndex < area.Count && area[firstIndex].Y == point.Y)
             {
                 firstIndex++;
@@ -929,6 +931,7 @@ namespace GeoPlanarNet
             {
                 projectionPointX = pointX;
                 projectionPointY = b;
+
                 return;
             }
 
@@ -936,6 +939,7 @@ namespace GeoPlanarNet
             {
                 projectionPointX = b;
                 projectionPointY = pointY;
+
                 return;
             }
 
@@ -1015,7 +1019,7 @@ namespace GeoPlanarNet
             var endToProjectionDiff = Distance(segmentEndPointX, segmentEndPointY, projectionPointX, projectionPointY);
             var segmentDiff = Distance(segmentStartPointX, segmentStartPointY, segmentEndPointX, segmentEndPointY);
 
-            return Math.Abs(startToProjectionDiff + endToProjectionDiff - segmentDiff) <= 0.0001;
+            return Math.Abs(startToProjectionDiff + endToProjectionDiff - segmentDiff) <= Constants.Epsilon;
         }
 
         /// <summary>

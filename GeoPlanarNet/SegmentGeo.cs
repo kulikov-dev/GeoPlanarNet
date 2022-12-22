@@ -206,6 +206,7 @@ namespace GeoPlanarNet
         public static bool IsBetweenAngles(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double sectorStartAngleRad, double sectorEndAngleRad)
         {
             var ang = Math.Atan2(segmentEndY - segmentStartY, segmentEndX - segmentStartX);
+
             if (ang < 0)
             {
                 ang += Math.PI * 2;
@@ -300,7 +301,7 @@ namespace GeoPlanarNet
             var maxx2 = Math.Max(segment2StartX, segment2EndX);
             var maxy2 = Math.Max(segment2StartY, segment2EndY);
 
-            if (minx1 > maxx2 + 0.0001 || maxx1 + 0.0001 < minx2 || miny1 > maxy2 + 0.0001 || maxy1 + 0.0001 < miny2)
+            if (minx1 > maxx2 + Constants.Epsilon || maxx1 + Constants.Epsilon < minx2 || miny1 > maxy2 + Constants.Epsilon || maxy1 + Constants.Epsilon < miny2)
             {
                 return false;
             }
@@ -312,7 +313,7 @@ namespace GeoPlanarNet
             var segment2ProjectionН = segment2EndY - segment2StartY;
             var div = (segment2ProjectionН * segment1ProjectionX) - (segment2ProjectionX * segment1ProjectionY);
 
-            if (Math.Abs(div) < 0.0001)
+            if (Math.Abs(div) < Constants.Epsilon)
             {
                 return false;
             }
@@ -321,14 +322,14 @@ namespace GeoPlanarNet
             var segment12ProjectionY = segment1StartY - segment2StartY;
             var koef = ((segment1ProjectionX * segment12ProjectionY) - (segment1ProjectionY * segment12ProjectionX)) / div;
 
-            if (koef < -0.0001 || koef > 1 + 0.0001)
+            if (koef < -Constants.Epsilon || koef > 1 + Constants.Epsilon)
             {
                 return false;
             }
 
             koef = ((segment2ProjectionX * segment12ProjectionY) - (segment2ProjectionН * segment12ProjectionX)) / div;
 
-            if (koef < -0.0001 || koef > 1 + 0.0001)
+            if (koef < -Constants.Epsilon || koef > 1 + Constants.Epsilon)
             {
                 return false;
             }
@@ -381,14 +382,17 @@ namespace GeoPlanarNet
             {
                 newPointX = segment1StartX;
                 newPointY = segment1StartY;
+
                 return;
             }
 
             var segmentLength = PointGeo.Distance(segment1StartX, segment1StartY, segment1EndX, segment1EndY);
-            if (Math.Abs(segmentLength) < 0.0001)
+
+            if (Math.Abs(segmentLength) < Constants.Epsilon)
             {
                 newPointX = segment1StartX;
                 newPointY = segment1StartY;
+
                 return;
             }
 
@@ -442,14 +446,17 @@ namespace GeoPlanarNet
             {
                 newPointX = segmentStartX;
                 newPointY = segmentStartY;
+
                 return;
             }
 
             var segmentLength = PointGeo.Distance(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
-            if (Math.Abs(segmentLength) < 0.0001)
+
+            if (Math.Abs(segmentLength) < Constants.Epsilon)
             {
                 newPointX = segmentStartX;
                 newPointY = segmentStartY;
+
                 return;
             }
 
@@ -639,6 +646,51 @@ namespace GeoPlanarNet
             }
 
             points.Add(segmentEnd);
+            return points;
+        }
+
+        /// <summary>
+        /// Get a rectangle with one side equal to segment, another side equal to length
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="rectangleSideLength"> Another side length </param>
+        /// <returns> Rectangle </returns>
+        public static List<PointF> GetRectangle(PointF segmentStart, PointF segmentEnd, float rectangleSideLength)
+        {
+            LineGeo.FindSlopeKoef(segmentStart, segmentEnd, out float slopeKoef, out float yZeroValue);
+
+            var points = new List<PointF>();
+            var halfLength = (float)rectangleSideLength / 2;
+
+            if (double.IsInfinity(slopeKoef))
+            {
+                points.Add(new PointF(segmentStart.X - halfLength, segmentStart.Y));
+                points.Add(new PointF(segmentStart.X - halfLength, segmentEnd.Y));
+                points.Add(new PointF(segmentStart.X + halfLength, segmentEnd.Y));
+                points.Add(new PointF(segmentStart.X + halfLength, segmentStart.Y));
+
+                return points;
+            }
+
+            var cos = (float)Math.Cos(Math.Atan(slopeKoef));
+            float koefMinus, koefPlus;
+
+            if (slopeKoef < 0)
+            {
+                koefMinus = yZeroValue - (halfLength / cos);
+                koefPlus = yZeroValue + (halfLength / cos);
+            }
+            else
+            {
+                koefMinus = yZeroValue + (halfLength / cos);
+                koefPlus = yZeroValue - (halfLength / cos);
+            }
+
+            points.Add(segmentStart.GetProjectionToLine(slopeKoef, koefMinus));
+            points.Add(segmentEnd.GetProjectionToLine(slopeKoef, koefMinus));
+            points.Add(segmentEnd.GetProjectionToLine(slopeKoef, koefPlus));
+            points.Add(segmentStart.GetProjectionToLine(slopeKoef, koefPlus));
             return points;
         }
     }

@@ -305,48 +305,18 @@ namespace GeoPlanarNet
 
         #endregion
 
-        /// <summary>
-        /// Rotate point around the center
-        /// </summary>
-        /// <param name="point"> Source point </param>
-        /// <param name="center"> Center point </param>
-        /// <param name="angleRadian"> Angle in radians </param>
-        /// <returns> Rotated point </returns>
-        public static PointF Rotate(this PointF point, PointF center, double angleRadian)
-        {
-            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out double rotatedPointX, out double rotatedPointY);
-            return new PointF((float)rotatedPointX, (float)rotatedPointY);
-        }
+        #region BelongsTo
 
         /// <summary>
-        /// Rotate point around the center
+        /// Check if a point belongs to a segment
         /// </summary>
-        /// <param name="point"> Source point </param>
-        /// <param name="center"> Center point </param>
-        /// <param name="angleRadian"> Angle in radians </param>
-        /// <returns> Rotated point </returns>
-        public static Point Rotate(this Point point, Point center, double angleRadian)
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> Flag if the point belongs to the segment </returns>
+        public static bool BelongsToSegment(this PointF point, PointF segmentStart, PointF segmentEnd)
         {
-            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out double rotatedPointX, out double rotatedPointY);
-            return new Point((int)rotatedPointX, (int)rotatedPointY);
-        }
-
-        /// <summary>
-        /// Rotate point around the center
-        /// </summary>
-        /// <param name="pointX">Point: X coordinate </param>
-        /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="centerX"> Center point: X coordinate </param>
-        /// <param name="centerY"> Center point: Y coordinate </param>
-        /// <param name="angleRadian"> Angle in radians </param>
-        /// <returns> Rotated point </returns>
-        public static void Rotate(double pointX, double pointY, double centerX, double centerY, double angleRadian, out double rotatedPointX, out double rotatedPointY)
-        {
-            var diffX = pointX - centerX;
-            var diffY = pointY - centerY;
-
-            rotatedPointX = centerX + (diffX * Math.Cos(angleRadian)) - (diffY * Math.Sin(angleRadian));
-            rotatedPointY = centerY + (diffX * Math.Sin(angleRadian)) + (diffY * Math.Cos(angleRadian));
+            return BelongsToSegment(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
 
         /// <summary>
@@ -356,21 +326,9 @@ namespace GeoPlanarNet
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
         /// <returns> Flag if the point belongs to the segment </returns>
-        public static bool InSegment(this PointF point, PointF segmentStart, PointF segmentEnd)
+        public static bool BelongsToSegment(this Point point, Point segmentStart, Point segmentEnd)
         {
-            return InSegment(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
-        }
-
-        /// <summary>
-        /// Check if a point belongs to a segment
-        /// </summary>
-        /// <param name="point"> Point </param>
-        /// <param name="segmentStart"> Segment start point </param>
-        /// <param name="segmentEnd"> Segment end point </param>
-        /// <returns> Flag if the point belongs to the segment </returns>
-        public static bool InSegment(this Point point, Point segmentStart, Point segmentEnd)
-        {
-            return InSegment(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+            return BelongsToSegment(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
 
         /// <summary>
@@ -383,7 +341,7 @@ namespace GeoPlanarNet
         /// <param name="segmentEndX"> Segment end point: X coordinate </param>
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <returns> Flag if the point belongs to the segment </returns>
-        public static bool InSegment(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        public static bool BelongsToSegment(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
             return DistanceTo(segmentStartX, segmentStartY, pointX, pointY) + DistanceTo(segmentEndX, segmentEndY, pointX, pointY) == DistanceTo(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
         }
@@ -395,9 +353,9 @@ namespace GeoPlanarNet
         /// <param name="circleCenter"> Circle center </param>
         /// <param name="radius"> Circle radius </param>
         /// <returns> Flag if the point belongs to the cirle </returns>
-        public static bool InCircle(this PointF point, PointF circleCenter, float radius)
+        public static bool BelongsToCircle(this PointF point, PointF circleCenter, float radius)
         {
-            return InCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius);
+            return BelongsToCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius);
         }
 
         /// <summary>
@@ -407,9 +365,9 @@ namespace GeoPlanarNet
         /// <param name="circleCenter"> Circle center </param>
         /// <param name="radius"> Circle radius </param>
         /// <returns> Flag if the point belongs to the cirle </returns>
-        public static bool InCircle(this Point point, Point circleCenter, double radius)
+        public static bool BelongsToCircle(this Point point, Point circleCenter, double radius)
         {
-            return InCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius);
+            return BelongsToCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius);
 
         }
 
@@ -422,7 +380,7 @@ namespace GeoPlanarNet
         /// <param name="circleCenterY"> Circle center: X coordinate </param>
         /// <param name="radius"> Circle radius </param>
         /// <returns> Flag if the point belongs to the cirle </returns>
-        public static bool InCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius)
+        public static bool BelongsToCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius)
         {
             return Math.Pow(pointX - circleCenterX, 2) + Math.Pow(pointY - circleCenterY, 2) <= Math.Pow(radius, 2);
         }
@@ -436,9 +394,9 @@ namespace GeoPlanarNet
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
         /// <returns> Flag if the point belongs to the cirle sector </returns>
-        public static bool InCircleSector(this PointF point, PointF circleCenter, float radius, float sectorStartAngleRad, float sectorEndAngleRad)
+        public static bool BelongsToCircleSector(this PointF point, PointF circleCenter, float radius, float sectorStartAngleRad, float sectorEndAngleRad)
         {
-            return InCircleSector(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, sectorStartAngleRad, sectorEndAngleRad);
+            return BelongsToCircleSector(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, sectorStartAngleRad, sectorEndAngleRad);
         }
 
         /// <summary>
@@ -450,9 +408,9 @@ namespace GeoPlanarNet
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
         /// <returns> Flag if the point belongs to the cirle sector </returns>
-        public static bool InCircleSector(this Point point, Point circleCenter, int radius, int sectorStartAngleRad, int sectorEndAngleRad)
+        public static bool BelongsToCircleSector(this Point point, Point circleCenter, int radius, int sectorStartAngleRad, int sectorEndAngleRad)
         {
-            return InCircleSector(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, sectorStartAngleRad, sectorEndAngleRad);
+            return BelongsToCircleSector(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, sectorStartAngleRad, sectorEndAngleRad);
         }
 
         /// <summary>
@@ -466,9 +424,9 @@ namespace GeoPlanarNet
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
         /// <returns> Flag if the point belongs to the cirle sector </returns>
-        public static bool InCircleSector(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius, double sectorStartAngleRad, double sectorEndAngleRad)
+        public static bool BelongsToCircleSector(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius, double sectorStartAngleRad, double sectorEndAngleRad)
         {
-            return InCircle(pointX, pointY, circleCenterX, circleCenterY, radius) && SegmentGeo.IsBetweenAngles(pointX, pointY, circleCenterX, circleCenterY, sectorStartAngleRad, sectorEndAngleRad);
+            return BelongsToCircle(pointX, pointY, circleCenterX, circleCenterY, radius) && SegmentGeo.IsBetweenAngles(pointX, pointY, circleCenterX, circleCenterY, sectorStartAngleRad, sectorEndAngleRad);
         }
 
         /// <summary>
@@ -479,9 +437,9 @@ namespace GeoPlanarNet
         /// <param name="radiusX"> Radius on X axis </param>
         /// <param name="radiusY"> Radius on Y axis </param>
         /// <returns> Flag if the point belongs to the ellipse </returns>
-        public static bool InEllipse(this PointF point, PointF ellipseCenter, float radiusX, float radiusY)
+        public static bool BelongsToEllipse(this PointF point, PointF ellipseCenter, float radiusX, float radiusY)
         {
-            return InEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY);
+            return BelongsToEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY);
         }
 
         /// <summary>
@@ -492,9 +450,9 @@ namespace GeoPlanarNet
         /// <param name="radiusX"> Radius on X axis </param>
         /// <param name="radiusY"> Radius on Y axis </param>
         /// <returns> Flag if the point belongs to the ellipse </returns>
-        public static bool InEllipse(this Point point, Point ellipseCenter, int radiusX, int radiusY)
+        public static bool BelongsToEllipse(this Point point, Point ellipseCenter, int radiusX, int radiusY)
         {
-            return InEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY);
+            return BelongsToEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY);
         }
 
         /// <summary>
@@ -507,7 +465,7 @@ namespace GeoPlanarNet
         /// <param name="radiusX"> Radius on X axis </param>
         /// <param name="radiusY"> Radius on Y axis </param>
         /// <returns> Flag if the point belongs to the ellipse </returns>
-        public static bool InEllipse(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double radiusX, double radiusY)
+        public static bool BelongsToEllipse(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double radiusX, double radiusY)
         {
             return (Math.Pow(pointX - ellipseCenterX, 2) / Math.Pow(radiusX, 2)) + (Math.Pow(pointY - ellipseCenterY, 2) / Math.Pow(radiusY, 2)) <= 1;
         }
@@ -522,9 +480,9 @@ namespace GeoPlanarNet
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
         /// <returns> Flag if the point belongs to the ellipse sector </returns>
-        public static bool InEllipseSector(PointF point, PointF ellipseCenter, float radiusX, float radiusY, float sectorStartAngleRad, float sectorEndAngleRad)
+        public static bool BelongsToEllipseSector(PointF point, PointF ellipseCenter, float radiusX, float radiusY, float sectorStartAngleRad, float sectorEndAngleRad)
         {
-            return InEllipseSector(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY, sectorStartAngleRad, sectorEndAngleRad);
+            return BelongsToEllipseSector(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY, sectorStartAngleRad, sectorEndAngleRad);
         }
 
         /// <summary>
@@ -537,9 +495,9 @@ namespace GeoPlanarNet
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
         /// <returns> Flag if the point belongs to the ellipse sector </returns>
-        public static bool InEllipseSector(Point point, Point ellipseCenter, int radiusX, int radiusY, int sectorStartAngleRad, int sectorEndAngleRad)
+        public static bool BelongsToEllipseSector(Point point, Point ellipseCenter, int radiusX, int radiusY, int sectorStartAngleRad, int sectorEndAngleRad)
         {
-            return InEllipseSector(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY, sectorStartAngleRad, sectorEndAngleRad);
+            return BelongsToEllipseSector(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY, sectorStartAngleRad, sectorEndAngleRad);
         }
 
         /// <summary>
@@ -554,9 +512,9 @@ namespace GeoPlanarNet
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
         /// <returns> Flag if the point belongs to the ellipse sector </returns>
-        public static bool InEllipseSector(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double radiusX, double radiusY, double sectorStartAngleRad, double sectorEndAngleRad)
+        public static bool BelongsToEllipseSector(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double radiusX, double radiusY, double sectorStartAngleRad, double sectorEndAngleRad)
         {
-            return InEllipse(pointX, pointY, ellipseCenterX, ellipseCenterY, radiusX, radiusY) && SegmentGeo.IsBetweenAngles(pointX, pointY, ellipseCenterX, ellipseCenterY, sectorStartAngleRad, sectorEndAngleRad);
+            return BelongsToEllipse(pointX, pointY, ellipseCenterX, ellipseCenterY, radiusX, radiusY) && SegmentGeo.IsBetweenAngles(pointX, pointY, ellipseCenterX, ellipseCenterY, sectorStartAngleRad, sectorEndAngleRad);
         }
 
         /// <summary>
@@ -567,9 +525,9 @@ namespace GeoPlanarNet
         /// <param name="apex2"> Triangle apex 2 </param>
         /// <param name="apex3"> Triangle apex 3 </param>
         /// <returns> Flag if the point belongs to the triangle </returns>
-        public static bool InTriangle(this PointF point, PointF apex1, PointF apex2, PointF apex3)
+        public static bool BelongsToTriangle(this PointF point, PointF apex1, PointF apex2, PointF apex3)
         {
-            return InTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+            return BelongsToTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
         }
 
         /// <summary>
@@ -580,9 +538,9 @@ namespace GeoPlanarNet
         /// <param name="apex2"> Triangle apex 2 </param>
         /// <param name="apex3"> Triangle apex 3 </param>
         /// <returns> Flag if the point belongs to the triangle </returns>
-        public static bool InTriangle(this Point point, Point apex1, Point apex2, Point apex3)
+        public static bool BelongsToTriangle(this Point point, Point apex1, Point apex2, Point apex3)
         {
-            return InTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+            return BelongsToTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
         }
 
         /// <summary>
@@ -597,11 +555,11 @@ namespace GeoPlanarNet
         /// <param name="apex3X"> Apex 3: X Coordinate </param>
         /// <param name="apex3Y"> Apex 3: Y Coordinate </param>
         /// <returns> Flag if the point belongs to the triangle </returns>
-        public static bool InTriangle(double pointX, double pointY, double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
+        public static bool BelongsToTriangle(double pointX, double pointY, double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
         {
-            return (GetRelativeLocation(pointX, pointY, apex1X, apex1Y, apex2X, apex2Y) != PointRelativeLocation.Left) &&
-                    (GetRelativeLocation(pointX, pointY, apex2X, apex2Y, apex3X, apex3Y) != PointRelativeLocation.Left) &&
-                    (GetRelativeLocation(pointX, pointY, apex3X, apex3Y, apex1X, apex1Y) != PointRelativeLocation.Left);
+            return (GetRelativeLocation(pointX, pointY, apex1X, apex1Y, apex2X, apex2Y) != PointAgainstSegmentLocation.Left) &&
+                    (GetRelativeLocation(pointX, pointY, apex2X, apex2Y, apex3X, apex3Y) != PointAgainstSegmentLocation.Left) &&
+                    (GetRelativeLocation(pointX, pointY, apex3X, apex3Y, apex1X, apex1Y) != PointAgainstSegmentLocation.Left);
         }
 
         /// <summary>
@@ -611,7 +569,7 @@ namespace GeoPlanarNet
         /// <param name="area"> Area </param>
         /// <param name="epsilon"> Accuracy </param>
         /// <returns> Flag if the point belongs to the area </returns>
-        public static bool InArea(this PointF point, IList<PointF> area, float epsilon = float.Epsilon)
+        public static bool BelongsToSurface(this PointF point, IList<PointF> area, float epsilon = float.Epsilon)
         {
             var pointsInAreaCount = area.Count - 1;
 
@@ -722,7 +680,7 @@ namespace GeoPlanarNet
         /// <param name="area"> Area </param>
         /// <param name="epsilon"> Accuracy </param>
         /// <returns> Flag if the point belongs to the area </returns>
-        public static bool InArea(this Point point, IList<Point> area, double epsilon = double.Epsilon)
+        public static bool BelongsToSurface(this Point point, IList<Point> area, double epsilon = double.Epsilon)
         {
             var pointsInAreaCount = area.Count - 1;
 
@@ -826,6 +784,52 @@ namespace GeoPlanarNet
             return (left % 2 == 1) && iterations <= pointsInAreaCount;
         }
 
+        #endregion
+
+        /// <summary>
+        /// Rotate point around the center
+        /// </summary>
+        /// <param name="point"> Source point </param>
+        /// <param name="center"> Center point </param>
+        /// <param name="angleRadian"> Angle in radians </param>
+        /// <returns> Rotated point </returns>
+        public static PointF Rotate(this PointF point, PointF center, double angleRadian)
+        {
+            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out double rotatedPointX, out double rotatedPointY);
+            return new PointF((float)rotatedPointX, (float)rotatedPointY);
+        }
+
+        /// <summary>
+        /// Rotate point around the center
+        /// </summary>
+        /// <param name="point"> Source point </param>
+        /// <param name="center"> Center point </param>
+        /// <param name="angleRadian"> Angle in radians </param>
+        /// <returns> Rotated point </returns>
+        public static Point Rotate(this Point point, Point center, double angleRadian)
+        {
+            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out double rotatedPointX, out double rotatedPointY);
+            return new Point((int)rotatedPointX, (int)rotatedPointY);
+        }
+
+        /// <summary>
+        /// Rotate point around the center
+        /// </summary>
+        /// <param name="pointX">Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="centerX"> Center point: X coordinate </param>
+        /// <param name="centerY"> Center point: Y coordinate </param>
+        /// <param name="angleRadian"> Angle in radians </param>
+        /// <returns> Rotated point </returns>
+        public static void Rotate(double pointX, double pointY, double centerX, double centerY, double angleRadian, out double rotatedPointX, out double rotatedPointY)
+        {
+            var diffX = pointX - centerX;
+            var diffY = pointY - centerY;
+
+            rotatedPointX = centerX + (diffX * Math.Cos(angleRadian)) - (diffY * Math.Sin(angleRadian));
+            rotatedPointY = centerY + (diffX * Math.Sin(angleRadian)) + (diffY * Math.Cos(angleRadian));
+        }
+
         /// <summary>
         /// Calc vector product between point and segment
         /// </summary>
@@ -888,7 +892,7 @@ namespace GeoPlanarNet
         /// <param name="segmentEnd"> Segment end point </param>
         /// <returns> Point relative location </returns>
         /// <remarks> Faster </remarks>
-        public static PointSimpleRelativeLocation GetRelativeLocationFast(this PointF point, PointF segmentStart, PointF segmentEnd)
+        public static PointAgainstSegmentSimpleLocation GetRelativeLocationFast(this PointF point, PointF segmentStart, PointF segmentEnd)
         {
             return GetRelativeLocationFast(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
@@ -901,7 +905,7 @@ namespace GeoPlanarNet
         /// <param name="segmentEnd"> Segment end point </param>
         /// <returns> Point relative location </returns>
         /// <remarks> Faster </remarks>
-        public static PointSimpleRelativeLocation GetRelativeLocationFast(this Point point, Point segmentStart, Point segmentEnd)
+        public static PointAgainstSegmentSimpleLocation GetRelativeLocationFast(this Point point, Point segmentStart, Point segmentEnd)
         {
             return GetRelativeLocationFast(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
@@ -917,7 +921,7 @@ namespace GeoPlanarNet
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <returns> Point relative location </returns>
         /// <remarks> Faster </remarks>
-        public static PointSimpleRelativeLocation GetRelativeLocationFast(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        public static PointAgainstSegmentSimpleLocation GetRelativeLocationFast(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
             return GetRelativeLocationFast((float)pointX, pointY, segmentStartX, segmentStartY, segmentEndX, segmentEndY);
         }
@@ -929,7 +933,7 @@ namespace GeoPlanarNet
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
         /// <returns> Point relative location </returns>
-        public static PointRelativeLocation GetRelativeLocation(PointF point, PointF segmentStart, PointF segmentEnd)
+        public static PointAgainstSegmentLocation GetRelativeLocation(PointF point, PointF segmentStart, PointF segmentEnd)
         {
             return GetRelativeLocation(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
@@ -941,7 +945,7 @@ namespace GeoPlanarNet
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
         /// <returns> Point relative location </returns>
-        public static PointRelativeLocation GetRelativeLocation(Point point, Point segmentStart, Point segmentEnd)
+        public static PointAgainstSegmentLocation GetRelativeLocation(Point point, Point segmentStart, Point segmentEnd)
         {
             return GetRelativeLocation(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
         }
@@ -956,7 +960,7 @@ namespace GeoPlanarNet
         /// <param name="segmentEndX"> Segment end point: X coordinate </param>
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <returns> Point relative location </returns>
-        public static PointRelativeLocation GetRelativeLocation(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        public static PointAgainstSegmentLocation GetRelativeLocation(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
             var diffSegmentX = segmentEndX - segmentStartX;
             var diffSegmentY = segmentEndY - segmentStartY;
@@ -968,35 +972,35 @@ namespace GeoPlanarNet
 
             if (diffKoef > 0.0)
             {
-                return PointRelativeLocation.Left;
+                return PointAgainstSegmentLocation.Left;
             }
 
             if (diffKoef < 0.0)
             {
-                return PointRelativeLocation.Right;
+                return PointAgainstSegmentLocation.Right;
             }
 
             if ((diffSegmentX * diffToPointX < 0.0) || (diffSegmentY * diffToPointY < 0.0))
             {
-                return PointRelativeLocation.Behind;
+                return PointAgainstSegmentLocation.Behind;
             }
 
             if (((diffSegmentX * diffSegmentX) + (diffSegmentY * diffSegmentY)) < ((diffToPointX * diffToPointX) + (diffToPointY * diffToPointY)))
             {
-                return PointRelativeLocation.Beyond;
+                return PointAgainstSegmentLocation.Beyond;
             }
 
             if (segmentStartX == pointX && segmentStartY == pointY)
             {
-                return PointRelativeLocation.Start;
+                return PointAgainstSegmentLocation.Start;
             }
 
             if (segmentEndX == pointX && segmentEndY == pointY)
             {
-                return PointRelativeLocation.End;
+                return PointAgainstSegmentLocation.End;
             }
 
-            return PointRelativeLocation.Between;
+            return PointAgainstSegmentLocation.Between;
         }
 
         /// <summary>
@@ -1213,6 +1217,45 @@ namespace GeoPlanarNet
                                                   out double projectionPointX, out double projectionPointY)
         {
             GetProjectionToLine(pointX, pointY, segmentStartPointX, segmentStartPointY, segmentEndPointX, segmentEndPointY, out projectionPointX, out projectionPointY);
+        }
+
+        /// <summary>
+        /// Check if three points are collinear
+        /// </summary>
+        /// <param name="point1"> Point 1 </param>
+        /// <param name="point2"> Point 2 </param>
+        /// <param name="point3"> Point 3 </param>
+        /// <returns> Flag, if points are collinear </returns>
+        public static bool IsCollinear(this PointF point1, PointF point2, PointF point3)
+        {
+            return IsCollinear(point1.X, point1.Y, point2.X, point2.Y, point3.X, point3.Y);
+        }
+
+        /// <summary>
+        /// Check if three points are collinear
+        /// </summary>
+        /// <param name="point1"> Point 1 </param>
+        /// <param name="point2"> Point 2 </param>
+        /// <param name="point3"> Point 3 </param>
+        /// <returns> Flag, if points are collinear </returns>
+        public static bool IsCollinear(this Point point1, Point point2, Point point3)
+        {
+            return IsCollinear(point1.X, point1.Y, point2.X, point2.Y, point3.X, point3.Y);
+        }
+
+        /// <summary>
+        /// Check if three points are collinear
+        /// </summary>
+        /// <param name="point1X"> Point 1: X coordinate </param>
+        /// <param name="point1Y"> Point 1: Y coordinate </param>
+        /// <param name="point2X"> Point 2: X coordinate </param>
+        /// <param name="point2Y"> Point 2: Y coordinate </param>
+        /// <param name="point3X"> Point 3: X coordinate </param>
+        /// <param name="point3Y"> Point 3: Y coordinate </param>
+        /// <returns> Flag, if points are collinear </returns>
+        public static bool IsCollinear(double point1X, double point1Y, double point2X, double point2Y, double point3X, double point3Y)
+        {
+            return Math.Abs((point3Y - point2Y) * (point2X - point1X) - (point2Y - point1Y) * (point3X - point2X)) < GeoPlanarNet.Epsilon;
         }
     }
 }

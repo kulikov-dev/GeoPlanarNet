@@ -3,7 +3,7 @@
     /// <summary>
     /// Point location against a segment
     /// </summary>
-    public enum PointRelativeLocation
+    public enum PointAgainstSegmentLocation
     {
         /// <summary>
         /// Left

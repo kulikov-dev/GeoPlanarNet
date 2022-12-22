@@ -604,6 +604,24 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
+        /// Check if the point belongs to the rectangle
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="rectLeftTopPointX"> Rectangle left-top point: X coordinate </param>
+        /// <param name="rectLeftTopPointY"> Rectangle left-top point: Y coordinate </param>
+        /// <param name="rectWidth"> Rectangle width </param>
+        /// <param name="rectHeight"> Rectangle height </param>
+        /// <returns> Flag, if belongs to the rectangle </returns>
+        public static bool BelongsToRect(double pointX, double pointY, double rectLeftTopPointX, double rectLeftTopPointY, double rectWidth, double rectHeight)
+        {
+            return (GetRelativeLocation(pointX, pointY, rectLeftTopPointX, rectLeftTopPointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY) != PointAgainstSegmentLocation.Left) &&
+                    (GetRelativeLocation(pointX, pointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY + rectHeight) != PointAgainstSegmentLocation.Left) &&
+                    (GetRelativeLocation(pointX, pointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY + rectHeight, rectLeftTopPointX, rectLeftTopPointY + rectHeight) != PointAgainstSegmentLocation.Left) &&
+                    (GetRelativeLocation(pointX, pointY, rectLeftTopPointX, rectLeftTopPointY + rectHeight, rectLeftTopPointX, rectLeftTopPointY) != PointAgainstSegmentLocation.Left);
+        }
+
+        /// <summary>
         /// Check if a point belongs to an area
         /// </summary>
         /// <param name="point"> Point </param>

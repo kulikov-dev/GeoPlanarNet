@@ -2,12 +2,12 @@
 
 namespace GeoPlanarNet
 {
-    public static class AreaGeo
+    public static class SurfaceGeo
     {
         /// <summary>
-        /// Get area square
+        /// Get surface square
         /// </summary>
-        /// <param name="points"> Area </param>
+        /// <param name="points"> Surface </param>
         /// <returns> Square </returns>
         public static float Square(PointF[] points)
         {
@@ -22,9 +22,9 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get area square
+        /// Get surface square
         /// </summary>
-        /// <param name="points"> Area </param>
+        /// <param name="points"> Surface </param>
         /// <returns> Square </returns>
         public static double Square(Point[] points)
         {
@@ -39,9 +39,9 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a minimum point of an area
+        /// Get a minimum point of the surface
         /// </summary>
-        /// <param name="points"> Area </param>
+        /// <param name="points"> Surface </param>
         /// <returns> Minumum point </returns>
         public static PointF GetMinPoint(PointF[] points)
         {
@@ -82,9 +82,9 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a maximum point of an area
+        /// Get a maximum point of the surface
         /// </summary>
-        /// <param name="points"> Area </param>
+        /// <param name="points"> Surface </param>
         /// <returns> Maximum point </returns>
         public static PointF GetMaxPoint(PointF[] points)
         {
@@ -126,9 +126,9 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a minimum point of an area
+        /// Get a minimum point of the surface
         /// </summary>
-        /// <param name="points"> Area </param>
+        /// <param name="points"> Surface </param>
         /// <returns> Minumum point </returns>
         public static Point GetMinPoint(Point[] points)
         {
@@ -169,9 +169,9 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a maximum point of an area
+        /// Get a maximum point of the surface
         /// </summary>
-        /// <param name="points"> Area </param>
+        /// <param name="points"> Surface </param>
         /// <returns> Maximum point </returns>
         public static Point GetMaxPoint(Point[] points)
         {
@@ -213,9 +213,9 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get area center point
+        /// Get the surface center point
         /// </summary>
-        /// <param name="points"> Area </param>
+        /// <param name="points"> Surface </param>
         /// <returns> Center point </returns>
         public static PointF GetCenterPoint(PointF[] points)
         {
@@ -226,7 +226,7 @@ namespace GeoPlanarNet
 
             for (var i = 0; i < points.Length; i++)
             {
-                var currentSquare = (float)TriangleGeo.Square(maxPoint.X, maxPoint.Y, points[i].X, points[i].Y, points[(i + 1) % points.Length].X, points[(i + 1) % points.Length].Y);
+                var currentSquare = (float)TriangleGeo.Area(maxPoint.X, maxPoint.Y, points[i].X, points[i].Y, points[(i + 1) % points.Length].X, points[(i + 1) % points.Length].Y);
 
                 centerPoint.X += currentSquare * (maxPoint.X + points[i].X + points[(i + 1) % points.Length].X) / 3;
                 centerPoint.Y += currentSquare * (maxPoint.Y + points[i].Y + points[(i + 1) % points.Length].Y) / 3;
@@ -240,9 +240,9 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get area center point
+        /// Get the surface center point
         /// </summary>
-        /// <param name="points"> Area </param>
+        /// <param name="points"> Surface </param>
         /// <returns> Center point </returns>
         public static Point GetCenterPoint(Point[] points)
         {
@@ -253,7 +253,7 @@ namespace GeoPlanarNet
 
             for (var i = 0; i < points.Length; i++)
             {
-                var currentSquare = (int)TriangleGeo.Square(maxPoint.X, maxPoint.Y, points[i].X, points[i].Y, points[(i + 1) % points.Length].X, points[(i + 1) % points.Length].Y);
+                var currentSquare = (int)TriangleGeo.Area(maxPoint.X, maxPoint.Y, points[i].X, points[i].Y, points[(i + 1) % points.Length].X, points[(i + 1) % points.Length].Y);
 
                 centerPoint.X += currentSquare * (maxPoint.X + points[i].X + points[(i + 1) % points.Length].X) / 3;
                 centerPoint.Y += currentSquare * (maxPoint.Y + points[i].Y + points[(i + 1) % points.Length].Y) / 3;
@@ -265,11 +265,11 @@ namespace GeoPlanarNet
 
             return centerPoint;
         }
-        
+
         /// <summary>
-        /// Get a rectangle covering an entire area
+        /// Get the rectangle covering the entire surface
         /// </summary>
-        /// <param name="points"> Area </param>
+        /// <param name="points"> Surface </param>
         /// <returns> Rectangle </returns>
         public static RectangleF GetRectangle(PointF[] points)
         {
@@ -290,9 +290,9 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a rectangle covering an entire area
+        /// Get the rectangle covering the entire surface
         /// </summary>
-        /// <param name="points"> Area </param>
+        /// <param name="points"> Surface </param>
         /// <returns> Rectangle </returns>
         public static Rectangle GetRectangle(Point[] points)
         {

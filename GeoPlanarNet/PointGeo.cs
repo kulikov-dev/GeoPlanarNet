@@ -8,15 +8,17 @@ namespace GeoPlanarNet
     /// </summary>
     public static class PointGeo
     {
+        #region DistanceTo
+
         /// <summary>
         /// Get distance between two points
         /// </summary>
         /// <param name="point1"> Point 1 </param>
         /// <param name="point2"> Point 2</param>
         /// <returns> Distance </returns>
-        public static double Distance(this PointF point1, PointF point2)
+        public static double DistanceTo(this PointF point1, PointF point2)
         {
-            return Distance(point1.X, point1.Y, point2.X, point2.Y);
+            return DistanceTo(point1.X, point1.Y, point2.X, point2.Y);
         }
 
         /// <summary>
@@ -25,9 +27,9 @@ namespace GeoPlanarNet
         /// <param name="point1"> Point 1 </param>
         /// <param name="point2"> Point 2</param>
         /// <returns> Distance </returns>
-        public static double Distance(this Point point1, Point point2)
+        public static double DistanceTo(this Point point1, Point point2)
         {
-            return Distance(point1.X, point1.Y, point2.X, point2.Y);
+            return DistanceTo(point1.X, point1.Y, point2.X, point2.Y);
         }
 
         /// <summary>
@@ -38,13 +40,13 @@ namespace GeoPlanarNet
         /// <param name="point2X"> Point 2: X coordinate </param>
         /// <param name="point2Y"> Point 2: Y coordinate </param>
         /// <returns> Distance </returns>
-        public static double Distance(double point1X, double point1Y, double point2X, double point2Y)
+        public static double DistanceTo(double point1X, double point1Y, double point2X, double point2Y)
         {
             return Math.Sqrt(Math.Pow(point1X - point2X, 2) + Math.Pow(point1Y - point2Y, 2));
         }
 
         /// <summary>
-        /// Get distance to a line
+        /// Get shortest distance to the line
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="linePoint1"> Line first point </param>
@@ -56,7 +58,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get distance to a line
+        /// Get shortest distance to the line
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="linePoint1"> Line first point </param>
@@ -68,7 +70,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get distance to a line
+        /// Get shortest distance to the line
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -87,7 +89,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get distance to segment
+        /// Get shortest distance from point to the segment
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="segmentStart"> Segment start point </param>
@@ -99,7 +101,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get distance to segment
+        /// Get shortest distance from point to the segment
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="segmentStart"> Segment start point </param>
@@ -111,7 +113,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get distance to a segment
+        /// Get shortest distance from point to the segment
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -138,10 +140,53 @@ namespace GeoPlanarNet
             var diffPointSegmentEndX = pointX - segmentEndX;
             var diffPointSegmentEndY = pointY - segmentEndY;
 
-            return Math.Min(
-                            Math.Sqrt(Math.Pow(diffPointSegmentStartX, 2) + Math.Pow(diffPointSegmentStartY, 2)),
+            return Math.Min(Math.Sqrt(Math.Pow(diffPointSegmentStartX, 2) + Math.Pow(diffPointSegmentStartY, 2)),
                             Math.Sqrt(Math.Pow(diffPointSegmentEndX, 2) + Math.Pow(diffPointSegmentEndY, 2)));
         }
+
+        /// <summary>
+        /// Get shortest distance from point to the axis-oriented rectangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <returns> Distance from the point to the rectangle </returns>
+        public static double DistanceToRect(this PointF point, RectangleF rect)
+        {
+            return DistanceToRect(point.X, point.Y, rect.X, rect.Y, rect.Width, rect.Height);
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the axis-oriented rectangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <returns> Distance from the point to the rectangle </returns>
+        public static double DistanceToRect(this Point point, Rectangle rect)
+        {
+            return DistanceToRect(point.X, point.Y, rect.X, rect.Y, rect.Width, rect.Height);
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the rectangle
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="rectLeftTopPointX"> Rectangle left-top point: X coordinate </param>
+        /// <param name="rectLeftTopPointY"> Rectangle left-top point: Y coordinate </param>
+        /// <param name="rectWidth"> Rectangle width </param>
+        /// <param name="rectHeight"> Rectangle height </param>
+        /// <returns> Distance from the point to the rectangle </returns>
+        public static double DistanceToRect(double pointX, double pointY, double rectLeftTopPointX, double rectLeftTopPointY, double rectWidth, double rectHeight)
+        {
+            var distanceAB = DistanceToSegment(pointX, pointY, rectLeftTopPointX, rectLeftTopPointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY);
+            var distanceBC = DistanceToSegment(pointX, pointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY + rectHeight);
+            var distanceCD = DistanceToSegment(pointX, pointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY + rectHeight, rectLeftTopPointX, rectLeftTopPointY + rectHeight);
+            var distanceDA = DistanceToSegment(pointX, pointY, rectLeftTopPointX, rectLeftTopPointY + rectHeight, rectLeftTopPointX, rectLeftTopPointY);
+
+            return Math.Min(distanceAB, Math.Min(distanceBC, Math.Min(distanceCD, distanceDA)));
+        }
+
+        #endregion
 
         /// <summary>
         /// Rotate point around the center
@@ -235,7 +280,7 @@ namespace GeoPlanarNet
         /// <returns> Flag if the point belongs to the segment </returns>
         public static bool InSegment(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
-            return Distance(segmentStartX, segmentStartY, pointX, pointY) + Distance(segmentEndX, segmentEndY, pointX, pointY) == Distance(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+            return DistanceTo(segmentStartX, segmentStartY, pointX, pointY) + DistanceTo(segmentEndX, segmentEndY, pointX, pointY) == DistanceTo(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
         }
 
         /// <summary>
@@ -858,7 +903,7 @@ namespace GeoPlanarNet
         /// <returns> Flag if equals </returns>
         public static bool Equals(this PointF point1, PointF point2, float eps)
         {
-            return Distance(point1, point2) <= eps;
+            return DistanceTo(point1, point2) <= eps;
         }
 
         /// <summary>
@@ -870,7 +915,7 @@ namespace GeoPlanarNet
         /// <returns> Flag if equals </returns>
         public static bool Equals(this Point point1, Point point2, double eps)
         {
-            return Distance(point1, point2) <= eps;
+            return DistanceTo(point1, point2) <= eps;
         }
 
         /// <summary>
@@ -883,7 +928,7 @@ namespace GeoPlanarNet
         /// <returns> Flag if equals </returns>
         public static bool Equals(double point1X, double point1Y, double point2X, double point2Y, double eps)
         {
-            return Distance(point1X, point1Y, point2X, point2Y) <= eps;
+            return DistanceTo(point1X, point1Y, point2X, point2Y) <= eps;
         }
 
         /// <summary>
@@ -1015,11 +1060,11 @@ namespace GeoPlanarNet
         {
             GetProjectionToLine(pointX, pointY, segmentStartPointX, segmentStartPointY, segmentEndPointX, segmentEndPointY, out double projectionPointX, out double projectionPointY);
 
-            var startToProjectionDiff = Distance(segmentStartPointX, segmentStartPointY, projectionPointX, projectionPointY);
-            var endToProjectionDiff = Distance(segmentEndPointX, segmentEndPointY, projectionPointX, projectionPointY);
-            var segmentDiff = Distance(segmentStartPointX, segmentStartPointY, segmentEndPointX, segmentEndPointY);
+            var startToProjectionDiff = DistanceTo(segmentStartPointX, segmentStartPointY, projectionPointX, projectionPointY);
+            var endToProjectionDiff = DistanceTo(segmentEndPointX, segmentEndPointY, projectionPointX, projectionPointY);
+            var segmentDiff = DistanceTo(segmentStartPointX, segmentStartPointY, segmentEndPointX, segmentEndPointY);
 
-            return Math.Abs(startToProjectionDiff + endToProjectionDiff - segmentDiff) <= Constants.Epsilon;
+            return Math.Abs(startToProjectionDiff + endToProjectionDiff - segmentDiff) <= GeoPlanarNet.Tolerance;
         }
 
         /// <summary>

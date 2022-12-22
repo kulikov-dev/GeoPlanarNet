@@ -15,7 +15,7 @@ namespace GeoPlanarNet
 
             for (var i = 0; i < curve.Count - 1; ++i)
             {
-                length += PointGeo.Distance(curve[i], curve[i + 1]);
+                length += PointGeo.DistanceTo(curve[i], curve[i + 1]);
             }
 
             return length;
@@ -32,7 +32,7 @@ namespace GeoPlanarNet
 
             for (var i = 0; i < curve.Count - 1; ++i)
             {
-                length += PointGeo.Distance(curve[i], curve[i + 1]);
+                length += PointGeo.DistanceTo(curve[i], curve[i + 1]);
             }
 
             return length;
@@ -63,7 +63,7 @@ namespace GeoPlanarNet
 
             if (curve.Length == 1)
             {
-                resultLength = PointGeo.Distance(point.X, point.Y, curve[0].X, curve[0].Y);
+                resultLength = PointGeo.DistanceTo(point.X, point.Y, curve[0].X, curve[0].Y);
             }
 
             for (var i = 0; i < curve.Length - 1; i++)
@@ -105,7 +105,7 @@ namespace GeoPlanarNet
 
             if (curve.Length == 1)
             {
-                resultLength = PointGeo.Distance(point.X, point.Y, curve[0].X, curve[0].Y);
+                resultLength = PointGeo.DistanceTo(point.X, point.Y, curve[0].X, curve[0].Y);
             }
 
             for (var i = 0; i < curve.Length - 1; i++)

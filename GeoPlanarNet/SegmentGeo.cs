@@ -575,7 +575,7 @@ namespace GeoPlanarNet
             }
             else
             {
-                pointY = segmentStartY + (((pointX - segmentStartX) * (segmentEndY - segmentStartY)) / projectionX);
+                pointY = segmentStartY + ((pointX - segmentStartX) * (segmentEndY - segmentStartY) / projectionX);
             }
         }
 

@@ -186,6 +186,44 @@ namespace GeoPlanarNet
             return Math.Min(distanceAB, Math.Min(distanceBC, Math.Min(distanceCD, distanceDA)));
         }
 
+        /// <summary>
+        /// Get shortest distance from the point to the circle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <returns> Distance between the point and the circle </returns>
+        public static double DistanceToCircle(this PointF point, PointF circleCenter, float circleRadius)
+        {
+            return DistanceToCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the point to the circle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <returns> Distance between the point and the circle </returns>
+        public static double DistanceToCircle(this Point point, Point circleCenter, int circleRadius)
+        {
+            return DistanceToCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the point to the circle
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="circleCenterX"> Circle center point: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <returns> Distance between the point and the circle </returns>
+        public static double DistanceToCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius)
+        {
+            return Math.Sqrt(Math.Pow(pointX - circleCenterX, 2) + Math.Pow(pointY - circleCenterY, 2)) - radius;
+        }
+
         #endregion
 
         /// <summary>

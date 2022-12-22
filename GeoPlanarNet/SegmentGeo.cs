@@ -301,7 +301,7 @@ namespace GeoPlanarNet
             var maxx2 = Math.Max(segment2StartX, segment2EndX);
             var maxy2 = Math.Max(segment2StartY, segment2EndY);
 
-            if (minx1 > maxx2 + GeoPlanarNet.Tolerance || maxx1 + GeoPlanarNet.Tolerance < minx2 || miny1 > maxy2 + GeoPlanarNet.Tolerance || maxy1 + GeoPlanarNet.Tolerance < miny2)
+            if (minx1 > maxx2 + GeoPlanarNet.Epsilon || maxx1 + GeoPlanarNet.Epsilon < minx2 || miny1 > maxy2 + GeoPlanarNet.Epsilon || maxy1 + GeoPlanarNet.Epsilon < miny2)
             {
                 return false;
             }
@@ -313,7 +313,7 @@ namespace GeoPlanarNet
             var segment2ProjectionН = segment2EndY - segment2StartY;
             var div = (segment2ProjectionН * segment1ProjectionX) - (segment2ProjectionX * segment1ProjectionY);
 
-            if (Math.Abs(div) < GeoPlanarNet.Tolerance)
+            if (Math.Abs(div) < GeoPlanarNet.Epsilon)
             {
                 return false;
             }
@@ -322,14 +322,14 @@ namespace GeoPlanarNet
             var segment12ProjectionY = segment1StartY - segment2StartY;
             var koef = ((segment1ProjectionX * segment12ProjectionY) - (segment1ProjectionY * segment12ProjectionX)) / div;
 
-            if (koef < -GeoPlanarNet.Tolerance || koef > 1 + GeoPlanarNet.Tolerance)
+            if (koef < -GeoPlanarNet.Epsilon || koef > 1 + GeoPlanarNet.Epsilon)
             {
                 return false;
             }
 
             koef = ((segment2ProjectionX * segment12ProjectionY) - (segment2ProjectionН * segment12ProjectionX)) / div;
 
-            if (koef < -GeoPlanarNet.Tolerance || koef > 1 + GeoPlanarNet.Tolerance)
+            if (koef < -GeoPlanarNet.Epsilon || koef > 1 + GeoPlanarNet.Epsilon)
             {
                 return false;
             }
@@ -388,7 +388,7 @@ namespace GeoPlanarNet
 
             var segmentLength = PointGeo.DistanceTo(segment1StartX, segment1StartY, segment1EndX, segment1EndY);
 
-            if (Math.Abs(segmentLength) < GeoPlanarNet.Tolerance)
+            if (Math.Abs(segmentLength) < GeoPlanarNet.Epsilon)
             {
                 newPointX = segment1StartX;
                 newPointY = segment1StartY;
@@ -452,7 +452,7 @@ namespace GeoPlanarNet
 
             var segmentLength = PointGeo.DistanceTo(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
 
-            if (Math.Abs(segmentLength) < GeoPlanarNet.Tolerance)
+            if (Math.Abs(segmentLength) < GeoPlanarNet.Epsilon)
             {
                 newPointX = segmentStartX;
                 newPointY = segmentStartY;

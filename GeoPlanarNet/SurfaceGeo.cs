@@ -7,15 +7,15 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get surface square
         /// </summary>
-        /// <param name="points"> Surface </param>
+        /// <param name="surface"> Surface </param>
         /// <returns> Square </returns>
-        public static float Square(PointF[] points)
+        public static float Square(PointF[] surface)
         {
             var sum = 0f;
 
-            for (var i = 1; i < points.Length; i++)
+            for (var i = 1; i < surface.Length; i++)
             {
-                sum += (points[i - 1].X * points[i].Y) - (points[i].X * points[i - 1].Y);
+                sum += (surface[i - 1].X * surface[i].Y) - (surface[i].X * surface[i - 1].Y);
             }
 
             return Math.Abs(sum * 0.5f);
@@ -24,15 +24,15 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get surface square
         /// </summary>
-        /// <param name="points"> Surface </param>
+        /// <param name="surface"> Surface </param>
         /// <returns> Square </returns>
-        public static double Square(Point[] points)
+        public static double Square(Point[] surface)
         {
             double sum = 0;
 
-            for (var i = 1; i < points.Length; i++)
+            for (var i = 1; i < surface.Length; i++)
             {
-                sum += (points[i - 1].X * points[i].Y) - (points[i].X * points[i - 1].Y);
+                sum += (surface[i - 1].X * surface[i].Y) - (surface[i].X * surface[i - 1].Y);
             }
 
             return Math.Abs(sum / 2);
@@ -41,20 +41,20 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get a minimum point of the surface
         /// </summary>
-        /// <param name="points"> Surface </param>
+        /// <param name="surface"> Surface </param>
         /// <returns> Minumum point </returns>
-        public static PointF GetMinPoint(PointF[] points)
+        public static PointF GetMinPoint(PointF[] surface)
         {
-            if (points.Length == 0)
+            if (surface.Length == 0)
             {
                 return PointF.Empty;
             }
 
-            var result = new PointF(points[0].X, points[0].Y);
+            var result = new PointF(surface[0].X, surface[0].Y);
 
-            for (var i = 1; i < points.Length; i++)
+            for (var i = 1; i < surface.Length; i++)
             {
-                var prevPoint = points[i - 1];
+                var prevPoint = surface[i - 1];
 
                 if (prevPoint.X < result.X)
                 {
@@ -66,7 +66,7 @@ namespace GeoPlanarNet
                     result.Y = prevPoint.Y;
                 }
 
-                var currentPoint = points[i];
+                var currentPoint = surface[i];
 
                 if (currentPoint.X < result.X)
                 {
@@ -84,20 +84,20 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get a maximum point of the surface
         /// </summary>
-        /// <param name="points"> Surface </param>
+        /// <param name="surface"> Surface </param>
         /// <returns> Maximum point </returns>
-        public static PointF GetMaxPoint(PointF[] points)
+        public static PointF GetMaxPoint(PointF[] surface)
         {
-            if (points.Length == 0)
+            if (surface.Length == 0)
             {
                 return PointF.Empty;
             }
 
-            var result = new PointF(points[0].X, points[0].Y);
+            var result = new PointF(surface[0].X, surface[0].Y);
 
-            for (var i = 1; i < points.Length; i++)
+            for (var i = 1; i < surface.Length; i++)
             {
-                var prevPoint = points[i - 1];
+                var prevPoint = surface[i - 1];
 
                 if (prevPoint.X > result.X)
                 {
@@ -109,7 +109,7 @@ namespace GeoPlanarNet
                     result.Y = prevPoint.Y;
                 }
 
-                var currentPoint = points[i];
+                var currentPoint = surface[i];
 
                 if (currentPoint.X > result.X)
                 {
@@ -128,20 +128,20 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get a minimum point of the surface
         /// </summary>
-        /// <param name="points"> Surface </param>
+        /// <param name="surface"> Surface </param>
         /// <returns> Minumum point </returns>
-        public static Point GetMinPoint(Point[] points)
+        public static Point GetMinPoint(Point[] surface)
         {
-            if (points.Length == 0)
+            if (surface.Length == 0)
             {
                 return Point.Empty;
             }
 
-            var result = new Point(points[0].X, points[0].Y);
+            var result = new Point(surface[0].X, surface[0].Y);
 
-            for (var i = 1; i < points.Length; i++)
+            for (var i = 1; i < surface.Length; i++)
             {
-                var prevPoint = points[i - 1];
+                var prevPoint = surface[i - 1];
 
                 if (prevPoint.X < result.X)
                 {
@@ -153,7 +153,7 @@ namespace GeoPlanarNet
                     result.Y = prevPoint.Y;
                 }
 
-                var currentPoint = points[i];
+                var currentPoint = surface[i];
 
                 if (currentPoint.X < result.X)
                 {
@@ -171,20 +171,20 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get a maximum point of the surface
         /// </summary>
-        /// <param name="points"> Surface </param>
+        /// <param name="surface"> Surface </param>
         /// <returns> Maximum point </returns>
-        public static Point GetMaxPoint(Point[] points)
+        public static Point GetMaxPoint(Point[] surface)
         {
-            if (points.Length == 0)
+            if (surface.Length == 0)
             {
                 return Point.Empty;
             }
 
-            var result = new Point(points[0].X, points[0].Y);
+            var result = new Point(surface[0].X, surface[0].Y);
 
-            for (var i = 1; i < points.Length; i++)
+            for (var i = 1; i < surface.Length; i++)
             {
-                var prevPoint = points[i - 1];
+                var prevPoint = surface[i - 1];
 
                 if (prevPoint.X > result.X)
                 {
@@ -196,7 +196,7 @@ namespace GeoPlanarNet
                     result.Y = prevPoint.Y;
                 }
 
-                var currentPoint = points[i];
+                var currentPoint = surface[i];
 
                 if (currentPoint.X > result.X)
                 {
@@ -215,21 +215,21 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get the surface center point
         /// </summary>
-        /// <param name="points"> Surface </param>
+        /// <param name="surface"> Surface </param>
         /// <returns> Center point </returns>
-        public static PointF GetCenterPoint(PointF[] points)
+        public static PointF GetCenterPoint(PointF[] surface)
         {
             var centerPoint = new PointF();
-            var maxPoint = GetMaxPoint(points);
+            var maxPoint = GetMaxPoint(surface);
 
             var sumSquare = 0f;
 
-            for (var i = 0; i < points.Length; i++)
+            for (var i = 0; i < surface.Length; i++)
             {
-                var currentSquare = (float)TriangleGeo.Area(maxPoint.X, maxPoint.Y, points[i].X, points[i].Y, points[(i + 1) % points.Length].X, points[(i + 1) % points.Length].Y);
+                var currentSquare = (float)TriangleGeo.Area(maxPoint.X, maxPoint.Y, surface[i].X, surface[i].Y, surface[(i + 1) % surface.Length].X, surface[(i + 1) % surface.Length].Y);
 
-                centerPoint.X += currentSquare * (maxPoint.X + points[i].X + points[(i + 1) % points.Length].X) / 3;
-                centerPoint.Y += currentSquare * (maxPoint.Y + points[i].Y + points[(i + 1) % points.Length].Y) / 3;
+                centerPoint.X += currentSquare * (maxPoint.X + surface[i].X + surface[(i + 1) % surface.Length].X) / 3;
+                centerPoint.Y += currentSquare * (maxPoint.Y + surface[i].Y + surface[(i + 1) % surface.Length].Y) / 3;
                 sumSquare += currentSquare;
             }
 
@@ -242,21 +242,21 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get the surface center point
         /// </summary>
-        /// <param name="points"> Surface </param>
+        /// <param name="surface"> Surface </param>
         /// <returns> Center point </returns>
-        public static Point GetCenterPoint(Point[] points)
+        public static Point GetCenterPoint(Point[] surface)
         {
             var centerPoint = new Point();
-            var maxPoint = GetMaxPoint(points);
+            var maxPoint = GetMaxPoint(surface);
 
             var sumSquare = 0;
 
-            for (var i = 0; i < points.Length; i++)
+            for (var i = 0; i < surface.Length; i++)
             {
-                var currentSquare = (int)TriangleGeo.Area(maxPoint.X, maxPoint.Y, points[i].X, points[i].Y, points[(i + 1) % points.Length].X, points[(i + 1) % points.Length].Y);
+                var currentSquare = (int)TriangleGeo.Area(maxPoint.X, maxPoint.Y, surface[i].X, surface[i].Y, surface[(i + 1) % surface.Length].X, surface[(i + 1) % surface.Length].Y);
 
-                centerPoint.X += currentSquare * (maxPoint.X + points[i].X + points[(i + 1) % points.Length].X) / 3;
-                centerPoint.Y += currentSquare * (maxPoint.Y + points[i].Y + points[(i + 1) % points.Length].Y) / 3;
+                centerPoint.X += currentSquare * (maxPoint.X + surface[i].X + surface[(i + 1) % surface.Length].X) / 3;
+                centerPoint.Y += currentSquare * (maxPoint.Y + surface[i].Y + surface[(i + 1) % surface.Length].Y) / 3;
                 sumSquare += currentSquare;
             }
 
@@ -269,16 +269,16 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get the rectangle covering the entire surface
         /// </summary>
-        /// <param name="points"> Surface </param>
+        /// <param name="surface"> Surface </param>
         /// <returns> Rectangle </returns>
-        public static RectangleF GetRectangle(PointF[] points)
+        public static RectangleF GetRectangle(PointF[] surface)
         {
             var xMin = float.MaxValue;
             var xMax = -float.MaxValue;
             var yMin = float.MaxValue;
             var yMax = -float.MaxValue;
 
-            foreach (var point in points)
+            foreach (var point in surface)
             {
                 xMin = Math.Min(xMin, point.X);
                 xMax = Math.Max(xMax, point.X);
@@ -292,16 +292,16 @@ namespace GeoPlanarNet
         /// <summary>
         /// Get the rectangle covering the entire surface
         /// </summary>
-        /// <param name="points"> Surface </param>
+        /// <param name="surface"> Surface </param>
         /// <returns> Rectangle </returns>
-        public static Rectangle GetRectangle(Point[] points)
+        public static Rectangle GetRectangle(Point[] surface)
         {
             var xMin = int.MaxValue;
             var xMax = -int.MaxValue;
             var yMin = int.MaxValue;
             var yMax = -int.MaxValue;
 
-            foreach (var point in points)
+            foreach (var point in surface)
             {
                 xMin = Math.Min(xMin, point.X);
                 xMax = Math.Max(xMax, point.X);

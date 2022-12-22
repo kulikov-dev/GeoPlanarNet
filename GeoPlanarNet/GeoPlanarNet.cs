@@ -8,7 +8,7 @@
         /// <summary>
         /// Customizable epsilon tolerance
         /// </summary>
-        public static double Tolerance
+        public static double Epsilon
         {
             get
             {
@@ -18,12 +18,12 @@
 
         public static bool AboutEquals(this float a, float b)
         {
-            return Math.Abs(a - b) < GeoPlanarNet.Tolerance;
+            return Math.Abs(a - b) < GeoPlanarNet.Epsilon;
         }
 
         public static bool AboutZero(this float a)
         {
-            return Math.Abs(a) < GeoPlanarNet.Tolerance;
+            return Math.Abs(a) < GeoPlanarNet.Epsilon;
         }
     }
 }

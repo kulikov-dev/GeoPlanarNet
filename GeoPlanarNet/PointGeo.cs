@@ -261,6 +261,48 @@ namespace GeoPlanarNet
             return Math.Min(distanceAB, Math.Min(distanceBC, distanceCA));
         }
 
+        /// <summary>
+        /// Get shortest distance from point to the Surface
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="surface"> Surface </param>
+        /// <returns> Distance to the surface </returns>
+        public static double DistanceToSurface(this PointF point, PointF[] surface)
+        {
+            var minDistance = double.MaxValue;
+
+            for (var i = 1; i < surface.Length; i++)
+            {
+                var prevPoint = surface[i - 1];
+                var currentPoint = surface[i];
+                var distance = DistanceToSegment(point, prevPoint, currentPoint);
+                minDistance = Math.Min(distance, minDistance);
+            }
+
+            return minDistance;
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the Surface
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="surface"> Surface </param>
+        /// <returns> Distance to the surface </returns>
+        public static double DistanceToSurface(this Point point, Point[] surface)
+        {
+            var minDistance = double.MaxValue;
+
+            for (var i = 1; i < surface.Length; i++)
+            {
+                var prevPoint = surface[i - 1];
+                var currentPoint = surface[i];
+                var distance = DistanceToSegment(point, prevPoint, currentPoint);
+                minDistance = Math.Min(distance, minDistance);
+            }
+
+            return minDistance;
+        }
+
         #endregion
 
         /// <summary>
@@ -272,7 +314,8 @@ namespace GeoPlanarNet
         /// <returns> Rotated point </returns>
         public static PointF Rotate(this PointF point, PointF center, double angleRadian)
         {
-            return Rotate(point.X, point.Y, center.X, center.Y, angleRadian);
+            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out double rotatedPointX, out double rotatedPointY);
+            return new PointF((float)rotatedPointX, (float)rotatedPointY);
         }
 
         /// <summary>
@@ -284,7 +327,8 @@ namespace GeoPlanarNet
         /// <returns> Rotated point </returns>
         public static Point Rotate(this Point point, Point center, double angleRadian)
         {
-            return Rotate(point.X, point.Y, center.X, center.Y, angleRadian);
+            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out double rotatedPointX, out double rotatedPointY);
+            return new Point((int)rotatedPointX, (int)rotatedPointY);
         }
 
         /// <summary>
@@ -296,27 +340,13 @@ namespace GeoPlanarNet
         /// <param name="centerY"> Center point: Y coordinate </param>
         /// <param name="angleRadian"> Angle in radians </param>
         /// <returns> Rotated point </returns>
-        public static PointF Rotate(float pointX, float pointY, float centerX, float centerY, double angleRadian)
+        public static void Rotate(double pointX, double pointY, double centerX, double centerY, double angleRadian, out double rotatedPointX, out double rotatedPointY)
         {
-            var diff = new PointF(pointX - centerX, pointY - centerY);
+            var diffX = pointX - centerX;
+            var diffY = pointY - centerY;
 
-            return new PointF((float)(centerX + (diff.X * Math.Cos(angleRadian)) - (diff.Y * Math.Sin(angleRadian))), (float)(centerY + (diff.X * Math.Sin(angleRadian)) + (diff.Y * Math.Cos(angleRadian))));
-        }
-
-        /// <summary>
-        /// Rotate point around the center
-        /// </summary>
-        /// <param name="pointX">Point: X coordinate </param>
-        /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="centerX"> Center point: X coordinate </param>
-        /// <param name="centerY"> Center point: Y coordinate </param>
-        /// <param name="angleRadian"> Angle in radians </param>
-        /// <returns> Rotated point </returns>
-        public static Point Rotate(int pointX, int pointY, int centerX, int centerY, double angleRadian)
-        {
-            var diff = new Point(pointX - centerX, pointY - centerY);
-
-            return new Point((int)(centerX + (diff.X * Math.Cos(angleRadian)) - (diff.Y * Math.Sin(angleRadian))), (int)(centerY + (diff.X * Math.Sin(angleRadian)) + (diff.Y * Math.Cos(angleRadian))));
+            rotatedPointX = centerX + (diffX * Math.Cos(angleRadian)) - (diffY * Math.Sin(angleRadian));
+            rotatedPointY = centerY + (diffX * Math.Sin(angleRadian)) + (diffY * Math.Cos(angleRadian));
         }
 
         /// <summary>
@@ -1139,7 +1169,7 @@ namespace GeoPlanarNet
             var endToProjectionDiff = DistanceTo(segmentEndPointX, segmentEndPointY, projectionPointX, projectionPointY);
             var segmentDiff = DistanceTo(segmentStartPointX, segmentStartPointY, segmentEndPointX, segmentEndPointY);
 
-            return Math.Abs(startToProjectionDiff + endToProjectionDiff - segmentDiff) <= GeoPlanarNet.Tolerance;
+            return Math.Abs(startToProjectionDiff + endToProjectionDiff - segmentDiff) <= GeoPlanarNet.Epsilon;
         }
 
         /// <summary>

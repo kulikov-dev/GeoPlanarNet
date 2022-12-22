@@ -103,7 +103,7 @@ namespace GeoPlanarNet
 
             if (projectionLengthX1 == 0 && projectionLengthY1 == 0)
             {
-                var line1IsPoint = PointGeo.DistanceToSegment(line1x1, line1y1, line2x1, line2y1, line2x2, line2y2) < GeoPlanarNet.Tolerance;
+                var line1IsPoint = PointGeo.DistanceToSegment(line1x1, line1y1, line2x1, line2y1, line2x2, line2y2) < GeoPlanarNet.Epsilon;
 
                 if (line1IsPoint)
                 {
@@ -116,7 +116,7 @@ namespace GeoPlanarNet
 
             if (projectionLengthX2 == 0 && projectionLengthY2 == 0)
             {
-                var line2IsPoint = PointGeo.DistanceToSegment(line2x1, line2y1, line1x1, line1y1, line1x2, line1y2) < GeoPlanarNet.Tolerance;
+                var line2IsPoint = PointGeo.DistanceToSegment(line2x1, line2y1, line1x1, line1y1, line1x2, line1y2) < GeoPlanarNet.Epsilon;
 
                 if (line2IsPoint)
                 {

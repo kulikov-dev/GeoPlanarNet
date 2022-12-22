@@ -124,24 +124,14 @@ namespace GeoPlanarNet
         /// <returns> Distance from a point to the segment </returns>
         public static double DistanceToSegment(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
-            var diffSegmentX = segmentEndX - segmentStartX;
-            var diffSegmentY = segmentEndY - segmentStartY;
-            var diffPointSegmentStartX = pointX - segmentStartX;
-            var diffPointSegmentStartY = pointY - segmentStartY;
-            var koef = ((diffSegmentX * diffPointSegmentStartX) + (diffSegmentY * diffPointSegmentStartY)) / ((diffSegmentX * diffSegmentX) + (diffSegmentY * diffSegmentY));
-            var koefX = segmentStartX + (diffSegmentX * koef);
-            var koefY = segmentStartY + (diffSegmentY * koef);
+            if ((segmentStartX - segmentEndX) * (pointX - segmentEndX) + (segmentStartY - segmentEndY) * (pointY - segmentEndY) <= 0)
+                return Math.Sqrt((pointX - segmentEndX) * (pointX - segmentEndX) + (pointY - segmentEndY) * (pointY - segmentEndY));
 
-            if (Utils.CheckDotBetweenInterval(koefX, segmentStartX, segmentEndX) && Utils.CheckDotBetweenInterval(koefY, segmentStartY, segmentEndY))
-            {
-                return Math.Sqrt(Math.Pow(pointX - koefX, 2) + Math.Pow(pointY - koefY, 2));
-            }
+            if ((segmentEndX - segmentStartX) * (pointX - segmentStartX) + (segmentEndY - segmentStartY) * (pointY - segmentStartY) <= 0)
+                return Math.Sqrt((pointX - segmentStartX) * (pointX - segmentStartX) + (pointY - segmentStartY) * (pointY - segmentStartY));
 
-            var diffPointSegmentEndX = pointX - segmentEndX;
-            var diffPointSegmentEndY = pointY - segmentEndY;
-
-            return Math.Min(Math.Sqrt(Math.Pow(diffPointSegmentStartX, 2) + Math.Pow(diffPointSegmentStartY, 2)),
-                            Math.Sqrt(Math.Pow(diffPointSegmentEndX, 2) + Math.Pow(diffPointSegmentEndY, 2)));
+            return Math.Abs((segmentEndY - segmentStartY) * pointX - (segmentEndX - segmentStartX) * pointY + segmentEndX * segmentStartY - segmentEndY * segmentStartX) /
+                Math.Sqrt((segmentStartY - segmentEndY) * (segmentStartY - segmentEndY) + (segmentStartX - segmentEndX) * (segmentStartX - segmentEndX));
         }
 
         /// <summary>
@@ -222,6 +212,53 @@ namespace GeoPlanarNet
         public static double DistanceToCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius)
         {
             return Math.Sqrt(Math.Pow(pointX - circleCenterX, 2) + Math.Pow(pointY - circleCenterY, 2)) - radius;
+        }
+
+        /// <summary>
+        /// Get shortest distnace from the point to the triangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Distance from the point to the triangle</returns>
+        public static double DistanceToTriangle(this PointF point, PointF apex1, PointF apex2, PointF apex3)
+        {
+            return DistanceToTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Get shortest distnace from the point to the triangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Distance from the point to the triangle </returns>
+        public static double DistanceToTriangle(this Point point, Point apex1, Point apex2, Point apex3)
+        {
+            return DistanceToTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Get shortest distnace from the point to the triangle
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <returns> Distance from the point to the triangle </returns>
+        public static double DistanceToTriangle(double pointX, double pointY, double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
+        {
+            var distanceAB = DistanceToSegment(pointX, pointY, apex1X, apex1Y, apex2X, apex2Y);
+            var distanceBC = DistanceToSegment(pointX, pointY, apex2X, apex2Y, apex3X, apex3Y);
+            var distanceCA = DistanceToSegment(pointX, pointY, apex3X, apex3Y, apex1X, apex1Y);
+
+            return Math.Min(distanceAB, Math.Min(distanceBC, distanceCA));
         }
 
         #endregion
@@ -1041,7 +1078,7 @@ namespace GeoPlanarNet
         /// <returns> Projection point </returns>
         public static PointF GetProjectionToLine(this PointF point, float slopeKoef, float yZeroValue)
         {
-            if (FloatUtil.AboutZero(slopeKoef))
+            if (GeoPlanarNet.AboutZero(slopeKoef))
             {
                 return new PointF(point.X, yZeroValue);
             }

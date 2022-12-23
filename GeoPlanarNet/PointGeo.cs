@@ -938,7 +938,7 @@ namespace GeoPlanarNet
         /// <param name="circleCenter"> Circle center </param>
         /// <param name="radius"> Circle radius </param>
         /// <returns> Closest point </returns>
-        public static PointF GetClosestPointOnCircle(this Point point, Point circleCenter, double radius)
+        public static Point GetClosestPointOnCircle(this Point point, Point circleCenter, double radius)
         {
             GetClosestPointOnCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, out double closestPointX, out double closestPointY);
             return new Point((int)closestPointX, (int)closestPointY);
@@ -963,6 +963,67 @@ namespace GeoPlanarNet
             closestPointX = circleCenterX + projX / distanceToCircle * radius;
             closestPointY = circleCenterY + projY / distanceToCircle * radius;
         }
+
+        /// <summary>
+        /// Get closest point on the triangle to the given point
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Closest point on the triangle </returns>
+        public static PointF GetClosestPointOnTriangle(this PointF point, PointF apex1, PointF apex2, PointF apex3)
+        {
+            GetClosestPointOnTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out double closestPointX, out double closestPointY);
+            return new PointF((float)closestPointX, (float)closestPointY);
+        }
+
+        /// <summary>
+        /// Get closest point on the triangle to the given point
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Closest point on the triangle </returns>
+        public static Point GetClosestPointOnTriangle(this Point point, Point apex1, Point apex2, Point apex3)
+        {
+            GetClosestPointOnTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out double closestPointX, out double closestPointY);
+            return new Point((int)closestPointX, (int)closestPointY);
+        }
+
+        /// <summary>
+        /// Get closest point on the triangle to the given point
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <returns> Closest point on the triangle </returns>
+        public static void GetClosestPointOnTriangle(double pointX, double pointY, double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, out double closestPointX, out double closestPointY)
+        {
+            var distanceAB = DistanceToSegment(pointX, pointY, apex1X, apex1Y, apex2X, apex2Y);
+            var distanceBC = DistanceToSegment(pointX, pointY, apex2X, apex2Y, apex3X, apex3Y);
+            var distanceCA = DistanceToSegment(pointX, pointY, apex3X, apex3Y, apex1X, apex1Y);
+
+            if (distanceAB < distanceBC && distanceAB < distanceCA)
+            {
+                GetClosestPointOnLine(pointX, pointY, apex1X, apex1Y, apex2X, apex2Y, out closestPointX, out closestPointY);
+            }
+            else if (distanceBC < distanceCA)
+            {
+                GetClosestPointOnLine(pointX, pointY, apex2X, apex2Y, apex3X, apex3Y, out closestPointX, out closestPointY);
+            }
+            else
+            {
+                GetClosestPointOnLine(pointX, pointY, apex3X, apex3Y, apex1X, apex1Y, out closestPointX, out closestPointY);
+            }
+        }
+
 
         #endregion
 

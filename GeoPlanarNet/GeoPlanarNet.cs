@@ -25,5 +25,15 @@
         {
             return Math.Abs(a) < GeoPlanarNet.Epsilon;
         }
+
+        public static bool AboutEquals(this double a, double b)
+        {
+            return Math.Abs(a - b) < GeoPlanarNet.Epsilon;
+        }
+
+        public static bool AboutZero(this double a)
+        {
+            return Math.Abs(a) < GeoPlanarNet.Epsilon;
+        }
     }
 }

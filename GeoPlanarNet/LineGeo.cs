@@ -88,9 +88,9 @@ namespace GeoPlanarNet
             var projectionLengthX2 = line2x2 - line2x1;
             var projectionLengthY2 = line2y2 - line2y1;
 
-            if (projectionLengthX1 == 0 && projectionLengthY1 == 0 && projectionLengthX2 == 0 && projectionLengthY2 == 0)
+            if (GeoPlanarNet.AboutZero(projectionLengthX1) && GeoPlanarNet.AboutZero(projectionLengthY1) && GeoPlanarNet.AboutZero(projectionLengthX2) && GeoPlanarNet.AboutZero(projectionLengthY2))
             {
-                var lineIsPoint = line1x1 == line2x2 && line1y1 == line2y2;
+                var lineIsPoint = GeoPlanarNet.AboutEquals(line1x1, line2x2) && GeoPlanarNet.AboutEquals(line1y1, line2y2);
 
                 if (lineIsPoint)
                 {
@@ -101,7 +101,7 @@ namespace GeoPlanarNet
                 return lineIsPoint;
             }
 
-            if (projectionLengthX1 == 0 && projectionLengthY1 == 0)
+            if (GeoPlanarNet.AboutZero(projectionLengthX1) && GeoPlanarNet.AboutZero(projectionLengthY1))
             {
                 var line1IsPoint = PointGeo.DistanceToSegment(line1x1, line1y1, line2x1, line2y1, line2x2, line2y2) < GeoPlanarNet.Epsilon;
 
@@ -114,7 +114,7 @@ namespace GeoPlanarNet
                 return line1IsPoint;
             }
 
-            if (projectionLengthX2 == 0 && projectionLengthY2 == 0)
+            if (GeoPlanarNet.AboutZero(projectionLengthX2) && GeoPlanarNet.AboutZero(projectionLengthY2))
             {
                 var line2IsPoint = PointGeo.DistanceToSegment(line2x1, line2y1, line1x1, line1y1, line1x2, line1y2) < GeoPlanarNet.Epsilon;
 
@@ -129,7 +129,7 @@ namespace GeoPlanarNet
 
             var div = (projectionLengthY2 * projectionLengthX1) - (projectionLengthX2 * projectionLengthY1);
 
-            if (div == 0)
+            if (GeoPlanarNet.AboutZero(div))
             {
                 return false;
             }

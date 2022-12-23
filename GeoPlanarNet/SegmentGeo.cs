@@ -74,7 +74,7 @@ namespace GeoPlanarNet
             var diffX = segmentEndX - segmentStartX;
             var diffY = segmentEndY - segmentStartY;
 
-            if (diffX == 0)
+            if (GeoPlanarNet.AboutZero(diffX))
             {
                 return diffY > 0 ? Math.PI / 2 : 3 * Math.PI / 2;
             }
@@ -121,7 +121,12 @@ namespace GeoPlanarNet
         public static double GetAngleRadians(double commonPointX, double commonPointY, double segment1StartX, double segment1StartY, double segment2StartX, double segment2StartY)
         {
             var numerator = ((segment1StartX - commonPointX) * (segment2StartX - commonPointX)) + ((segment1StartY - commonPointY) * (segment2StartY - commonPointY));
-            var denominator = Math.Sqrt(Math.Pow(segment1StartX - commonPointX, 2) + Math.Pow(segment1StartY - commonPointY, 2)) * Math.Sqrt(Math.Pow(segment2StartX - commonPointX, 2) + Math.Pow(segment2StartY - commonPointY, 2));
+            var proj1X = segment1StartX - commonPointX;
+            var proj1Y = segment1StartY - commonPointY;
+            var proj2X = segment2StartX - commonPointX;
+            var proj2Y = segment2StartY - commonPointY;
+
+            var denominator = Math.Sqrt(proj1X * proj1X + proj1Y * proj1Y) * Math.Sqrt(proj2X * proj2X + proj2Y * proj2Y);
 
             return Math.Acos(numerator / denominator);
         }
@@ -378,7 +383,7 @@ namespace GeoPlanarNet
         /// <param name="newPointY"> New point: coordinate Y </param>
         public static void GetPointAwayFromStart(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY, double distance, out double newPointX, out double newPointY)
         {
-            if (distance == 0)
+            if (GeoPlanarNet.AboutZero(distance))
             {
                 newPointX = segment1StartX;
                 newPointY = segment1StartY;
@@ -442,7 +447,7 @@ namespace GeoPlanarNet
         /// <param name="newPointY"> New point: coordinate Y </param>
         public static void GetPointAwayFromEnd(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double distance, out double newPointX, out double newPointY)
         {
-            if (distance == 0)
+            if (GeoPlanarNet.AboutZero(distance))
             {
                 newPointX = segmentStartX;
                 newPointY = segmentStartY;
@@ -569,7 +574,7 @@ namespace GeoPlanarNet
         {
             var projectionX = segmentEndX - segmentStartX;
 
-            if (projectionX == 0)
+            if (GeoPlanarNet.AboutZero(projectionX))
             {
                 pointY = (segmentStartY + segmentEndY) / 2;
             }
@@ -596,7 +601,7 @@ namespace GeoPlanarNet
 
             var points = new List<PointF> { segmentStart };
 
-            if (segmentStart.X == segmentEnd.X)
+            if (GeoPlanarNet.AboutEquals(segmentStart.X, segmentEnd.X))
             {
                 points.Add(LinearInterpolation(segmentStart, segmentEnd, segmentStart.X));
                 return points;

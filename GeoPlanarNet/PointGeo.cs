@@ -42,7 +42,10 @@ namespace GeoPlanarNet
         /// <returns> Distance </returns>
         public static double DistanceTo(double point1X, double point1Y, double point2X, double point2Y)
         {
-            return Math.Sqrt(Math.Pow(point1X - point2X, 2) + Math.Pow(point1Y - point2Y, 2));
+            var projX = point1X - point2X;
+            var projY = point1Y - point2Y;
+
+            return Math.Sqrt(projX * projX + projY * projY);
         }
 
         /// <summary>
@@ -81,11 +84,17 @@ namespace GeoPlanarNet
         /// <returns> Distance from a point to the line </returns>
         public static double DistanceToLine(double pointX, double pointY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
         {
-            var koef = (((linePoint2X - linePoint1X) * (pointX - linePoint1X)) + ((linePoint2Y - linePoint1Y) * (pointY - linePoint1Y))) / (Math.Pow(linePoint2X - linePoint1X, 2) + Math.Pow(linePoint2Y - linePoint1Y, 2));
+            var linesProjX = linePoint2X - linePoint1X;
+            var linesProjY = linePoint2Y - linePoint1Y;
+
+            var koef = (((linePoint2X - linePoint1X) * (pointX - linePoint1X)) + ((linePoint2Y - linePoint1Y) * (pointY - linePoint1Y))) / (linesProjX * linesProjX + linesProjY * linesProjY);
             var koefX = linePoint1X + ((linePoint2X - linePoint1X) * koef);
             var koefY = linePoint1Y + ((linePoint2Y - linePoint1Y) * koef);
 
-            return Math.Sqrt(Math.Pow(pointX - koefX, 2) + Math.Pow(pointY - koefY, 2));
+            var projX = pointX - koefX;
+            var projY = pointY - koefY;
+
+            return Math.Sqrt(projX * projX + projY * projY);
         }
 
         /// <summary>
@@ -211,7 +220,10 @@ namespace GeoPlanarNet
         /// <returns> Distance between the point and the circle </returns>
         public static double DistanceToCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius)
         {
-            return Math.Sqrt(Math.Pow(pointX - circleCenterX, 2) + Math.Pow(pointY - circleCenterY, 2)) - radius;
+            var projX = pointX - circleCenterX;
+            var projY = pointY - circleCenterY;
+
+            return Math.Sqrt(projX * projX + projY * projY) - radius;
         }
 
         /// <summary>
@@ -343,7 +355,9 @@ namespace GeoPlanarNet
         /// <returns> Flag if the point belongs to the segment </returns>
         public static bool BelongsToSegment(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
-            return DistanceTo(segmentStartX, segmentStartY, pointX, pointY) + DistanceTo(segmentEndX, segmentEndY, pointX, pointY) == DistanceTo(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+            return GeoPlanarNet.AboutEquals(
+                                DistanceTo(segmentStartX, segmentStartY, pointX, pointY) + DistanceTo(segmentEndX, segmentEndY, pointX, pointY),
+                                DistanceTo(segmentStartX, segmentStartY, segmentEndX, segmentEndY));
         }
 
         /// <summary>
@@ -384,7 +398,7 @@ namespace GeoPlanarNet
         {
             LineGeo.FindSlopeKoef(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out double slopeKoef, out double yIntersection);
 
-            return pointY == slopeKoef * pointX + yIntersection;
+            return GeoPlanarNet.AboutEquals(pointY, slopeKoef * pointX + yIntersection);
         }
 
         /// <summary>
@@ -423,7 +437,10 @@ namespace GeoPlanarNet
         /// <returns> Flag if the point belongs to the cirle </returns>
         public static bool BelongsToCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius)
         {
-            return Math.Pow(pointX - circleCenterX, 2) + Math.Pow(pointY - circleCenterY, 2) <= Math.Pow(radius, 2);
+            var projX = pointX - circleCenterX;
+            var projY = pointY - circleCenterY;
+
+            return projX * projX + projY * projY <= radius * radius;
         }
 
         /// <summary>
@@ -508,7 +525,10 @@ namespace GeoPlanarNet
         /// <returns> Flag if the point belongs to the ellipse </returns>
         public static bool BelongsToEllipse(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double radiusX, double radiusY)
         {
-            return (Math.Pow(pointX - ellipseCenterX, 2) / Math.Pow(radiusX, 2)) + (Math.Pow(pointY - ellipseCenterY, 2) / Math.Pow(radiusY, 2)) <= 1;
+            var projX = pointX - ellipseCenterX;
+            var projY = pointY - ellipseCenterY;
+
+            return ((projX * projX) / (radiusX * radiusX)) + ((projY * projY) / (radiusY * radiusY)) <= 1;
         }
 
         /// <summary>
@@ -628,7 +648,7 @@ namespace GeoPlanarNet
         /// <param name="area"> Area </param>
         /// <param name="epsilon"> Accuracy </param>
         /// <returns> Flag if the point belongs to the area </returns>
-        public static bool BelongsToSurface(this PointF point, IList<PointF> area, float epsilon = float.Epsilon)
+        public static bool BelongsToSurface(this PointF point, IList<PointF> area)
         {
             var pointsInAreaCount = area.Count - 1;
 
@@ -639,7 +659,7 @@ namespace GeoPlanarNet
 
             for (var i = 1; i < area.Count; ++i)
             {
-                if (DistanceToSegment(point.X, point.Y, area[i - 1].X, area[i - 1].Y, area[i].X, area[i].Y) <= epsilon)
+                if (DistanceToSegment(point.X, point.Y, area[i - 1].X, area[i - 1].Y, area[i].X, area[i].Y) <= GeoPlanarNet.Epsilon)
                 {
                     return true;
                 }
@@ -686,7 +706,7 @@ namespace GeoPlanarNet
                 }
                 else
                 {
-                    if (yDiff == 0)
+                    if (GeoPlanarNet.AboutZero(yDiff))
                     {
                         var firstYDiff = area[firstIndex].Y - point.Y;
                         while (area[secondIndex].Y.AboutEquals(point.Y))
@@ -739,7 +759,7 @@ namespace GeoPlanarNet
         /// <param name="area"> Area </param>
         /// <param name="epsilon"> Accuracy </param>
         /// <returns> Flag if the point belongs to the area </returns>
-        public static bool BelongsToSurface(this Point point, IList<Point> area, double epsilon = double.Epsilon)
+        public static bool BelongsToSurface(this Point point, IList<Point> area)
         {
             var pointsInAreaCount = area.Count - 1;
 
@@ -750,7 +770,7 @@ namespace GeoPlanarNet
 
             for (var i = 1; i < area.Count; ++i)
             {
-                if (DistanceToSegment(point.X, point.Y, area[i - 1].X, area[i - 1].Y, area[i].X, area[i].Y) <= epsilon)
+                if (DistanceToSegment(point.X, point.Y, area[i - 1].X, area[i - 1].Y, area[i].X, area[i].Y) <= GeoPlanarNet.Epsilon)
                 {
                     return true;
                 }
@@ -854,9 +874,9 @@ namespace GeoPlanarNet
         /// <param name="linePoint2"> Line point 2 </param>
         /// <param name="point"> Given point </param>
         /// <returns> Closest point on the line </returns>
-        public static PointF GetClosestPointToLine(this PointF point, PointF linePoint1, PointF linePoint2)
+        public static PointF GetClosestPointOnLine(this PointF point, PointF linePoint1, PointF linePoint2)
         {
-            GetClosestPointToLine(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, point.X, point.Y, out double x, out double y);
+            GetClosestPointOnLine(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, point.X, point.Y, out double x, out double y);
             return new PointF((float)x, (float)y);
         }
 
@@ -867,9 +887,9 @@ namespace GeoPlanarNet
         /// <param name="linePoint2"> Line point 2 </param>
         /// <param name="point"> Given point </param>
         /// <returns> Closest point on the line </returns>
-        public static Point GetClosestPointToLine(this Point point, Point linePoint1, Point linePoint2)
+        public static Point GetClosestPointOnLine(this Point point, Point linePoint1, Point linePoint2)
         {
-            GetClosestPointToLine(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, point.X, point.Y, out double x, out double y);
+            GetClosestPointOnLine(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, point.X, point.Y, out double x, out double y);
             return new Point((int)x, (int)y);
         }
 
@@ -884,7 +904,7 @@ namespace GeoPlanarNet
         /// <param name="pointY"> Given point: Y </param>
         /// <param name="closestPointX"> Closest point on the line: X </param>
         /// <param name="closestPointY"> Closest point on the line: Y </param>
-        public static void GetClosestPointToLine(double pointX, double pointY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double closestPointX, out double closestPointY)
+        public static void GetClosestPointOnLine(double pointX, double pointY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double closestPointX, out double closestPointY)
         {
             var projectionLineX = linePoint2X - linePoint1X;
             var projectionLineY = linePoint2Y - linePoint1Y;
@@ -905,9 +925,9 @@ namespace GeoPlanarNet
         /// <param name="circleCenter"> Circle center </param>
         /// <param name="radius"> Circle radius </param>
         /// <returns> Closest point </returns>
-        public static PointF GetClosestPointToCircle(this PointF point, PointF circleCenter, float radius)
+        public static PointF GetClosestPointOnCircle(this PointF point, PointF circleCenter, float radius)
         {
-            GetClosestPointToCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, out double closestPointX, out double closestPointY);
+            GetClosestPointOnCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, out double closestPointX, out double closestPointY);
             return new PointF((float)closestPointX, (float)closestPointY);
         }
 
@@ -918,9 +938,9 @@ namespace GeoPlanarNet
         /// <param name="circleCenter"> Circle center </param>
         /// <param name="radius"> Circle radius </param>
         /// <returns> Closest point </returns>
-        public static PointF GetClosestPointToCircle(this Point point, Point circleCenter, double radius)
+        public static PointF GetClosestPointOnCircle(this Point point, Point circleCenter, double radius)
         {
-            GetClosestPointToCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, out double closestPointX, out double closestPointY);
+            GetClosestPointOnCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, out double closestPointX, out double closestPointY);
             return new Point((int)closestPointX, (int)closestPointY);
         }
 
@@ -934,7 +954,7 @@ namespace GeoPlanarNet
         /// <param name="radius"> Circle radius </param>
         /// <param name="closestPointX"> Closest point: X coordinate </param>
         /// <param name="closestPointY"> Closest point: Y coordinate </param>
-        public static void GetClosestPointToCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius, out double closestPointX, out double closestPointY)
+        public static void GetClosestPointOnCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius, out double closestPointX, out double closestPointY)
         {
             var projX = pointX - circleCenterX;
             var projY = pointY - circleCenterY;
@@ -1275,9 +1295,9 @@ namespace GeoPlanarNet
         /// <param name="point2"> Point 2 </param>
         /// <param name="eps"> Epsilon </param>
         /// <returns> Flag if equals </returns>
-        public static bool Equals(this PointF point1, PointF point2, float eps)
+        public static bool Equals(this PointF point1, PointF point2)
         {
-            return DistanceTo(point1, point2) <= eps;
+            return DistanceTo(point1, point2) <= GeoPlanarNet.Epsilon;
         }
 
         /// <summary>
@@ -1287,9 +1307,9 @@ namespace GeoPlanarNet
         /// <param name="point2"> Point 2 </param>
         /// <param name="eps"> Epsilon </param>
         /// <returns> Flag if equals </returns>
-        public static bool Equals(this Point point1, Point point2, double eps)
+        public static bool Equals(this Point point1, Point point2)
         {
-            return DistanceTo(point1, point2) <= eps;
+            return DistanceTo(point1, point2) <= GeoPlanarNet.Epsilon;
         }
 
         /// <summary>
@@ -1300,9 +1320,9 @@ namespace GeoPlanarNet
         /// <param name="point2X"> Point 2: X coordinate </param>
         /// <param name="point2Y"> Point 2: Y coordinate </param>
         /// <returns> Flag if equals </returns>
-        public static bool Equals(double point1X, double point1Y, double point2X, double point2Y, double eps)
+        public static bool Equals(double point1X, double point1Y, double point2X, double point2Y)
         {
-            return DistanceTo(point1X, point1Y, point2X, point2Y) <= eps;
+            return DistanceTo(point1X, point1Y, point2X, point2Y) <= GeoPlanarNet.Epsilon;
         }
 
         /// <summary>
@@ -1346,7 +1366,7 @@ namespace GeoPlanarNet
         {
             LineGeo.FindSlopeKoef(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out double k, out double b);
 
-            if (k == 0.0)
+            if (GeoPlanarNet.AboutZero(k))
             {
                 projectionPointX = pointX;
                 projectionPointY = b;
@@ -1520,7 +1540,7 @@ namespace GeoPlanarNet
         /// <returns> Flag, if points are collinear </returns>
         public static bool IsCollinear(double point1X, double point1Y, double point2X, double point2Y, double point3X, double point3Y)
         {
-            return (point3Y - point2Y) * (point2X - point1X) == (point2Y - point1Y) * (point3X - point2X);
+            return GeoPlanarNet.AboutEquals((point3Y - point2Y) * (point2X - point1X), (point2Y - point1Y) * (point3X - point2X));
         }
     }
 }

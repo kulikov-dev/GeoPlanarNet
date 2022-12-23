@@ -42,10 +42,10 @@ namespace GeoPlanarNet
         /// <returns> Distance </returns>
         public static double DistanceTo(double point1X, double point1Y, double point2X, double point2Y)
         {
-            var projX = point1X - point2X;
-            var projY = point1Y - point2Y;
+            var distX = point1X - point2X;
+            var distY = point1Y - point2Y;
 
-            return Math.Sqrt(projX * projX + projY * projY);
+            return Math.Sqrt(distX * distX + distY * distY);
         }
 
         /// <summary>
@@ -84,17 +84,17 @@ namespace GeoPlanarNet
         /// <returns> Distance from a point to the line </returns>
         public static double DistanceToLine(double pointX, double pointY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
         {
-            var linesProjX = linePoint2X - linePoint1X;
-            var linesProjY = linePoint2Y - linePoint1Y;
+            var linesdistX = linePoint2X - linePoint1X;
+            var linesdistY = linePoint2Y - linePoint1Y;
 
-            var koef = (((linePoint2X - linePoint1X) * (pointX - linePoint1X)) + ((linePoint2Y - linePoint1Y) * (pointY - linePoint1Y))) / (linesProjX * linesProjX + linesProjY * linesProjY);
+            var koef = (((linePoint2X - linePoint1X) * (pointX - linePoint1X)) + ((linePoint2Y - linePoint1Y) * (pointY - linePoint1Y))) / (linesdistX * linesdistX + linesdistY * linesdistY);
             var koefX = linePoint1X + ((linePoint2X - linePoint1X) * koef);
             var koefY = linePoint1Y + ((linePoint2Y - linePoint1Y) * koef);
 
-            var projX = pointX - koefX;
-            var projY = pointY - koefY;
+            var distX = pointX - koefX;
+            var distY = pointY - koefY;
 
-            return Math.Sqrt(projX * projX + projY * projY);
+            return Math.Sqrt(distX * distX + distY * distY);
         }
 
         /// <summary>
@@ -134,10 +134,14 @@ namespace GeoPlanarNet
         public static double DistanceToSegment(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
             if ((segmentStartX - segmentEndX) * (pointX - segmentEndX) + (segmentStartY - segmentEndY) * (pointY - segmentEndY) <= 0)
+            {
                 return Math.Sqrt((pointX - segmentEndX) * (pointX - segmentEndX) + (pointY - segmentEndY) * (pointY - segmentEndY));
+            }
 
             if ((segmentEndX - segmentStartX) * (pointX - segmentStartX) + (segmentEndY - segmentStartY) * (pointY - segmentStartY) <= 0)
+            {
                 return Math.Sqrt((pointX - segmentStartX) * (pointX - segmentStartX) + (pointY - segmentStartY) * (pointY - segmentStartY));
+            }
 
             return Math.Abs((segmentEndY - segmentStartY) * pointX - (segmentEndX - segmentStartX) * pointY + segmentEndX * segmentStartY - segmentEndY * segmentStartX) /
                 Math.Sqrt((segmentStartY - segmentEndY) * (segmentStartY - segmentEndY) + (segmentStartX - segmentEndX) * (segmentStartX - segmentEndX));
@@ -220,10 +224,10 @@ namespace GeoPlanarNet
         /// <returns> Distance between the point and the circle </returns>
         public static double DistanceToCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius)
         {
-            var projX = pointX - circleCenterX;
-            var projY = pointY - circleCenterY;
+            var distX = pointX - circleCenterX;
+            var distY = pointY - circleCenterY;
 
-            return Math.Sqrt(projX * projX + projY * projY) - radius;
+            return Math.Sqrt(distX * distX + distY * distY) - radius;
         }
 
         /// <summary>
@@ -437,10 +441,10 @@ namespace GeoPlanarNet
         /// <returns> Flag if the point belongs to the cirle </returns>
         public static bool BelongsToCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius)
         {
-            var projX = pointX - circleCenterX;
-            var projY = pointY - circleCenterY;
+            var distX = pointX - circleCenterX;
+            var distY = pointY - circleCenterY;
 
-            return projX * projX + projY * projY <= radius * radius;
+            return distX * distX + distY * distY <= radius * radius;
         }
 
         /// <summary>
@@ -525,10 +529,10 @@ namespace GeoPlanarNet
         /// <returns> Flag if the point belongs to the ellipse </returns>
         public static bool BelongsToEllipse(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double radiusX, double radiusY)
         {
-            var projX = pointX - ellipseCenterX;
-            var projY = pointY - ellipseCenterY;
+            var distX = pointX - ellipseCenterX;
+            var distY = pointY - ellipseCenterY;
 
-            return ((projX * projX) / (radiusX * radiusX)) + ((projY * projY) / (radiusY * radiusY)) <= 1;
+            return ((distX * distX) / (radiusX * radiusX)) + ((distY * distY) / (radiusY * radiusY)) <= 1;
         }
 
         /// <summary>
@@ -956,12 +960,12 @@ namespace GeoPlanarNet
         /// <param name="closestPointY"> Closest point: Y coordinate </param>
         public static void GetClosestPointOnCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius, out double closestPointX, out double closestPointY)
         {
-            var projX = pointX - circleCenterX;
-            var projY = pointY - circleCenterY;
-            var distanceToCircle = Math.Sqrt(projX * projX + projY * projY);
+            var distX = pointX - circleCenterX;
+            var distY = pointY - circleCenterY;
+            var distanceToCircle = Math.Sqrt(distX * distX + distY * distY);
 
-            closestPointX = circleCenterX + projX / distanceToCircle * radius;
-            closestPointY = circleCenterY + projY / distanceToCircle * radius;
+            closestPointX = circleCenterX + distX / distanceToCircle * radius;
+            closestPointY = circleCenterY + distY / distanceToCircle * radius;
         }
 
         /// <summary>

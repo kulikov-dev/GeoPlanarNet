@@ -306,6 +306,136 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
+        /// Find intersection between line and rectangle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <returns> True if line and rectangle has intersection </returns>
+        public static bool HasCircleIntersection(PointF linePoint1, PointF linePoint2, PointF circleCenter, float radius)
+        {
+            return FindCircleIntersection(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenter.X, circleCenter.Y, radius,
+                                     out double _, out double _, out double _, out double _);
+        }
+
+        /// <summary>
+        /// Find intersection between line and rectangle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <returns> True if line and rectangle has intersection </returns>
+        public static bool HasCircleIntersection(Point linePoint1, Point linePoint2, PointF circleCenter, float radius)
+        {
+            return FindCircleIntersection(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenter.X, circleCenter.Y, radius,
+                                              out double _, out double _, out double _, out double _);
+        }
+
+        /// <summary>
+        /// Find intersection between line and circle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="intersection1"> Intersection point 1 </param>
+        /// <param name="intersection2"> Intersection point 2 </param>
+        /// <returns> True if line and circle has intersection </returns>
+        public static bool FindCircleIntersection(PointF linePoint1, PointF linePoint2, PointF circleCenter, float radius, out PointF intersection1, out PointF intersection2)
+        {
+            intersection1 = intersection2 = Point.Empty;
+            var hasIntersection = FindCircleIntersection(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenter.X, circleCenter.Y, radius,
+                                              out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y);
+
+            if (hasIntersection)
+            {
+                intersection1 = new Point((int)intersection1X, (int)intersection1Y);
+                intersection2 = new Point((int)intersection2X, (int)intersection2Y);
+            }
+
+            return hasIntersection;
+        }
+
+        /// <summary>
+        /// Find intersection between line and circle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="intersection1"> Intersection point 1 </param>
+        /// <param name="intersection2"> Intersection point 2 </param>
+        /// <returns> True if line and circle has intersection </returns>
+        public static bool FindCircleIntersection(Point linePoint1, Point linePoint2, Point circleCenter, int radius, out Point intersection1, out Point intersection2)
+        {
+            intersection1 = intersection2 = Point.Empty;
+            var hasIntersection = FindCircleIntersection(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenter.X, circleCenter.Y, radius,
+                                              out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y);
+
+            if (hasIntersection)
+            {
+                intersection1 = new Point((int)intersection1X, (int)intersection1Y);
+                intersection2 = new Point((int)intersection2X, (int)intersection2Y);
+            }
+
+            return hasIntersection;
+        }
+
+        /// <summary>
+        /// Find intersection between line and circle
+        /// </summary>
+        /// <param name="linePoint1X"> Line point 1: X coordinate </param>
+        /// <param name="linePoint1Y"> Line point 1: Y coordinate </param>
+        /// <param name="linePoint2X"> Line point 2: X coordinate </param>
+        /// <param name="linePoint2Y"> Line point 2: Y coordinate </param>
+        /// <param name="centerPointX"> Circle center point: X coordinate </param>
+        /// <param name="centerPointY"> Circle center point: Y coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="intersection1X"> Intersection point 1: X coordinate </param>
+        /// <param name="intersection1Y"> Intersection point 1: Y coordinate </param>
+        /// <param name="intersection2X"> Intersection point 2: X coordinate </param>
+        /// <param name="intersection2Y"> Intersection point 2: Y coordinate </param>
+        /// <returns> True if line and circle has intersection </returns>
+        public static bool FindCircleIntersection(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double centerPointX, double centerPointY, double radius,
+            out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y)
+        {
+            intersection1X = intersection1Y = intersection2X = intersection2Y = double.NaN;
+
+            var dx = linePoint2X - linePoint1X;
+            var dy = linePoint2Y - linePoint1Y;
+
+            var A = dx * dx + dy * dy;
+            var B = 2 * (dx * (linePoint1X - centerPointX) + dy * (linePoint1Y - centerPointY));
+            var C = (linePoint1X - centerPointX) * (linePoint1X - centerPointX) + (linePoint1Y - centerPointY) * (linePoint1Y - centerPointY) - radius * radius;
+
+            var determinant = B * B - 4 * A * C;
+
+            if ((GeoPlanarNet.AboutZero(A)) || (determinant < 0))
+            {
+                return false;
+            }
+
+            if (GeoPlanarNet.AboutZero(determinant))
+            {
+                var koef = -B / (2 * A);
+                intersection1X = linePoint1X + koef * dx;
+                intersection1Y = linePoint1Y + koef * dy;
+            }
+            else
+            {
+                var koef = (float)((-B + Math.Sqrt(determinant)) / (2 * A));
+                intersection1X = linePoint1X + koef * dx;
+                intersection1Y = linePoint1Y + koef * dy;
+
+                koef = (float)((-B - Math.Sqrt(determinant)) / (2 * A));
+                intersection2X = linePoint1X + koef * dx;
+                intersection2Y = linePoint1Y + koef * dy;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Get koefficients of line linear function K and B
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>

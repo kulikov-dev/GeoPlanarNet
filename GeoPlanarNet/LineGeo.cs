@@ -306,7 +306,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and rectangle
+        /// Has intersection between line and rectangle
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
@@ -319,7 +319,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and rectangle
+        /// Has intersection between line and rectangle
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
@@ -329,6 +329,23 @@ namespace GeoPlanarNet
         {
             return FindCircleIntersection(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenter.X, circleCenter.Y, radius,
                                               out double _, out double _, out double _, out double _);
+        }
+
+        /// <summary>
+        /// Has intersection between line and circle
+        /// </summary>
+        /// <param name="linePoint1X"> Line point 1: X coordinate </param>
+        /// <param name="linePoint1Y"> Line point 1: Y coordinate </param>
+        /// <param name="linePoint2X"> Line point 2: X coordinate </param>
+        /// <param name="linePoint2Y"> Line point 2: Y coordinate </param>
+        /// <param name="circleCenterX"> Circle center point: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <returns> True if line and circle has intersection </returns>
+        public static bool HasCircleIntersection(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double circleCenterX, double circleCenterY, double radius)
+        {
+            return FindCircleIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, circleCenterX, circleCenterY, radius,
+                                  out double _, out double _, out double _, out double _);
         }
 
         /// <summary>
@@ -388,15 +405,15 @@ namespace GeoPlanarNet
         /// <param name="linePoint1Y"> Line point 1: Y coordinate </param>
         /// <param name="linePoint2X"> Line point 2: X coordinate </param>
         /// <param name="linePoint2Y"> Line point 2: Y coordinate </param>
-        /// <param name="centerPointX"> Circle center point: X coordinate </param>
-        /// <param name="centerPointY"> Circle center point: Y coordinate </param>
+        /// <param name="circleCenterX"> Circle center point: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
         /// <param name="radius"> Circle radius </param>
         /// <param name="intersection1X"> Intersection point 1: X coordinate </param>
         /// <param name="intersection1Y"> Intersection point 1: Y coordinate </param>
         /// <param name="intersection2X"> Intersection point 2: X coordinate </param>
         /// <param name="intersection2Y"> Intersection point 2: Y coordinate </param>
         /// <returns> True if line and circle has intersection </returns>
-        public static bool FindCircleIntersection(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double centerPointX, double centerPointY, double radius,
+        public static bool FindCircleIntersection(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double circleCenterX, double circleCenterY, double radius,
             out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y)
         {
             intersection1X = intersection1Y = intersection2X = intersection2Y = double.NaN;
@@ -405,8 +422,8 @@ namespace GeoPlanarNet
             var dy = linePoint2Y - linePoint1Y;
 
             var A = dx * dx + dy * dy;
-            var B = 2 * (dx * (linePoint1X - centerPointX) + dy * (linePoint1Y - centerPointY));
-            var C = (linePoint1X - centerPointX) * (linePoint1X - centerPointX) + (linePoint1Y - centerPointY) * (linePoint1Y - centerPointY) - radius * radius;
+            var B = 2 * (dx * (linePoint1X - circleCenterX) + dy * (linePoint1Y - circleCenterY));
+            var C = (linePoint1X - circleCenterX) * (linePoint1X - circleCenterX) + (linePoint1Y - circleCenterY) * (linePoint1Y - circleCenterY) - radius * radius;
 
             var determinant = B * B - 4 * A * C;
 

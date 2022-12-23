@@ -155,7 +155,7 @@ namespace GeoPlanarNet
         /// <returns> Distance from the point to the rectangle </returns>
         public static double DistanceToRect(this PointF point, RectangleF rect)
         {
-            return DistanceToRect(point.X, point.Y, rect.X, rect.Y, rect.Width, rect.Height);
+            return DistanceToRect(point.X, point.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace GeoPlanarNet
         /// <returns> Distance from the point to the rectangle </returns>
         public static double DistanceToRect(this Point point, Rectangle rect)
         {
-            return DistanceToRect(point.X, point.Y, rect.X, rect.Y, rect.Width, rect.Height);
+            return DistanceToRect(point.X, point.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height);
         }
 
         /// <summary>
@@ -174,17 +174,17 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="rectLeftTopPointX"> Rectangle left-top point: X coordinate </param>
-        /// <param name="rectLeftTopPointY"> Rectangle left-top point: Y coordinate </param>
-        /// <param name="rectWidth"> Rectangle width </param>
-        /// <param name="rectHeight"> Rectangle height </param>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
         /// <returns> Distance from the point to the rectangle </returns>
-        public static double DistanceToRect(double pointX, double pointY, double rectLeftTopPointX, double rectLeftTopPointY, double rectWidth, double rectHeight)
+        public static double DistanceToRect(double pointX, double pointY, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY)
         {
-            var distanceAB = DistanceToSegment(pointX, pointY, rectLeftTopPointX, rectLeftTopPointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY);
-            var distanceBC = DistanceToSegment(pointX, pointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY + rectHeight);
-            var distanceCD = DistanceToSegment(pointX, pointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY + rectHeight, rectLeftTopPointX, rectLeftTopPointY + rectHeight);
-            var distanceDA = DistanceToSegment(pointX, pointY, rectLeftTopPointX, rectLeftTopPointY + rectHeight, rectLeftTopPointX, rectLeftTopPointY);
+            var distanceAB = DistanceToSegment(pointX, pointY, rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY);
+            var distanceBC = DistanceToSegment(pointX, pointY, rectLeftTopX, rectRightBottomY, rectRightBottomX, rectRightBottomY);
+            var distanceCD = DistanceToSegment(pointX, pointY, rectRightBottomX, rectRightBottomY, rectRightBottomX, rectLeftTopY);
+            var distanceDA = DistanceToSegment(pointX, pointY, rectRightBottomX, rectLeftTopY, rectLeftTopX, rectLeftTopY);
 
             return Math.Min(distanceAB, Math.Min(distanceBC, Math.Min(distanceCD, distanceDA)));
         }
@@ -630,19 +630,47 @@ namespace GeoPlanarNet
         /// <summary>
         /// Check if the point belongs to the rectangle
         /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <returns> Flag, if belongs to the rectangle </returns>
+        public static bool BelongsToRect(this PointF point, float rectLeftTopX, float rectLeftTopY, float rectRightBottomX, float rectRightBottomY)
+        {
+            return BelongsToRect(point.X, point.Y, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY);
+        }
+
+        /// <summary>
+        /// Check if the point belongs to the rectangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <returns> Flag, if belongs to the rectangle </returns>
+        public static bool BelongsToRect(this Point point, int rectLeftTopX, int rectLeftTopY, int rectRightBottomX, int rectRightBottomY)
+        {
+            return BelongsToRect(point.X, point.Y, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY);
+        }
+
+        /// <summary>
+        /// Check if the point belongs to the rectangle
+        /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="rectLeftTopPointX"> Rectangle left-top point: X coordinate </param>
-        /// <param name="rectLeftTopPointY"> Rectangle left-top point: Y coordinate </param>
-        /// <param name="rectWidth"> Rectangle width </param>
-        /// <param name="rectHeight"> Rectangle height </param>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
         /// <returns> Flag, if belongs to the rectangle </returns>
-        public static bool BelongsToRect(double pointX, double pointY, double rectLeftTopPointX, double rectLeftTopPointY, double rectWidth, double rectHeight)
+        public static bool BelongsToRect(double pointX, double pointY, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY)
         {
-            return (GetRelativeLocationSimple(pointX, pointY, rectLeftTopPointX, rectLeftTopPointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY) != PointAgainstSegmentSimpleLocation.Left) &&
-                    (GetRelativeLocationSimple(pointX, pointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY + rectHeight) != PointAgainstSegmentSimpleLocation.Left) &&
-                    (GetRelativeLocationSimple(pointX, pointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY + rectHeight, rectLeftTopPointX, rectLeftTopPointY + rectHeight) != PointAgainstSegmentSimpleLocation.Left) &&
-                    (GetRelativeLocationSimple(pointX, pointY, rectLeftTopPointX, rectLeftTopPointY + rectHeight, rectLeftTopPointX, rectLeftTopPointY) != PointAgainstSegmentSimpleLocation.Left);
+            return (GetRelativeLocationSimple(pointX, pointY, rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY) != PointAgainstSegmentSimpleLocation.Left) &&
+                    (GetRelativeLocationSimple(pointX, pointY, rectLeftTopX, rectRightBottomY, rectRightBottomX, rectRightBottomY) != PointAgainstSegmentSimpleLocation.Left) &&
+                    (GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectRightBottomY, rectRightBottomX, rectLeftTopY) != PointAgainstSegmentSimpleLocation.Left) &&
+                    (GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectLeftTopY, rectLeftTopX, rectLeftTopY) != PointAgainstSegmentSimpleLocation.Left);
         }
 
         /// <summary>

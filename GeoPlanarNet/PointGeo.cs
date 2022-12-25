@@ -1250,6 +1250,60 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
+        /// Get the point location relative to the circle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="circleCenterPoint"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius</param>
+        /// <returns> Relative location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationCircle(this PointF point, PointF circleCenterPoint, float circleRadius)
+        {
+            return GetRelativeLocationCircle(point.X, point.Y, circleCenterPoint.X, circleCenterPoint.Y, circleRadius);
+        }
+
+        /// <summary>
+        /// Get the point location relative to the circle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="circleCenterPoint"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius</param>
+        /// <returns> Relative location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationCircle(this Point point, Point circleCenterPoint, int circleRadius)
+        {
+            return GetRelativeLocationCircle(point.X, point.Y, circleCenterPoint.X, circleCenterPoint.Y, circleRadius);
+        }
+
+        /// <summary>
+        ///  Get the point location relative to the circle
+        /// </summary>
+        /// <param name="pointX"> Point: X Coordinate </param>
+        /// <param name="pointY"> Point: Y Coordinate </param>
+        /// <param name="circleCenterPointX"> Circle center point: X Coordinate </param>
+        /// <param name="circleCenterPointY"> Circle center point: Y Coordinate </param>
+        /// <param name="circleCenterRadius"> Circle cente radius </param>
+        /// <returns> Point location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationCircle(double pointX, double pointY, double circleCenterPointX, double circleCenterPointY, double circleCenterRadius)
+        {
+            var distX = pointX - circleCenterPointX;
+            var distY = pointY - circleCenterPointY;
+            var diff = distX * distX + distY * distY;
+
+            var radSqr = circleCenterRadius * circleCenterRadius;
+
+            if (diff < radSqr)
+            {
+                return PointAgainstFigureLocation.Inside;
+            }
+
+            if (diff == radSqr)
+            {
+                return PointAgainstFigureLocation.OnTheEdge;
+            }
+
+            return PointAgainstFigureLocation.Outside;
+        }
+
+        /// <summary>
         /// Get the point location relative to the rectangle
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>

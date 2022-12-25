@@ -441,10 +441,7 @@ namespace GeoPlanarNet
         /// <returns> Flag if the point belongs to the cirle </returns>
         public static bool BelongsToCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius)
         {
-            var distX = pointX - circleCenterX;
-            var distY = pointY - circleCenterY;
-
-            return distX * distX + distY * distY <= radius * radius;
+            return GetRelativeLocationCircle(pointX, pointY, circleCenterX, circleCenterY, radius) != PointAgainstFigureLocation.Outside;
         }
 
         /// <summary>
@@ -1274,7 +1271,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        ///  Get the point location relative to the circle
+        /// Get the point location relative to the circle
         /// </summary>
         /// <param name="pointX"> Point: X Coordinate </param>
         /// <param name="pointY"> Point: Y Coordinate </param>

@@ -146,5 +146,49 @@ namespace GeoPlanarNet
                    LineGeo.HasCircleIntersection(rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY, circleCenterX, circleCenterY, radius) ||
                    LineGeo.HasCircleIntersection(rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY, circleCenterX, circleCenterY, radius);
         }
+
+        /// <summary>
+        /// Check if two circles are orthogonal 
+        /// </summary>
+        /// <param name="centerPoint1"> Circle 1 center point </param>
+        /// <param name="radius1"> Circle 1 radius </param>
+        /// <param name="centerPoint2"> Circle 2 center point </param>
+        /// <param name="radius2"> Circle 2 radius </param>
+        /// <returns> True, if circles are orthogonal </returns>
+        public static bool IsOrthogonal(PointF centerPoint1, float radius1, PointF centerPoint2, float radius2)
+        {
+           return IsOrthogonal(centerPoint1.X, centerPoint1.Y, radius1, centerPoint2.X, centerPoint2.Y, radius2);
+        }
+
+        /// <summary>
+        /// Check if two circles are orthogonal
+        /// </summary>
+        /// <param name="centerPoint1"> Circle 1 center point </param>
+        /// <param name="radius1"> Circle 1 radius </param>
+        /// <param name="centerPoint2"> Circle 2 center point </param>
+        /// <param name="radius2"> Circle 2 radius </param>
+        /// <returns> True, if circles are orthogonal </returns>
+        public static bool IsOrthogonal(Point centerPoint1, int radius1, Point centerPoint2, int radius2)
+        {
+            return IsOrthogonal(centerPoint1.X, centerPoint1.Y, radius1, centerPoint2.X, centerPoint2.Y, radius2);
+        }
+
+        /// <summary>
+        /// Check if two circles are orthogonal
+        /// </summary>
+        /// <param name="circleCenter1X"> Circle 1 center point: X coordinate </param>
+        /// <param name="circleCenter1Y"> Circle 1 center point: Y coordinate </param>
+        /// <param name="radius1"> Circle 1 radius </param>
+        /// <param name="circleCenter2X"> Circle 2 center point: X coordinate </param>
+        /// <param name="circleCenter2Y"> Circle 2 center point: Y coordinate </param>
+        /// <param name="radius2"> Circle 2 radius </param>
+        /// <returns> True, if circles are orthogonal </returns>
+        public static bool IsOrthogonal(double circleCenter1X, double circleCenter1Y, double radius1, double circleCenter2X, double circleCenter2Y, double radius2)
+        {
+            var distanceSqr = (circleCenter1X - circleCenter2X) * (circleCenter1X - circleCenter2X) +
+                              (circleCenter1Y - circleCenter2Y) * (circleCenter1Y - circleCenter2Y);
+
+            return distanceSqr == radius1 * radius1 + radius2 * radius2;
+        }
     }
 }

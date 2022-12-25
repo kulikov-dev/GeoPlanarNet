@@ -1256,15 +1256,15 @@ namespace GeoPlanarNet
         /// <param name="pointY"> Point: Y coordinate </param>
         /// <param name="rectLeftTopPointX"> Rectangle left-top point: X coordinate </param>
         /// <param name="rectLeftTopPointY"> Rectangle left-top point: Y coordinate </param>
-        /// <param name="rectWidth"> Rectangle width </param>
-        /// <param name="rectHeight"> Rectangle height </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
         /// <returns> Point location </returns>
-        public static PointAgainstFigureLocation GetRelativeLocationRect(double pointX, double pointY, double rectLeftTopPointX, double rectLeftTopPointY, double rectWidth, double rectHeight)
+        public static PointAgainstFigureLocation GetRelativeLocationRect(double pointX, double pointY, double rectLeftTopPointX, double rectLeftTopPointY, double rectRightBottomX, double rectRightBottomY)
         {
-            var abLocation = GetRelativeLocationSimple(pointX, pointY, rectLeftTopPointX, rectLeftTopPointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY);
-            var bcLocation = GetRelativeLocationSimple(pointX, pointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY + rectHeight);
-            var cdLocation = GetRelativeLocationSimple(pointX, pointY, rectLeftTopPointX + rectWidth, rectLeftTopPointY + rectHeight, rectLeftTopPointX, rectLeftTopPointY + rectHeight);
-            var daLocation = GetRelativeLocationSimple(pointX, pointY, rectLeftTopPointX, rectLeftTopPointY + rectHeight, rectLeftTopPointX, rectLeftTopPointY);
+            var abLocation = GetRelativeLocationSimple(pointX, pointY, rectLeftTopPointX, rectLeftTopPointY, rectRightBottomX, rectLeftTopPointY);
+            var bcLocation = GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectLeftTopPointY, rectRightBottomX, rectRightBottomY);
+            var cdLocation = GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectRightBottomY, rectLeftTopPointX, rectRightBottomY);
+            var daLocation = GetRelativeLocationSimple(pointX, pointY, rectLeftTopPointX, rectRightBottomY, rectLeftTopPointX, rectLeftTopPointY);
 
             if (abLocation != PointAgainstSegmentSimpleLocation.Left && bcLocation != PointAgainstSegmentSimpleLocation.Left &&
                 cdLocation != PointAgainstSegmentSimpleLocation.Left && daLocation != PointAgainstSegmentSimpleLocation.Left)

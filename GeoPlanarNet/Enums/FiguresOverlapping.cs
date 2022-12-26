@@ -9,7 +9,7 @@ namespace GeoPlanarNet.Enums
     public enum FiguresOverlapping
     {
         Figure2InsideFigure1,
-        Figre1InsideFigure2,
+        Figure1InsideFigure2,
         Intersects,
         InTouch,
         DoNotOverlap

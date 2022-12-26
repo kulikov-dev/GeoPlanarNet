@@ -190,7 +190,7 @@ namespace GeoPlanarNet
             var distanceSqr = (circleCenter1X - circleCenter2X) * (circleCenter1X - circleCenter2X) +
                               (circleCenter1Y - circleCenter2Y) * (circleCenter1Y - circleCenter2Y);
 
-            return distanceSqr == radius1 * radius1 + radius2 * radius2;
+            return distanceSqr.AboutEquals(radius1 * radius1 + radius2 * radius2);
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace GeoPlanarNet
                 return FiguresOverlapping.Intersects;
             }
 
-            if (distance == radius1 + radius2)
+            if (distance.AboutEquals(radius1 + radius2))
             {
                 return FiguresOverlapping.InTouch;
             }

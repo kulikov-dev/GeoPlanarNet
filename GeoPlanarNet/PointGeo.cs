@@ -128,10 +128,7 @@ namespace GeoPlanarNet
             var koefX = linePoint1X + (linePoint2X - linePoint1X) * koef;
             var koefY = linePoint1Y + (linePoint2Y - linePoint1Y) * koef;
 
-            var distX = pointX - koefX;
-            var distY = pointY - koefY;
-
-            return Math.Sqrt(distX * distX + distY * distY);
+            return DistanceTo(pointX, pointY, koefX, koefY);
         }
 
         /// <summary>
@@ -172,12 +169,12 @@ namespace GeoPlanarNet
         {
             if ((segmentStartX - segmentEndX) * (pointX - segmentEndX) + (segmentStartY - segmentEndY) * (pointY - segmentEndY) <= 0)
             {
-                return Math.Sqrt((pointX - segmentEndX) * (pointX - segmentEndX) + (pointY - segmentEndY) * (pointY - segmentEndY));
+                return DistanceTo(pointX, pointY, segmentEndX, segmentEndY);
             }
 
             if ((segmentEndX - segmentStartX) * (pointX - segmentStartX) + (segmentEndY - segmentStartY) * (pointY - segmentStartY) <= 0)
             {
-                return Math.Sqrt((pointX - segmentStartX) * (pointX - segmentStartX) + (pointY - segmentStartY) * (pointY - segmentStartY));
+                return DistanceTo(pointX, pointY, segmentStartX, segmentStartY);
             }
 
             return Math.Abs((segmentEndY - segmentStartY) * pointX - (segmentEndX - segmentStartX) * pointY + segmentEndX * segmentStartY - segmentEndY * segmentStartX) /
@@ -261,10 +258,7 @@ namespace GeoPlanarNet
         /// <returns> Distance between the point and the circle </returns>
         public static double DistanceToCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius)
         {
-            var distX = pointX - circleCenterX;
-            var distY = pointY - circleCenterY;
-
-            return Math.Sqrt(distX * distX + distY * distY) - radius;
+            return DistanceTo(pointX, pointY, circleCenterX, circleCenterY) - radius;
         }
 
         /// <summary>

@@ -207,7 +207,7 @@ namespace GeoPlanarNet
         /// <returns> Bounding box </returns>
         public static RectangleF GetBoundingRect(PointF apex1, PointF apex2, PointF apex3)
         {
-            GetBoundingRect(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out double leftTopX, out double leftTopY, out double width, out double height);
+            GetBoundingRect(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var leftTopX, out var leftTopY, out var width, out var height);
             return new Rectangle((int)leftTopX, (int)leftTopY, (int)width, (int)height);
         }
 
@@ -220,7 +220,7 @@ namespace GeoPlanarNet
         /// <returns> Bounding box </returns>
         public static Rectangle GetBoundingRect(Point apex1, Point apex2, Point apex3)
         {
-            GetBoundingRect(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out double leftTopX, out double leftTopY, out double width, out double height);
+            GetBoundingRect(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var leftTopX, out var leftTopY, out var width, out var height);
             return new Rectangle((int)leftTopX, (int)leftTopY, (int)width, (int)height);
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 using GeoPlanarNet.Enums;
 
@@ -25,7 +26,7 @@ namespace GeoPlanarNet
         /// <returns> Point on the circle edge </returns>
         public static PointF GetEdgePoint(PointF centerPoint, float radius, double angleRad)
         {
-            GetEdgePoint(centerPoint.X, centerPoint.Y, radius, angleRad, out double x, out double y);
+            GetEdgePoint(centerPoint.X, centerPoint.Y, radius, angleRad, out var x, out var y);
             return new PointF((float)x, (float)y);
         }
 
@@ -38,7 +39,7 @@ namespace GeoPlanarNet
         /// <returns> Point on the circle edge </returns>
         public static Point GetEdgePoint(Point centerPoint, int radius, int angleRad)
         {
-            GetEdgePoint(centerPoint.X, centerPoint.Y, radius, angleRad, out double x, out double y);
+            GetEdgePoint(centerPoint.X, centerPoint.Y, radius, angleRad, out var x, out var y);
             return new Point((int)x, (int)y);
         }
 
@@ -65,7 +66,7 @@ namespace GeoPlanarNet
         /// <returns> Bounding rectangle </returns>
         public static RectangleF GetBoundingRect(PointF circleCenter, float radius)
         {
-            GetBoundingRect(circleCenter.X, circleCenter.Y, radius, out double leftTopX, out double leftTopY, out double width, out double height);
+            GetBoundingRect(circleCenter.X, circleCenter.Y, radius, out var leftTopX, out var leftTopY, out var width, out var height);
             return new RectangleF((float)leftTopX, (float)leftTopY, (float)width, (float)height);
         }
 
@@ -77,7 +78,7 @@ namespace GeoPlanarNet
         /// <returns> Bounding rectangle </returns>
         public static Rectangle GetBoundingRect(Point circleCenter, float radius)
         {
-            GetBoundingRect(circleCenter.X, circleCenter.Y, radius, out double leftTopX, out double leftTopY, out double width, out double height);
+            GetBoundingRect(circleCenter.X, circleCenter.Y, radius, out var leftTopX, out var leftTopY, out var width, out var height);
             return new Rectangle((int)leftTopX, (int)leftTopY, (int)width, (int)height);
         }
 

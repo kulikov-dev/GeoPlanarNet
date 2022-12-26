@@ -204,7 +204,7 @@ namespace GeoPlanarNet
         {
             intersectionPoint = PointF.Empty;
 
-            for (int i = 0; i < curve.Length - 1; i++)
+            for (var i = 0; i < curve.Length - 1; i++)
             {
                 if (SegmentGeo.FindIntersection(segmentStartPoint, segmentEndPoint, curve[i], curve[i + 1], out intersectionPoint))
                 {
@@ -227,7 +227,7 @@ namespace GeoPlanarNet
         {
             intersectionPoint = Point.Empty;
 
-            for (int i = 0; i < curve.Length - 1; i++)
+            for (var i = 0; i < curve.Length - 1; i++)
             {
                 if (SegmentGeo.FindIntersection(segmentStartPoint, segmentEndPoint, curve[i], curve[i + 1], out intersectionPoint))
                 {

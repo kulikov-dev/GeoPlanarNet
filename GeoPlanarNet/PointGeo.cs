@@ -431,7 +431,7 @@ namespace GeoPlanarNet
         /// <returns> Flag if the point belongs to the line </returns>
         public static bool BelongsToLine(double pointX, double pointY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
         {
-            LineGeo.FindSlopeKoef(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out double slopeKoef, out double yIntersection);
+            LineGeo.FindSlopeKoef(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out var slopeKoef, out var yIntersection);
 
             return GeoPlanarNet.AboutEquals(pointY, slopeKoef * pointX + yIntersection);
         }
@@ -958,7 +958,7 @@ namespace GeoPlanarNet
         /// <returns> Closest point on the line </returns>
         public static PointF GetClosestPointOnLine(this PointF point, PointF linePoint1, PointF linePoint2)
         {
-            GetClosestPointOnLine(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, point.X, point.Y, out double x, out double y);
+            GetClosestPointOnLine(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, point.X, point.Y, out var x, out var y);
             return new PointF((float)x, (float)y);
         }
 
@@ -971,7 +971,7 @@ namespace GeoPlanarNet
         /// <returns> Closest point on the line </returns>
         public static Point GetClosestPointOnLine(this Point point, Point linePoint1, Point linePoint2)
         {
-            GetClosestPointOnLine(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, point.X, point.Y, out double x, out double y);
+            GetClosestPointOnLine(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, point.X, point.Y, out var x, out var y);
             return new Point((int)x, (int)y);
         }
 
@@ -1009,7 +1009,7 @@ namespace GeoPlanarNet
         /// <returns> Closest point </returns>
         public static PointF GetClosestPointOnCircle(this PointF point, PointF circleCenter, float radius)
         {
-            GetClosestPointOnCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, out double closestPointX, out double closestPointY);
+            GetClosestPointOnCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, out var closestPointX, out var closestPointY);
             return new PointF((float)closestPointX, (float)closestPointY);
         }
 
@@ -1022,7 +1022,7 @@ namespace GeoPlanarNet
         /// <returns> Closest point </returns>
         public static Point GetClosestPointOnCircle(this Point point, Point circleCenter, double radius)
         {
-            GetClosestPointOnCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, out double closestPointX, out double closestPointY);
+            GetClosestPointOnCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, out var closestPointX, out var closestPointY);
             return new Point((int)closestPointX, (int)closestPointY);
         }
 
@@ -1056,7 +1056,7 @@ namespace GeoPlanarNet
         /// <returns> Closest point on the triangle </returns>
         public static PointF GetClosestPointOnTriangle(this PointF point, PointF apex1, PointF apex2, PointF apex3)
         {
-            GetClosestPointOnTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out double closestPointX, out double closestPointY);
+            GetClosestPointOnTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var closestPointX, out var closestPointY);
             return new PointF((float)closestPointX, (float)closestPointY);
         }
 
@@ -1070,7 +1070,7 @@ namespace GeoPlanarNet
         /// <returns> Closest point on the triangle </returns>
         public static Point GetClosestPointOnTriangle(this Point point, Point apex1, Point apex2, Point apex3)
         {
-            GetClosestPointOnTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out double closestPointX, out double closestPointY);
+            GetClosestPointOnTriangle(point.X, point.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var closestPointX, out var closestPointY);
             return new Point((int)closestPointX, (int)closestPointY);
         }
 
@@ -1114,7 +1114,7 @@ namespace GeoPlanarNet
         /// <returns> Closest point on the rectangle </returns>
         public static PointF GetClosestPointOnRect(this PointF point, RectangleF rect)
         {
-             GetClosestPointOnRect(point.X, point.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height, out double closestPointX, out double closestPointY);
+             GetClosestPointOnRect(point.X, point.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height, out var closestPointX, out var closestPointY);
              return new PointF((float)closestPointX, (float)closestPointY);
         }
 
@@ -1126,7 +1126,7 @@ namespace GeoPlanarNet
         /// <returns> Closest point on the rectangle </returns>
         public static Point GetClosestPointOnRect(this Point point, Rectangle rect)
         {
-            GetClosestPointOnRect(point.X, point.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height, out double closestPointX, out double closestPointY);
+            GetClosestPointOnRect(point.X, point.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height, out var closestPointX, out var closestPointY);
             return new Point((int)closestPointX, (int)closestPointY);
         }
 
@@ -1141,7 +1141,7 @@ namespace GeoPlanarNet
         /// <returns> Closest point on the rectangle </returns>
         public static PointF GetClosestPointOnRect(this PointF point, float rectLeftTopX, float rectLeftTopY, float rectRightBottomX, float rectRightBottomY)
         {
-            GetClosestPointOnRect(point.X, point.Y, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out double closestPointX, out double closestPointY);
+            GetClosestPointOnRect(point.X, point.Y, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var closestPointX, out var closestPointY);
             return new PointF((float)closestPointX, (float)closestPointY);
         }
 
@@ -1156,7 +1156,7 @@ namespace GeoPlanarNet
         /// <returns> Closest point on the rectangle </returns>
         public static Point GetClosestPointOnRect(this Point point, int rectLeftTopX, int rectLeftTopY, int rectRightBottomX, int rectRightBottomY)
         {
-            GetClosestPointOnRect(point.X, point.Y, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out double closestPointX, out double closestPointY);
+            GetClosestPointOnRect(point.X, point.Y, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var closestPointX, out var closestPointY);
             return new Point((int)closestPointX, (int)closestPointY);
         }
 
@@ -1483,7 +1483,7 @@ namespace GeoPlanarNet
         /// <returns> Rotated point </returns>
         public static PointF Rotate(this PointF point, PointF center, double angleRadian)
         {
-            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out double rotatedPointX, out double rotatedPointY);
+            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out var rotatedPointX, out var rotatedPointY);
             return new PointF((float)rotatedPointX, (float)rotatedPointY);
         }
 
@@ -1496,7 +1496,7 @@ namespace GeoPlanarNet
         /// <returns> Rotated point </returns>
         public static Point Rotate(this Point point, Point center, double angleRadian)
         {
-            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out double rotatedPointX, out double rotatedPointY);
+            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out var rotatedPointX, out var rotatedPointY);
             return new Point((int)rotatedPointX, (int)rotatedPointY);
         }
 
@@ -1618,7 +1618,7 @@ namespace GeoPlanarNet
         /// <returns> Projection point </returns>
         public static PointF GetProjectionToLine(this PointF point, PointF linePoint1, PointF linePoint2)
         {
-            GetProjectionToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out double projectionPoint1, out double projectionPoint2);
+            GetProjectionToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out var projectionPoint1, out var projectionPoint2);
             return new PointF((float)projectionPoint1, (float)projectionPoint2);
         }
 
@@ -1631,7 +1631,7 @@ namespace GeoPlanarNet
         /// <returns> Projection point </returns>
         public static Point GetProjectionToLine(this Point point, Point linePoint1, Point linePoint2)
         {
-            GetProjectionToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out double projectionPoint1, out double projectionPoint2);
+            GetProjectionToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out var projectionPoint1, out var projectionPoint2);
             return new Point((int)projectionPoint1, (int)projectionPoint2);
         }
 
@@ -1648,7 +1648,7 @@ namespace GeoPlanarNet
         /// <param name="projectionPointY"> Projection point: Y coordinate </param>
         public static void GetProjectionToLine(double pointX, double pointY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double projectionPointX, out double projectionPointY)
         {
-            LineGeo.FindSlopeKoef(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out double k, out double b);
+            LineGeo.FindSlopeKoef(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out var k, out var b);
 
             if (GeoPlanarNet.AboutZero(k))
             {
@@ -1736,7 +1736,7 @@ namespace GeoPlanarNet
         /// <returns> True, if has intersection with the segment </returns>
         public static bool HasProjectionToSegment(double pointX, double pointY, double segmentStartPointX, double segmentStartPointY, double segmentEndPointX, double segmentEndPointY)
         {
-            GetProjectionToLine(pointX, pointY, segmentStartPointX, segmentStartPointY, segmentEndPointX, segmentEndPointY, out double projectionPointX, out double projectionPointY);
+            GetProjectionToLine(pointX, pointY, segmentStartPointX, segmentStartPointY, segmentEndPointX, segmentEndPointY, out var projectionPointX, out var projectionPointY);
 
             var startToProjectionDiff = DistanceTo(segmentStartPointX, segmentStartPointY, projectionPointX, projectionPointY);
             var endToProjectionDiff = DistanceTo(segmentEndPointX, segmentEndPointY, projectionPointX, projectionPointY);
@@ -1754,7 +1754,7 @@ namespace GeoPlanarNet
         /// <returns> Projection point </returns>
         public static PointF GetProjectionToSegment(this PointF point, PointF segmentStartPoint, PointF segmentEndPoint)
         {
-            GetProjectionToSegment(point.X, point.Y, segmentStartPoint.X, segmentStartPoint.Y, segmentEndPoint.X, segmentEndPoint.Y, out double projectionPoint1, out double projectionPoint2);
+            GetProjectionToSegment(point.X, point.Y, segmentStartPoint.X, segmentStartPoint.Y, segmentEndPoint.X, segmentEndPoint.Y, out var projectionPoint1, out var projectionPoint2);
             return new PointF((float)projectionPoint1, (float)projectionPoint2);
         }
 
@@ -1767,7 +1767,7 @@ namespace GeoPlanarNet
         /// <returns> Projection point </returns>
         public static Point GetProjectionToSegment(this Point point, Point segmentStartPoint, Point segmentEndPoint)
         {
-            GetProjectionToSegment(point.X, point.Y, segmentStartPoint.X, segmentStartPoint.Y, segmentEndPoint.X, segmentEndPoint.Y, out double projectionPoint1, out double projectionPoint2);
+            GetProjectionToSegment(point.X, point.Y, segmentStartPoint.X, segmentStartPoint.Y, segmentEndPoint.X, segmentEndPoint.Y, out var projectionPoint1, out var projectionPoint2);
             return new Point((int)projectionPoint1, (int)projectionPoint2);
         }
 

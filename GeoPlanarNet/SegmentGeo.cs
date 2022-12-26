@@ -292,7 +292,7 @@ namespace GeoPlanarNet
         /// <returns> True, if segments have intersection </returns>
         public static bool FindIntersection(PointF segment1Start, PointF segment1End, PointF segment2Start, PointF segment2End, out PointF intersectionPoint)
         {
-            var hasIntersection = FindIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y, out double x, out double y);
+            var hasIntersection = FindIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y, out var x, out var y);
             intersectionPoint = hasIntersection ? new PointF((float)x, (float)y) : PointF.Empty;
 
             return hasIntersection;
@@ -309,7 +309,7 @@ namespace GeoPlanarNet
         /// <returns> True, if segments have intersection </returns>
         public static bool FindIntersection(Point segment1Start, Point segment1End, Point segment2Start, Point segment2End, out Point intersectionPoint)
         {
-            var hasIntersection = FindIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y, out double x, out double y);
+            var hasIntersection = FindIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y, out var x, out var y);
             intersectionPoint = hasIntersection ? new Point((int)x, (int)y) : Point.Empty;
 
             return hasIntersection;
@@ -389,7 +389,7 @@ namespace GeoPlanarNet
         /// <returns> New point awaw from a segment start </returns>
         public static PointF GetPointAwayFromStart(PointF segmentStart, PointF segmentEnd, double distance)
         {
-            GetPointAwayFromStart(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out double newPointX, out double newPointY);
+            GetPointAwayFromStart(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out var newPointX, out var newPointY);
             return new PointF((float)newPointX, (float)newPointY);
         }
 
@@ -402,7 +402,7 @@ namespace GeoPlanarNet
         /// <returns> New point awaw from a segment start </returns>
         public static Point GetPointAwayFromStart(Point segmentStart, Point segmentEnd, int distance)
         {
-            GetPointAwayFromStart(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out double newPointX, out double newPointY);
+            GetPointAwayFromStart(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out var newPointX, out var newPointY);
             return new Point((int)newPointX, (int)newPointY);
         }
 
@@ -453,7 +453,7 @@ namespace GeoPlanarNet
         /// <returns> New point awaw from a segment end </returns>
         public static PointF GetPointAwayFromEnd(PointF segmentStart, PointF segmentEnd, double distance)
         {
-            GetPointAwayFromEnd(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out double newPointX, out double newPointY);
+            GetPointAwayFromEnd(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out var newPointX, out var newPointY);
             return new PointF((float)newPointX, (float)newPointY);
         }
 
@@ -466,7 +466,7 @@ namespace GeoPlanarNet
         /// <returns> New point awaw from a segment end </returns>
         public static Point GetPointAwayFromEnd(Point segmentStart, Point segmentEnd, int distance)
         {
-            GetPointAwayFromEnd(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out double newPointX, out double newPointY);
+            GetPointAwayFromEnd(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out var newPointX, out var newPointY);
             return new Point((int)newPointX, (int)newPointY);
         }
 
@@ -579,7 +579,7 @@ namespace GeoPlanarNet
         /// <returns> Point with X-Y coordinates </returns>
         public static PointF LinearInterpolation(PointF segmentStart, PointF segmentEnd, float pointX)
         {
-            LinearInterpolation(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, pointX, out double pointY);
+            LinearInterpolation(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, pointX, out var pointY);
             return new PointF(pointX, (float)pointY);
         }
 
@@ -592,7 +592,7 @@ namespace GeoPlanarNet
         /// <returns> Point with X-Y coordinates </returns>
         public static Point LinearInterpolation(Point segmentStart, Point segmentEnd, int pointX)
         {
-            LinearInterpolation(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, pointX, out double pointY);
+            LinearInterpolation(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, pointX, out var pointY);
             return new Point(pointX, (int)pointY);
         }
 
@@ -698,7 +698,7 @@ namespace GeoPlanarNet
         /// <returns> Rectangle </returns>
         public static List<PointF> GetRectangle(PointF segmentStart, PointF segmentEnd, float rectangleSideLength)
         {
-            LineGeo.FindSlopeKoef(segmentStart, segmentEnd, out float slopeKoef, out float yZeroValue);
+            LineGeo.FindSlopeKoef(segmentStart, segmentEnd, out var slopeKoef, out var yZeroValue);
 
             var points = new List<PointF>();
             var halfLength = (float)rectangleSideLength / 2;

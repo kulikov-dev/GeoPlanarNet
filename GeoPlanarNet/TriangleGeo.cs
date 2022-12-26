@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using GeoPlanarNet.Enums;
 
 namespace GeoPlanarNet
 {
@@ -41,6 +42,59 @@ namespace GeoPlanarNet
         public static double Area(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
         {
             return 0.5d * Math.Abs(((apex2X - apex3X) * (apex1Y - apex3Y)) - ((apex1X - apex3X) * (apex2Y - apex3Y)));
+        }
+
+        /// <summary>
+        /// Get triangle type
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Triangle type </returns>
+        public static TriangleType GetTriangleType(PointF apex1, PointF apex2, PointF apex3)
+        {
+            return GetTriangleType(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Get triangle type
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Triangle type </returns>
+        public static TriangleType GetTriangleType(Point apex1, Point apex2, Point apex3)
+        {
+            return GetTriangleType(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Get triangle type
+        /// </summary>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <returns> Triangle type </returns>
+        public static TriangleType GetTriangleType(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
+        {
+            var lengthA = SegmentGeo.Length(apex2X, apex2Y, apex3X, apex3Y);
+            var lengthB = SegmentGeo.Length(apex1X, apex1Y, apex3X, apex3Y);
+            var lengthC = SegmentGeo.Length(apex1X, apex1Y, apex2X, apex2Y);
+
+            if (lengthA.AboutEquals(lengthB) && lengthB.AboutEquals(lengthC))
+            {
+                return TriangleType.Equilateral;
+            }
+
+            if (lengthA.AboutEquals(lengthB) || lengthB.AboutEquals(lengthC) || lengthA.AboutEquals(lengthC))
+            {
+                return TriangleType.Isosceles;
+            }
+
+            return TriangleType.Scalene;
         }
 
         /// <summary>

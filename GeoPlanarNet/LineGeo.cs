@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using GeoPlanarNet.Enums;
 
 namespace GeoPlanarNet
 {
@@ -585,6 +586,64 @@ namespace GeoPlanarNet
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Get the line location relative to the circle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="circleCenterPoint"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius</param>
+        /// <returns> Relative location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationCircle(PointF linePoint1, PointF linePoint2, PointF circleCenterPoint, float circleRadius)
+        {
+            return GetRelativeLocationCircle(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenterPoint.X, circleCenterPoint.Y, circleRadius);
+        }
+
+        /// <summary>
+        /// Get the line location relative to the circle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="circleCenterPoint"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius</param>
+        /// <returns> Relative location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationCircle(Point linePoint1, Point linePoint2, Point circleCenterPoint, int circleRadius)
+        {
+            return GetRelativeLocationCircle(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenterPoint.X, circleCenterPoint.Y, circleRadius);
+        }
+
+        /// <summary>
+        /// Get the line location relative to the circle
+        /// </summary>
+        /// <param name="linePoint1X"> Line point 1: X </param>
+        /// <param name="linePoint1Y"> Line point 1: Y </param>
+        /// <param name="linePoint2X"> Line point 2: X </param>
+        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <param name="circleCenterPointX"> Circle center point: X Coordinate </param>
+        /// <param name="circleCenterPointY"> Circle center point: Y Coordinate </param>
+        /// <param name="circleCenterRadius"> Circle cente radius </param>
+        /// <returns> Point location </returns>
+        /// <remarks> Return 'inside' if has two intersections </remarks>
+        public static PointAgainstFigureLocation GetRelativeLocationCircle(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double circleCenterPointX, double circleCenterPointY, double circleCenterRadius)
+        {
+           FindCircleIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, circleCenterPointX, circleCenterPointY, circleCenterRadius, out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
+
+            var hasIntersection1 = !double.IsNaN(intersection1X) && !double.IsNaN(intersection1Y);
+            var hasIntersection2 = !double.IsNaN(intersection2X) && !double.IsNaN(intersection2Y);
+
+            if (hasIntersection1 && hasIntersection2)
+            {
+                return PointAgainstFigureLocation.Inside;
+            }
+
+            if (hasIntersection1)
+            {
+                return PointAgainstFigureLocation.OnTheEdge;
+            }
+
+            return PointAgainstFigureLocation.Outside;
         }
     }
 }

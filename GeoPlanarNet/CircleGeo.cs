@@ -261,8 +261,8 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="circle1Center"> Circle 1 center point </param>
         /// <param name="circle1Radius"> Circle 1 radius </param>
-        /// <param name="circle2Center"> Circle 1 center point </param>
-        /// <param name="circle2Radius"> Circle 1 radius </param>
+        /// <param name="circle2Center"> Circle 2 center point </param>
+        /// <param name="circle2Radius"> Circle 2 radius </param>
         /// <returns> Distance between the circle and the circle </returns>
         public static double DistanceToCircle(PointF circle1Center, float circle1Radius, PointF circle2Center, float circle2Radius)
         {
@@ -274,8 +274,8 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="circle1Center"> Circle 1 center point </param>
         /// <param name="circle1Radius"> Circle 1 radius </param>
-        /// <param name="circle2Center"> Circle 1 center point </param>
-        /// <param name="circle2Radius"> Circle 1 radius </param>
+        /// <param name="circle2Center"> Circle 2 center point </param>
+        /// <param name="circle2Radius"> Circle 2 radius </param>
         /// <returns> Distance between the circle and the circle </returns>
         public static double DistanceToCircle(Point circle1Center, int circle1Radius, Point circle2Center, int circle2Radius)
         {
@@ -295,6 +295,52 @@ namespace GeoPlanarNet
         public static double DistanceToCircle(double circle1CenterX, double circle1CenterY, double radius1, double circle2CenterX, double circle2CenterY, double radius2)
         {
             return PointGeo.DistanceTo(circle1CenterX, circle1CenterY, circle2CenterX, circle2CenterY) - (radius1 + radius2);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the circle to the triangle
+        /// </summary>
+        /// <param name="circleCenter"> Center point </param>
+        /// <param name="circleRadius"> Radius </param>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Distance from the circle to the triangle</returns>
+        public static double DistanceToTriangle(PointF circleCenter, float circleRadius, PointF apex1, PointF apex2, PointF apex3)
+        {
+            return DistanceToTriangle(circleCenter.X, circleCenter.Y, circleRadius, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the circle to the triangle
+        /// </summary>
+        /// <param name="circleCenter"> Center point </param>
+        /// <param name="circleRadius"> Radius </param>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Distance from the circle to the triangle </returns>
+        public static double DistanceToTriangle(Point circleCenter, float circleRadius, Point apex1, Point apex2, Point apex3)
+        {
+            return DistanceToTriangle(circleCenter.X, circleCenter.Y, circleRadius, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the circle to the triangle
+        /// </summary>
+        /// <param name="circleCenterX"> Center point: X coordinate </param>
+        /// <param name="circleCenterY"> Center point: Y coordinate </param>
+        /// <param name="radius"> Radius </param>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <returns> Distance from the circle to the triangle </returns>
+        public static double DistanceToTriangle(double circleCenterX, double circleCenterY, double radius, double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
+        {
+            return PointGeo.DistanceToTriangle(circleCenterX, circleCenterY, apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y) - radius;
         }
     }
 }

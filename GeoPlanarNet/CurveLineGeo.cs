@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 
 namespace GeoPlanarNet
 {
@@ -9,7 +11,7 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="curve"> Curve </param>
         /// <returns> Length </returns>
-        public static double Length(List<PointF> curve)
+        public static double Length(IList<PointF> curve)
         {
             var length = 0d;
 
@@ -26,7 +28,7 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="curve"> Curve </param>
         /// <returns> Length </returns>
-        public static double Length(List<Point> curve)
+        public static double Length(IList<Point> curve)
         {
             var length = 0d;
 

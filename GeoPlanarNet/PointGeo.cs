@@ -1,7 +1,7 @@
-﻿using GeoPlanarNet.Enums;
+﻿using System;
+using System.Collections.Generic;
+using GeoPlanarNet.Enums;
 using System.Drawing;
-using System.Reflection;
-using System.Security.Principal;
 
 namespace GeoPlanarNet
 {

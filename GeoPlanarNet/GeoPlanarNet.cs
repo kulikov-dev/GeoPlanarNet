@@ -1,4 +1,6 @@
-﻿namespace GeoPlanarNet
+﻿using System;
+
+namespace GeoPlanarNet
 {
     /// <summary>
     /// Implement global constants

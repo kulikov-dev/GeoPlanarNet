@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 using GeoPlanarNet.Enums;
 
 namespace GeoPlanarNet

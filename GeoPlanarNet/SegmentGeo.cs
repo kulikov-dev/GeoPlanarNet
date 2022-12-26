@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace GeoPlanarNet
 {
@@ -514,7 +516,7 @@ namespace GeoPlanarNet
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
         /// <param name="segmentsLength"> Length of each new segment </param>
-        /// <returns> List of consecutive segments </returns>
+        /// <returns> IList of consecutive segments </returns>
         public static PointF[] Split(PointF segmentStart, PointF segmentEnd, double segmentsLength)
         {
             var segmentLength = Length(segmentStart, segmentEnd);
@@ -545,7 +547,7 @@ namespace GeoPlanarNet
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
         /// <param name="segmentsLength"> Length of each new segment </param>
-        /// <returns> List of consecutive segments </returns>
+        /// <returns> IList of consecutive segments </returns>
         public static Point[] Split(Point segmentStart, Point segmentEnd, int segmentsLength)
         {
             var segmentLength = Length(segmentStart, segmentEnd);
@@ -625,9 +627,9 @@ namespace GeoPlanarNet
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
         /// <param name="step"> Interpolation step </param>
-        /// <returns> List of interpolated points </returns>
+        /// <returns> IList of interpolated points </returns>
         /// <exception cref="ArgumentException"> Exception if segmentStart more than segmentEnd </exception>
-        public static List<PointF> LinearInterpolationByStep(PointF segmentStart, PointF segmentEnd, float step)
+        public static IList<PointF> LinearInterpolationByStep(PointF segmentStart, PointF segmentEnd, float step)
         {
             if (segmentStart.X > segmentEnd.X)
             {
@@ -660,9 +662,9 @@ namespace GeoPlanarNet
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
         /// <param name="step"> Interpolation step </param>
-        /// <returns> List of interpolated points </returns>
+        /// <returns> IList of interpolated points </returns>
         /// <exception cref="ArgumentException"> Exception if segmentStart more than segmentEnd </exception>
-        public static List<Point> LinearInterpolationByStep(Point segmentStart, Point segmentEnd, int step)
+        public static IList<Point> LinearInterpolationByStep(Point segmentStart, Point segmentEnd, int step)
         {
             if (segmentStart.X > segmentEnd.X)
             {
@@ -696,7 +698,7 @@ namespace GeoPlanarNet
         /// <param name="segmentEnd"> Segment end point </param>
         /// <param name="rectangleSideLength"> Another side length </param>
         /// <returns> Rectangle </returns>
-        public static List<PointF> GetRectangle(PointF segmentStart, PointF segmentEnd, float rectangleSideLength)
+        public static IList<PointF> GetRectangle(PointF segmentStart, PointF segmentEnd, float rectangleSideLength)
         {
             LineGeo.FindSlopeKoef(segmentStart, segmentEnd, out var slopeKoef, out var yZeroValue);
 

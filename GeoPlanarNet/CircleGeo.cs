@@ -1,4 +1,6 @@
 ﻿using System.Drawing;
+using System.Runtime.CompilerServices;
+using GeoPlanarNet.Enums;
 
 namespace GeoPlanarNet
 {
@@ -157,7 +159,7 @@ namespace GeoPlanarNet
         /// <returns> True, if circles are orthogonal </returns>
         public static bool IsOrthogonal(PointF centerPoint1, float radius1, PointF centerPoint2, float radius2)
         {
-           return IsOrthogonal(centerPoint1.X, centerPoint1.Y, radius1, centerPoint2.X, centerPoint2.Y, radius2);
+            return IsOrthogonal(centerPoint1.X, centerPoint1.Y, radius1, centerPoint2.X, centerPoint2.Y, radius2);
         }
 
         /// <summary>
@@ -189,6 +191,68 @@ namespace GeoPlanarNet
                               (circleCenter1Y - circleCenter2Y) * (circleCenter1Y - circleCenter2Y);
 
             return distanceSqr == radius1 * radius1 + radius2 * radius2;
+        }
+
+        /// <summary>
+        /// Check if two circles has overlapping
+        /// </summary>
+        /// <param name="centerPoint1"> Circle 1 center point </param>
+        /// <param name="radius1"> Circle 1 radius </param>
+        /// <param name="centerPoint2"> Circle 2 center point </param>
+        /// <param name="radius2"> Circle 2 radius </param>
+        /// <returns> Overlapping type </returns>
+        public static FiguresOverlapping HasOverlapping(PointF centerPoint1, float radius1, PointF centerPoint2, float radius2)
+        {
+            return HasOverlapping(centerPoint1.X, centerPoint1.Y, radius1, centerPoint2.X, centerPoint2.Y, radius2);
+        }
+
+        /// <summary>
+        /// Check if two circles has overlapping
+        /// </summary>
+        /// <param name="centerPoint1"> Circle 1 center point </param>
+        /// <param name="radius1"> Circle 1 radius </param>
+        /// <param name="centerPoint2"> Circle 2 center point </param>
+        /// <param name="radius2"> Circle 2 radius </param>
+        /// <returns> Overlapping type </returns>
+        public static FiguresOverlapping HasOverlapping(Point centerPoint1, int radius1, Point centerPoint2, int radius2)
+        {
+            return HasOverlapping(centerPoint1.X, centerPoint1.Y, radius1, centerPoint2.X, centerPoint2.Y, radius2);
+        }
+
+        /// <summary>
+        /// Check if two circles has overlapping
+        /// </summary>
+        /// <param name="circleCenter1X"> Circle 1 center point: X coordinate </param>
+        /// <param name="circleCenter1Y"> Circle 1 center point: Y coordinate </param>
+        /// <param name="radius1"> Circle 1 radius </param>
+        /// <param name="circleCenter2X"> Circle 2 center point: X coordinate </param>
+        /// <param name="circleCenter2Y"> Circle 2 center point: Y coordinate </param>
+        /// <param name="radius2"> Circle 2 radius </param>
+        /// <returns> Overlapping type </returns>
+        public static FiguresOverlapping HasOverlapping(double circleCenter1X, double circleCenter1Y, double radius1, double circleCenter2X, double circleCenter2Y, double radius2)
+        {
+            var distance = PointGeo.DistanceTo(circleCenter1X, circleCenter1Y, circleCenter2X, circleCenter2Y);
+            if (distance <= radius1 - radius2)
+            {
+                return FiguresOverlapping.Figure2InsideFigure1;
+            }
+
+            if (distance <= radius2 - radius1)
+            {
+                return FiguresOverlapping.Figure1InsideFigure2;
+            }
+
+            if (distance <= radius1 + radius2)
+            {
+                return FiguresOverlapping.Intersects;
+            }
+
+            if (distance == radius1 + radius2)
+            {
+                return FiguresOverlapping.InTouch;
+            }
+
+            return FiguresOverlapping.DoNotOverlap;
         }
     }
 }

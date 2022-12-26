@@ -45,6 +45,49 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
+        /// Get triangle perimeter
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Triangle perimeter </returns>
+        public static double Perimeter(PointF apex1, PointF apex2, PointF apex3)
+        {
+            return Perimeter(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Get triangle perimeter
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Triangle perimeter </returns>
+        public static double Perimeter(Point apex1, Point apex2, Point apex3)
+        {
+            return Perimeter(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Get triangle perimeter
+        /// </summary>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <returns> Triangle perimeter </returns>
+        public static double Perimeter(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
+        {
+            var lengthA = SegmentGeo.Length(apex2X, apex2Y, apex3X, apex3Y);
+            var lengthB = SegmentGeo.Length(apex1X, apex1Y, apex3X, apex3Y);
+            var lengthC = SegmentGeo.Length(apex1X, apex1Y, apex2X, apex2Y);
+
+            return lengthA + lengthB + lengthC;
+        }
+
+        /// <summary>
         /// Get triangle type
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>

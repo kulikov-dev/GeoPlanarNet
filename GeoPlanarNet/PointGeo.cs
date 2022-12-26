@@ -42,10 +42,45 @@ namespace GeoPlanarNet
         /// <returns> Distance </returns>
         public static double DistanceTo(double point1X, double point1Y, double point2X, double point2Y)
         {
+            return Math.Sqrt(DistanceToSqr(point1X, point1Y, point2X, point2Y));
+        }
+
+        /// <summary>
+        /// Get distance between two points
+        /// </summary>
+        /// <param name="point1"> Point 1 </param>
+        /// <param name="point2"> Point 2</param>
+        /// <returns> Distance </returns>
+        public static double DistanceToSqr(this PointF point1, PointF point2)
+        {
+            return DistanceToSqr(point1.X, point1.Y, point2.X, point2.Y);
+        }
+
+        /// <summary>
+        /// Get distance between two points
+        /// </summary>
+        /// <param name="point1"> Point 1 </param>
+        /// <param name="point2"> Point 2</param>
+        /// <returns> Distance </returns>
+        public static double DistanceToSqr(this Point point1, Point point2)
+        {
+            return DistanceToSqr(point1.X, point1.Y, point2.X, point2.Y);
+        }
+
+        /// <summary>
+        /// Get distance between two points
+        /// </summary>
+        /// <param name="point1X"> Point 1: X coordinate </param>
+        /// <param name="point1Y"> Point 1: Y coordinate </param>
+        /// <param name="point2X"> Point 2: X coordinate </param>
+        /// <param name="point2Y"> Point 2: Y coordinate </param>
+        /// <returns> Distance </returns>
+        public static double DistanceToSqr(double point1X, double point1Y, double point2X, double point2Y)
+        {
             var distX = point1X - point2X;
             var distY = point1Y - point2Y;
 
-            return Math.Sqrt(distX * distX + distY * distY);
+            return distX * distX + distY * distY;
         }
 
         /// <summary>

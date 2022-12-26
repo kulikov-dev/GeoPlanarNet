@@ -40,6 +40,41 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
+        /// Get segment squared length
+        /// </summary>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
+        /// <returns> Segment length </returns>
+        public static double LengthSqr(PointF segmentStart, PointF segmentEnd)
+        {
+            return LengthSqr(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Get segment squared length
+        /// </summary>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
+        /// <returns> Segment length </returns>
+        public static double LengthSqr(Point segmentStart, Point segmentEnd)
+        {
+            return LengthSqr(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Get segment squared length
+        /// </summary>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: X coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> Segment length </returns>
+        public static double LengthSqr(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        {
+            return PointGeo.DistanceTo(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+        }
+
+        /// <summary>
         /// Get a segment tilt angle relative to the X axis
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>

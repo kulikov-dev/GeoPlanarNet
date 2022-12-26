@@ -15,7 +15,7 @@ namespace GeoPlanarNet
 
             for (var i = 1; i < surface.Length; i++)
             {
-                sum += (surface[i - 1].X * surface[i].Y) - (surface[i].X * surface[i - 1].Y);
+                sum += surface[i - 1].X * surface[i].Y - surface[i].X * surface[i - 1].Y;
             }
 
             return Math.Abs(sum * 0.5f);
@@ -32,7 +32,7 @@ namespace GeoPlanarNet
 
             for (var i = 1; i < surface.Length; i++)
             {
-                sum += (surface[i - 1].X * surface[i].Y) - (surface[i].X * surface[i - 1].Y);
+                sum += surface[i - 1].X * surface[i].Y - surface[i].X * surface[i - 1].Y;
             }
 
             return Math.Abs(sum / 2);

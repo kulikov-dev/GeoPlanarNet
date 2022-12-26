@@ -41,7 +41,7 @@ namespace GeoPlanarNet
         /// <returns> Triangle square </returns>
         public static double Area(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
         {
-            return 0.5d * Math.Abs(((apex2X - apex3X) * (apex1Y - apex3Y)) - ((apex1X - apex3X) * (apex2Y - apex3Y)));
+            return 0.5d * Math.Abs((apex2X - apex3X) * (apex1Y - apex3Y) - (apex1X - apex3X) * (apex2Y - apex3Y));
         }
 
         /// <summary>

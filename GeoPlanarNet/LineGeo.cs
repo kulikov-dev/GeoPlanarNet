@@ -128,16 +128,16 @@ namespace GeoPlanarNet
                 return line2IsPoint;
             }
 
-            var div = (projectionLengthY2 * projectionLengthX1) - (projectionLengthX2 * projectionLengthY1);
+            var div = projectionLengthY2 * projectionLengthX1 - projectionLengthX2 * projectionLengthY1;
 
             if (GeoPlanarNet.AboutZero(div))
             {
                 return false;
             }
 
-            var koefIv = ((projectionLengthX2 * (line1y1 - line2y1)) - (projectionLengthY2 * (line1x1 - line2x1))) / div;
-            intesectionX = line1x1 + (koefIv * (line1x2 - line1x1));
-            intersectionY = line1y1 + (koefIv * (line1y2 - line1y1));
+            var koefIv = (projectionLengthX2 * (line1y1 - line2y1) - projectionLengthY2 * (line1x1 - line2x1)) / div;
+            intesectionX = line1x1 + koefIv * (line1x2 - line1x1);
+            intersectionY = line1y1 + koefIv * (line1y2 - line1y1);
 
             return true;
         }
@@ -428,7 +428,7 @@ namespace GeoPlanarNet
 
             var determinant = B * B - 4 * A * C;
 
-            if ((GeoPlanarNet.AboutZero(A)) || (determinant < 0))
+            if (GeoPlanarNet.AboutZero(A) || determinant < 0)
             {
                 return false;
             }
@@ -492,7 +492,7 @@ namespace GeoPlanarNet
         internal static void FindSlopeKoef(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double slopeKoef, out double yIntersection)
         {
             slopeKoef = (linePoint1Y - linePoint2Y) / (linePoint1X - linePoint2X);
-            yIntersection = double.IsInfinity(slopeKoef) ? linePoint2X : linePoint2Y - (linePoint2X * slopeKoef);
+            yIntersection = double.IsInfinity(slopeKoef) ? linePoint2X : linePoint2Y - linePoint2X * slopeKoef;
         }
 
         /// <summary>

@@ -1,5 +1,7 @@
 ﻿using GeoPlanarNet.Enums;
 using System.Drawing;
+using System.Reflection;
+using System.Security.Principal;
 
 namespace GeoPlanarNet
 {
@@ -122,9 +124,9 @@ namespace GeoPlanarNet
             var linesdistX = linePoint2X - linePoint1X;
             var linesdistY = linePoint2Y - linePoint1Y;
 
-            var koef = (((linePoint2X - linePoint1X) * (pointX - linePoint1X)) + ((linePoint2Y - linePoint1Y) * (pointY - linePoint1Y))) / (linesdistX * linesdistX + linesdistY * linesdistY);
-            var koefX = linePoint1X + ((linePoint2X - linePoint1X) * koef);
-            var koefY = linePoint1Y + ((linePoint2Y - linePoint1Y) * koef);
+            var koef = ((linePoint2X - linePoint1X) * (pointX - linePoint1X) + (linePoint2Y - linePoint1Y) * (pointY - linePoint1Y)) / (linesdistX * linesdistX + linesdistY * linesdistY);
+            var koefX = linePoint1X + (linePoint2X - linePoint1X) * koef;
+            var koefY = linePoint1Y + (linePoint2Y - linePoint1Y) * koef;
 
             var distX = pointX - koefX;
             var distY = pointY - koefY;
@@ -564,7 +566,7 @@ namespace GeoPlanarNet
             var distX = pointX - ellipseCenterX;
             var distY = pointY - ellipseCenterY;
 
-            return ((distX * distX) / (radiusX * radiusX)) + ((distY * distY) / (radiusY * radiusY)) <= 1;
+            return distX * distX / (radiusX * radiusX) + distY * distY / (radiusY * radiusY) <= 1;
         }
 
         /// <summary>
@@ -654,9 +656,31 @@ namespace GeoPlanarNet
         /// <returns> Flag if the point belongs to the triangle </returns>
         public static bool BelongsToTriangle(double pointX, double pointY, double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
         {
-            return (GetRelativeLocationSimple(pointX, pointY, apex1X, apex1Y, apex2X, apex2Y) != PointAgainstSegmentSimpleLocation.Left) &&
-                    (GetRelativeLocationSimple(pointX, pointY, apex2X, apex2Y, apex3X, apex3Y) != PointAgainstSegmentSimpleLocation.Left) &&
-                    (GetRelativeLocationSimple(pointX, pointY, apex3X, apex3Y, apex1X, apex1Y) != PointAgainstSegmentSimpleLocation.Left);
+            return GetRelativeLocationSimple(pointX, pointY, apex1X, apex1Y, apex2X, apex2Y) != PointAgainstSegmentSimpleLocation.Left &&
+                    GetRelativeLocationSimple(pointX, pointY, apex2X, apex2Y, apex3X, apex3Y) != PointAgainstSegmentSimpleLocation.Left &&
+                    GetRelativeLocationSimple(pointX, pointY, apex3X, apex3Y, apex1X, apex1Y) != PointAgainstSegmentSimpleLocation.Left;
+        }
+
+        /// <summary>
+        /// Check if the point belongs to the rectangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <returns> Flag, if belongs to the rectangle </returns>
+        public static bool BelongsToRect(this PointF point, RectangleF rect)
+        {
+            return BelongsToRect(point.X, point.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height);
+        }
+
+        /// <summary>
+        /// Check if the point belongs to the rectangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <returns> Flag, if belongs to the rectangle </returns>
+        public static bool BelongsToRect(this Point point, Rectangle rect)
+        {
+            return BelongsToRect(point.X, point.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height);
         }
 
         /// <summary>
@@ -699,10 +723,10 @@ namespace GeoPlanarNet
         /// <returns> Flag, if belongs to the rectangle </returns>
         public static bool BelongsToRect(double pointX, double pointY, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY)
         {
-            return (GetRelativeLocationSimple(pointX, pointY, rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY) != PointAgainstSegmentSimpleLocation.Left) &&
-                    (GetRelativeLocationSimple(pointX, pointY, rectLeftTopX, rectRightBottomY, rectRightBottomX, rectRightBottomY) != PointAgainstSegmentSimpleLocation.Left) &&
-                    (GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectRightBottomY, rectRightBottomX, rectLeftTopY) != PointAgainstSegmentSimpleLocation.Left) &&
-                    (GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectLeftTopY, rectLeftTopX, rectLeftTopY) != PointAgainstSegmentSimpleLocation.Left);
+            return GetRelativeLocationSimple(pointX, pointY, rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY) != PointAgainstSegmentSimpleLocation.Left &&
+                    GetRelativeLocationSimple(pointX, pointY, rectLeftTopX, rectRightBottomY, rectRightBottomX, rectRightBottomY) != PointAgainstSegmentSimpleLocation.Left &&
+                    GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectRightBottomY, rectRightBottomX, rectLeftTopY) != PointAgainstSegmentSimpleLocation.Left &&
+                    GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectLeftTopY, rectLeftTopX, rectLeftTopY) != PointAgainstSegmentSimpleLocation.Left;
         }
 
         /// <summary>
@@ -754,7 +778,7 @@ namespace GeoPlanarNet
                 float xDiff;
                 if (yDiff < 0)
                 {
-                    xDiff = area[firstIndex].X + ((area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y));
+                    xDiff = area[firstIndex].X + (area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y);
 
                     if (xDiff < point.X)
                     {
@@ -780,7 +804,7 @@ namespace GeoPlanarNet
 
                             if (area[firstIndex].Y.AboutEquals(point.Y) && area[secondIndex].Y.AboutEquals(point.Y))
                             {
-                                if (((area[firstIndex].X - point.X) * (area[secondIndex].X - point.X)) <= 0)
+                                if ((area[firstIndex].X - point.X) * (area[secondIndex].X - point.X) <= 0)
                                 {
                                     return true;
                                 }
@@ -791,7 +815,7 @@ namespace GeoPlanarNet
 
                         if (yDiff < 0)
                         {
-                            xDiff = area[firstIndex].X + ((area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y));
+                            xDiff = area[firstIndex].X + (area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y);
 
                             if (xDiff < point.X)
                             {
@@ -811,9 +835,9 @@ namespace GeoPlanarNet
                 firstIndex = secondIndex;
                 secondIndex = (secondIndex + 1) % pointsInAreaCount;
             }
-            while ((secondIndex != (indFirst + 1)) && iterations < pointsInAreaCount);
+            while (secondIndex != indFirst + 1 && iterations < pointsInAreaCount);
 
-            return (left % 2 == 1) && iterations <= pointsInAreaCount;
+            return left % 2 == 1 && iterations <= pointsInAreaCount;
         }
 
         /// <summary>
@@ -865,7 +889,7 @@ namespace GeoPlanarNet
                 int xDiff;
                 if (yDiff < 0)
                 {
-                    xDiff = area[firstIndex].X + ((area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y));
+                    xDiff = area[firstIndex].X + (area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y);
 
                     if (xDiff < point.X)
                     {
@@ -891,7 +915,7 @@ namespace GeoPlanarNet
 
                             if (area[firstIndex].Y == point.Y && area[secondIndex].Y == point.Y)
                             {
-                                if (((area[firstIndex].X - point.X) * (area[secondIndex].X - point.X)) <= 0)
+                                if ((area[firstIndex].X - point.X) * (area[secondIndex].X - point.X) <= 0)
                                 {
                                     return true;
                                 }
@@ -902,7 +926,7 @@ namespace GeoPlanarNet
 
                         if (yDiff < 0)
                         {
-                            xDiff = area[firstIndex].X + ((area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y));
+                            xDiff = area[firstIndex].X + (area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y);
 
                             if (xDiff < point.X)
                             {
@@ -922,9 +946,9 @@ namespace GeoPlanarNet
                 firstIndex = secondIndex;
                 secondIndex = (secondIndex + 1) % pointsInAreaCount;
             }
-            while ((secondIndex != (indFirst + 1)) && iterations < pointsInAreaCount);
+            while (secondIndex != indFirst + 1 && iterations < pointsInAreaCount);
 
-            return (left % 2 == 1) && iterations <= pointsInAreaCount;
+            return left % 2 == 1 && iterations <= pointsInAreaCount;
         }
 
         #endregion
@@ -974,12 +998,12 @@ namespace GeoPlanarNet
             var projectionLineY = linePoint2Y - linePoint1Y;
             var toPointX = pointX - linePoint1X;
             var toPointY = pointY - linePoint1Y;
-            var koefC1 = (projectionLineX * toPointX) + (projectionLineY * toPointY);
-            var koefC2 = (projectionLineX * projectionLineX) + (projectionLineY * projectionLineY);
+            var koefC1 = projectionLineX * toPointX + projectionLineY * toPointY;
+            var koefC2 = projectionLineX * projectionLineX + projectionLineY * projectionLineY;
             var ratio = koefC1 / koefC2;
 
-            closestPointX = linePoint1X + (ratio * projectionLineX);
-            closestPointY = linePoint1Y + (ratio * projectionLineY);
+            closestPointX = linePoint1X + ratio * projectionLineX;
+            closestPointY = linePoint1Y + ratio * projectionLineY;
         }
 
         /// <summary>
@@ -1088,6 +1112,93 @@ namespace GeoPlanarNet
             }
         }
 
+        /// <summary>
+        /// Get closest point on the rectangle to the given point
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <returns> Closest point on the rectangle </returns>
+        public static PointF GetClosestPointOnRect(this PointF point, RectangleF rect)
+        {
+             GetClosestPointOnRect(point.X, point.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height, out double closestPointX, out double closestPointY);
+             return new PointF((float)closestPointX, (float)closestPointY);
+        }
+
+        /// <summary>
+        /// Get closest point on the rectangle to the given point
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <returns> Closest point on the rectangle </returns>
+        public static Point GetClosestPointOnRect(this Point point, Rectangle rect)
+        {
+            GetClosestPointOnRect(point.X, point.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height, out double closestPointX, out double closestPointY);
+            return new Point((int)closestPointX, (int)closestPointY);
+        }
+
+        /// <summary>
+        /// Get closest point on the rectangle to the given point
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <returns> Closest point on the rectangle </returns>
+        public static PointF GetClosestPointOnRect(this PointF point, float rectLeftTopX, float rectLeftTopY, float rectRightBottomX, float rectRightBottomY)
+        {
+            GetClosestPointOnRect(point.X, point.Y, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out double closestPointX, out double closestPointY);
+            return new PointF((float)closestPointX, (float)closestPointY);
+        }
+
+        /// <summary>
+        /// Get closest point on the rectangle to the given point
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <returns> Closest point on the rectangle </returns>
+        public static Point GetClosestPointOnRect(this Point point, int rectLeftTopX, int rectLeftTopY, int rectRightBottomX, int rectRightBottomY)
+        {
+            GetClosestPointOnRect(point.X, point.Y, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out double closestPointX, out double closestPointY);
+            return new Point((int)closestPointX, (int)closestPointY);
+        }
+
+        /// <summary>
+        /// Get closest point on the rectangle to the given point
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        public static void GetClosestPointOnRect(double pointX, double pointY, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY, out double closestPointX, out double closestPointY)
+        {
+            var distanceAB = DistanceToSegment(pointX, pointY, rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY);
+            var distanceBC = DistanceToSegment(pointX, pointY, rectLeftTopX, rectRightBottomY, rectRightBottomX, rectRightBottomY);
+            var distanceCD = DistanceToSegment(pointX, pointY, rectRightBottomX, rectRightBottomY, rectRightBottomX, rectLeftTopY);
+            var distanceDA = DistanceToSegment(pointX, pointY, rectRightBottomX, rectLeftTopY, rectLeftTopX, rectLeftTopY);
+
+            if (distanceAB < distanceBC && distanceAB < distanceCD && distanceAB < distanceDA)
+            {
+                GetClosestPointOnLine(pointX, pointY, rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY, out closestPointX, out closestPointY);
+            }
+            else if (distanceBC < distanceCD && distanceBC < distanceDA)
+            {
+                GetClosestPointOnLine(pointX, pointY, rectLeftTopX, rectRightBottomY, rectRightBottomX, rectRightBottomY, out closestPointX, out closestPointY);
+            }
+            else if (distanceCD < distanceDA)
+            {
+                GetClosestPointOnLine(pointX, pointY, rectRightBottomX, rectRightBottomY, rectRightBottomX, rectLeftTopY, out closestPointX, out closestPointY);
+            }
+            else
+            {
+                GetClosestPointOnLine(pointX, pointY, rectRightBottomX, rectLeftTopY, rectLeftTopX, rectLeftTopY, out closestPointX, out closestPointY);
+            }
+        }
 
         #endregion
 
@@ -1132,7 +1243,7 @@ namespace GeoPlanarNet
         /// <remarks> Faster </remarks>
         public static PointAgainstSegmentSimpleLocation GetRelativeLocationSimple(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
-            var scalarMult = ((segmentEndY - segmentStartY) * (pointX - segmentStartX)) - ((segmentEndX - segmentStartX) * (pointY - segmentStartY));
+            var scalarMult = (segmentEndY - segmentStartY) * (pointX - segmentStartX) - (segmentEndX - segmentStartX) * (pointY - segmentStartY);
 
             if (scalarMult > 0)
             {
@@ -1189,7 +1300,7 @@ namespace GeoPlanarNet
             var diffToPointX = pointX - segmentStartX;
             var diffToPointY = pointY - segmentStartY;
 
-            var diffKoef = (diffSegmentX * diffToPointY) - (diffToPointX * diffSegmentY);
+            var diffKoef = diffSegmentX * diffToPointY - diffToPointX * diffSegmentY;
 
             if (diffKoef > 0.0)
             {
@@ -1201,12 +1312,12 @@ namespace GeoPlanarNet
                 return PointAgainstSegmentLocation.Right;
             }
 
-            if ((diffSegmentX * diffToPointX < 0.0) || (diffSegmentY * diffToPointY < 0.0))
+            if (diffSegmentX * diffToPointX < 0.0 || diffSegmentY * diffToPointY < 0.0)
             {
                 return PointAgainstSegmentLocation.Behind;
             }
 
-            if (((diffSegmentX * diffSegmentX) + (diffSegmentY * diffSegmentY)) < ((diffToPointX * diffToPointX) + (diffToPointY * diffToPointY)))
+            if (diffSegmentX * diffSegmentX + diffSegmentY * diffSegmentY < diffToPointX * diffToPointX + diffToPointY * diffToPointY)
             {
                 return PointAgainstSegmentLocation.Beyond;
             }
@@ -1409,8 +1520,8 @@ namespace GeoPlanarNet
             var diffX = pointX - centerX;
             var diffY = pointY - centerY;
 
-            rotatedPointX = centerX + (diffX * Math.Cos(angleRadian)) - (diffY * Math.Sin(angleRadian));
-            rotatedPointY = centerY + (diffX * Math.Sin(angleRadian)) + (diffY * Math.Cos(angleRadian));
+            rotatedPointX = centerX + diffX * Math.Cos(angleRadian) - diffY * Math.Sin(angleRadian);
+            rotatedPointY = centerY + diffX * Math.Sin(angleRadian) + diffY * Math.Cos(angleRadian);
         }
 
         /// <summary>
@@ -1449,7 +1560,7 @@ namespace GeoPlanarNet
         /// <returns> Vector product </returns>
         public static float GetVectorProduct(float pointX, float pointY, float segmentStartX, float segmentStartY, float segmentEndX, float segmentEndY)
         {
-            return ((segmentEndY - segmentStartY) * (pointX - segmentStartX)) - ((segmentEndX - segmentStartX) * (pointY - segmentStartY));
+            return (segmentEndY - segmentStartY) * (pointX - segmentStartX) - (segmentEndX - segmentStartX) * (pointY - segmentStartY);
         }
 
         /// <summary>
@@ -1464,7 +1575,7 @@ namespace GeoPlanarNet
         /// <returns> Vector product </returns>
         public static double GetVectorProduct(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
-            return ((segmentEndY - segmentStartY) * (pointX - segmentStartX)) - ((segmentEndX - segmentStartX) * (pointY - segmentStartY));
+            return (segmentEndY - segmentStartY) * (pointX - segmentStartX) - (segmentEndX - segmentStartX) * (pointY - segmentStartY);
         }
 
         /// <summary>
@@ -1562,9 +1673,9 @@ namespace GeoPlanarNet
             }
 
             var k2 = -1 / k;
-            var b2 = pointY - (pointX * k2);
+            var b2 = pointY - pointX * k2;
             projectionPointX = (b2 - b) / (k - k2);
-            projectionPointY = (k * projectionPointX) + b;
+            projectionPointY = k * projectionPointX + b;
         }
 
         /// <summary>
@@ -1587,10 +1698,10 @@ namespace GeoPlanarNet
             }
 
             var diffSlopeKoef = -1 / slopeKoef;
-            var yZeroValueKoef = point.Y - (point.X * diffSlopeKoef);
+            var yZeroValueKoef = point.Y - point.X * diffSlopeKoef;
 
             var x = (yZeroValueKoef - yZeroValue) / (slopeKoef - diffSlopeKoef);
-            var y = (slopeKoef * x) + yZeroValue;
+            var y = slopeKoef * x + yZeroValue;
 
             return new PointF(x, y);
         }

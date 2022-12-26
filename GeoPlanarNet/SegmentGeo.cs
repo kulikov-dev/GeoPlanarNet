@@ -116,7 +116,7 @@ namespace GeoPlanarNet
 
             var angle = Math.Atan2(diffY, diffX);
 
-            return angle < 0 ? angle + (2 * Math.PI) : angle;
+            return angle < 0 ? angle + 2 * Math.PI : angle;
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace GeoPlanarNet
         /// <returns> Angle (radians) </returns>
         public static double GetAngleRadians(double commonPointX, double commonPointY, double segment1StartX, double segment1StartY, double segment2StartX, double segment2StartY)
         {
-            var numerator = ((segment1StartX - commonPointX) * (segment2StartX - commonPointX)) + ((segment1StartY - commonPointY) * (segment2StartY - commonPointY));
+            var numerator = (segment1StartX - commonPointX) * (segment2StartX - commonPointX) + (segment1StartY - commonPointY) * (segment2StartY - commonPointY);
             var proj1X = segment1StartX - commonPointX;
             var proj1Y = segment1StartY - commonPointY;
             var proj2X = segment2StartX - commonPointX;
@@ -212,7 +212,7 @@ namespace GeoPlanarNet
             var diff2X = segment2EndX - segment2StartX;
             var diff2Y = segment2EndY - segment2StartY;
 
-            var angle = ((diff1X * diff2X) + (diff1Y * diff2Y)) / (Math.Sqrt((diff1X * diff1X) + (diff1Y * diff1Y)) * Math.Sqrt((diff2X * diff2X) + (diff2Y * diff2Y)));
+            var angle = (diff1X * diff2X + diff1Y * diff2Y) / (Math.Sqrt(diff1X * diff1X + diff1Y * diff1Y) * Math.Sqrt(diff2X * diff2X + diff2Y * diff2Y));
 
             return Math.Acos(Math.Round(angle, 3));
         }
@@ -351,7 +351,7 @@ namespace GeoPlanarNet
 
             var segment2ProjectionX = segment2EndX - segment2StartX;
             var segment2ProjectionН = segment2EndY - segment2StartY;
-            var div = (segment2ProjectionН * segment1ProjectionX) - (segment2ProjectionX * segment1ProjectionY);
+            var div = segment2ProjectionН * segment1ProjectionX - segment2ProjectionX * segment1ProjectionY;
 
             if (Math.Abs(div) < GeoPlanarNet.Epsilon)
             {
@@ -360,22 +360,22 @@ namespace GeoPlanarNet
 
             var segment12ProjectionX = segment1StartX - segment2StartX;
             var segment12ProjectionY = segment1StartY - segment2StartY;
-            var koef = ((segment1ProjectionX * segment12ProjectionY) - (segment1ProjectionY * segment12ProjectionX)) / div;
+            var koef = (segment1ProjectionX * segment12ProjectionY - segment1ProjectionY * segment12ProjectionX) / div;
 
             if (koef < -GeoPlanarNet.Epsilon || koef > 1 + GeoPlanarNet.Epsilon)
             {
                 return false;
             }
 
-            koef = ((segment2ProjectionX * segment12ProjectionY) - (segment2ProjectionН * segment12ProjectionX)) / div;
+            koef = (segment2ProjectionX * segment12ProjectionY - segment2ProjectionН * segment12ProjectionX) / div;
 
             if (koef < -GeoPlanarNet.Epsilon || koef > 1 + GeoPlanarNet.Epsilon)
             {
                 return false;
             }
 
-            intesectionX = segment1StartX + (koef * (segment1EndX - segment1StartX));
-            intersectionY = segment1StartY + (koef * (segment1EndY - segment1StartY));
+            intesectionX = segment1StartX + koef * (segment1EndX - segment1StartX);
+            intersectionY = segment1StartY + koef * (segment1EndY - segment1StartY);
 
             return true;
         }
@@ -437,8 +437,8 @@ namespace GeoPlanarNet
             }
 
             var koef = distance / segmentLength;
-            var x = segment1StartX + (koef * (segment1EndX - segment1StartX));
-            var y = segment1StartY + (koef * (segment1EndY - segment1StartY));
+            var x = segment1StartX + koef * (segment1EndX - segment1StartX);
+            var y = segment1StartY + koef * (segment1EndY - segment1StartY);
 
             newPointX = x;
             newPointY = y;
@@ -501,8 +501,8 @@ namespace GeoPlanarNet
             }
 
             var koef = (distance + segmentLength) / segmentLength;
-            var x = segmentStartX + (koef * (segmentEndX - segmentStartX));
-            var y = segmentStartY + (koef * (segmentEndY - segmentStartY));
+            var x = segmentStartX + koef * (segmentEndX - segmentStartX);
+            var y = segmentStartY + koef * (segmentEndY - segmentStartY);
 
             newPointX = x;
             newPointY = y;
@@ -615,7 +615,7 @@ namespace GeoPlanarNet
             }
             else
             {
-                pointY = segmentStartY + ((pointX - segmentStartX) * (segmentEndY - segmentStartY) / projectionX);
+                pointY = segmentStartY + (pointX - segmentStartX) * (segmentEndY - segmentStartY) / projectionX;
             }
         }
 
@@ -718,13 +718,13 @@ namespace GeoPlanarNet
 
             if (slopeKoef < 0)
             {
-                koefMinus = yZeroValue - (halfLength / cos);
-                koefPlus = yZeroValue + (halfLength / cos);
+                koefMinus = yZeroValue - halfLength / cos;
+                koefPlus = yZeroValue + halfLength / cos;
             }
             else
             {
-                koefMinus = yZeroValue + (halfLength / cos);
-                koefPlus = yZeroValue - (halfLength / cos);
+                koefMinus = yZeroValue + halfLength / cos;
+                koefPlus = yZeroValue - halfLength / cos;
             }
 
             points.Add(segmentStart.GetProjectionToLine(slopeKoef, koefMinus));

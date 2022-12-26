@@ -36,10 +36,10 @@
         {
             if (intervalStart < intervalEnd)
             {
-                return (dot >= intervalStart) && (dot <= intervalEnd);
+                return dot >= intervalStart && dot <= intervalEnd;
             }
 
-            return (dot <= intervalStart) && (dot >= intervalEnd);
+            return dot <= intervalStart && dot >= intervalEnd;
         }
     }
 }

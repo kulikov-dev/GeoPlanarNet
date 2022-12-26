@@ -733,5 +733,47 @@ namespace GeoPlanarNet
             points.Add(segmentStart.GetProjectionToLine(slopeKoef, koefPlus));
             return points;
         }
+
+        /// <summary>
+        /// Get shortest distance from the segment to the circle
+        /// </summary>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <returns> Distance between the segment and the circle </returns>
+        public static double DistanceToCircle(PointF segmentStart, PointF segmentEnd, PointF circleCenter, float circleRadius)
+        {
+            return DistanceToCircle(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, circleCenter.X, circleCenter.Y, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the segment to the circle
+        /// </summary>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <returns> Distance between the segment and the circle </returns>
+        public static double DistanceToCircle(Point segmentStart, Point segmentEnd, Point circleCenter, int circleRadius)
+        {
+            return DistanceToCircle(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, circleCenter.X, circleCenter.Y, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the segment to the circle
+        /// </summary>
+        /// <param name="segmentStartX"> Segment, start point: coordinate X </param>
+        /// <param name="segmentStartY"> Segment, start point: coordinate Y </param>
+        /// <param name="segmentEndX"> Segment, end point: coordinate X </param>
+        /// <param name="segmentEndY"> Segment, end point: coordinate Y </param>
+        /// <param name="circleCenterX"> Circle center point: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <returns> Distance between the segment and the circle </returns>
+        public static double DistanceToCircle(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double circleCenterX, double circleCenterY, double radius)
+        {
+            return PointGeo.DistanceToSegment(circleCenterX, circleCenterY, segmentStartX, segmentStartY, segmentEndX, segmentEndY) - radius;
+        }
     }
 }

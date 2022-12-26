@@ -254,5 +254,46 @@ namespace GeoPlanarNet
 
             return FiguresOverlapping.DoNotOverlap;
         }
+
+        /// <summary>
+        /// Get shortest distance from the circle to the circle
+        /// </summary>
+        /// <param name="circle1Center"> Circle 1 center point </param>
+        /// <param name="circle1Radius"> Circle 1 radius </param>
+        /// <param name="circle2Center"> Circle 1 center point </param>
+        /// <param name="circle2Radius"> Circle 1 radius </param>
+        /// <returns> Distance between the circle and the circle </returns>
+        public static double DistanceToCircle(PointF circle1Center, float circle1Radius, PointF circle2Center, float circle2Radius)
+        {
+            return DistanceToCircle(circle1Center.X, circle1Center.Y, circle1Radius, circle2Center.X, circle2Center.Y, circle2Radius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the circle to the circle
+        /// </summary>
+        /// <param name="circle1Center"> Circle 1 center point </param>
+        /// <param name="circle1Radius"> Circle 1 radius </param>
+        /// <param name="circle2Center"> Circle 1 center point </param>
+        /// <param name="circle2Radius"> Circle 1 radius </param>
+        /// <returns> Distance between the circle and the circle </returns>
+        public static double DistanceToCircle(Point circle1Center, int circle1Radius, Point circle2Center, int circle2Radius)
+        {
+            return DistanceToCircle(circle1Center.X, circle1Center.Y, circle1Radius, circle2Center.X, circle2Center.Y, circle2Radius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the circle to the circle
+        /// </summary>
+        /// <param name="circle1CenterX"> Circle 1 center point: X coordinate </param>
+        /// <param name="circle1CenterY"> Circle 1 center point: Y coordinate </param>
+        /// <param name="radius1"> Circle 1 radius </param>
+        /// <param name="circle2CenterX"> Circle 2 center point: X coordinate </param>
+        /// <param name="circle2CenterY"> Circle 2 center point: Y coordinate </param>
+        /// <param name="radius2"> Circle 2 radius </param>
+        /// <returns> Distance between the circle and the circle </returns>
+        public static double DistanceToCircle(double circle1CenterX, double circle1CenterY, double radius1, double circle2CenterX, double circle2CenterY, double radius2)
+        {
+            return PointGeo.DistanceTo(circle1CenterX, circle1CenterY, circle2CenterX, circle2CenterY) - (radius1 + radius2);
+        }
     }
 }

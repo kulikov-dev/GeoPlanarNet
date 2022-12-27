@@ -215,10 +215,12 @@ namespace GeoPlanarNet
         /// <returns> Distance from the point to the rectangle </returns>
         public static double DistanceToRect(double pointX, double pointY, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY)
         {
-            var distanceAB = DistanceToSegment(pointX, pointY, rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY);
-            var distanceBC = DistanceToSegment(pointX, pointY, rectLeftTopX, rectRightBottomY, rectRightBottomX, rectRightBottomY);
-            var distanceCD = DistanceToSegment(pointX, pointY, rectRightBottomX, rectRightBottomY, rectRightBottomX, rectLeftTopY);
-            var distanceDA = DistanceToSegment(pointX, pointY, rectRightBottomX, rectLeftTopY, rectLeftTopX, rectLeftTopY);
+            RectGeo.GetPoints(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
+
+            var distanceAB = DistanceToSegment(pointX, pointY, rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY);
+            var distanceBC = DistanceToSegment(pointX, pointY, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY);
+            var distanceCD = DistanceToSegment(pointX, pointY, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY);
+            var distanceDA = DistanceToSegment(pointX, pointY, rectLeftBottomX, rectLeftBottomY, rectLeftTopX, rectLeftTopY);
 
             return Math.Min(distanceAB, Math.Min(distanceBC, Math.Min(distanceCD, distanceDA)));
         }
@@ -717,10 +719,12 @@ namespace GeoPlanarNet
         /// <returns> Flag, if belongs to the rectangle </returns>
         public static bool BelongsToRect(double pointX, double pointY, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY)
         {
-            return GetRelativeLocationSimple(pointX, pointY, rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY) != PointAgainstSegmentSimpleLocation.Left &&
-                    GetRelativeLocationSimple(pointX, pointY, rectLeftTopX, rectRightBottomY, rectRightBottomX, rectRightBottomY) != PointAgainstSegmentSimpleLocation.Left &&
-                    GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectRightBottomY, rectRightBottomX, rectLeftTopY) != PointAgainstSegmentSimpleLocation.Left &&
-                    GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectLeftTopY, rectLeftTopX, rectLeftTopY) != PointAgainstSegmentSimpleLocation.Left;
+            RectGeo.GetPoints(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
+
+            return GetRelativeLocationSimple(pointX, pointY, rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY) != PointAgainstSegmentSimpleLocation.Left &&
+                    GetRelativeLocationSimple(pointX, pointY, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY) != PointAgainstSegmentSimpleLocation.Left &&
+                    GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY) != PointAgainstSegmentSimpleLocation.Left &&
+                    GetRelativeLocationSimple(pointX, pointY, rectLeftBottomX, rectLeftBottomY, rectLeftTopX, rectLeftTopY) != PointAgainstSegmentSimpleLocation.Left;
         }
 
         /// <summary>
@@ -1114,8 +1118,8 @@ namespace GeoPlanarNet
         /// <returns> Closest point on the rectangle </returns>
         public static PointF GetClosestPointOnRect(this PointF point, RectangleF rect)
         {
-             GetClosestPointOnRect(point.X, point.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height, out var closestPointX, out var closestPointY);
-             return new PointF((float)closestPointX, (float)closestPointY);
+            GetClosestPointOnRect(point.X, point.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height, out var closestPointX, out var closestPointY);
+            return new PointF((float)closestPointX, (float)closestPointY);
         }
 
         /// <summary>
@@ -1171,10 +1175,12 @@ namespace GeoPlanarNet
         /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
         public static void GetClosestPointOnRect(double pointX, double pointY, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY, out double closestPointX, out double closestPointY)
         {
-            var distanceAB = DistanceToSegment(pointX, pointY, rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY);
-            var distanceBC = DistanceToSegment(pointX, pointY, rectLeftTopX, rectRightBottomY, rectRightBottomX, rectRightBottomY);
-            var distanceCD = DistanceToSegment(pointX, pointY, rectRightBottomX, rectRightBottomY, rectRightBottomX, rectLeftTopY);
-            var distanceDA = DistanceToSegment(pointX, pointY, rectRightBottomX, rectLeftTopY, rectLeftTopX, rectLeftTopY);
+            RectGeo.GetPoints(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
+
+            var distanceAB = DistanceToSegment(pointX, pointY, rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY);
+            var distanceBC = DistanceToSegment(pointX, pointY, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY);
+            var distanceCD = DistanceToSegment(pointX, pointY, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY);
+            var distanceDA = DistanceToSegment(pointX, pointY, rectLeftBottomX, rectLeftBottomY, rectLeftTopX, rectLeftTopY);
 
             if (distanceAB < distanceBC && distanceAB < distanceCD && distanceAB < distanceDA)
             {
@@ -1445,17 +1451,19 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="rectLeftTopPointX"> Rectangle left-top point: X coordinate </param>
-        /// <param name="rectLeftTopPointY"> Rectangle left-top point: Y coordinate </param>
+        /// <param name="rectLeftTopX"> Rectangle left-top point: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left-top point: Y coordinate </param>
         /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
         /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
         /// <returns> Point location </returns>
-        public static PointAgainstFigureLocation GetRelativeLocationRect(double pointX, double pointY, double rectLeftTopPointX, double rectLeftTopPointY, double rectRightBottomX, double rectRightBottomY)
+        public static PointAgainstFigureLocation GetRelativeLocationRect(double pointX, double pointY, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY)
         {
-            var abLocation = GetRelativeLocationSimple(pointX, pointY, rectLeftTopPointX, rectLeftTopPointY, rectRightBottomX, rectLeftTopPointY);
-            var bcLocation = GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectLeftTopPointY, rectRightBottomX, rectRightBottomY);
-            var cdLocation = GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectRightBottomY, rectLeftTopPointX, rectRightBottomY);
-            var daLocation = GetRelativeLocationSimple(pointX, pointY, rectLeftTopPointX, rectRightBottomY, rectLeftTopPointX, rectLeftTopPointY);
+            RectGeo.GetPoints(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
+
+            var abLocation = GetRelativeLocationSimple(pointX, pointY, rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY);
+            var bcLocation = GetRelativeLocationSimple(pointX, pointY, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY);
+            var cdLocation = GetRelativeLocationSimple(pointX, pointY, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY);
+            var daLocation = GetRelativeLocationSimple(pointX, pointY, rectLeftBottomX, rectLeftBottomY, rectLeftTopX, rectLeftTopY);
 
             if (abLocation != PointAgainstSegmentSimpleLocation.Left && bcLocation != PointAgainstSegmentSimpleLocation.Left &&
                 cdLocation != PointAgainstSegmentSimpleLocation.Left && daLocation != PointAgainstSegmentSimpleLocation.Left)
@@ -1825,6 +1833,29 @@ namespace GeoPlanarNet
         public static bool IsCollinear(double point1X, double point1Y, double point2X, double point2Y, double point3X, double point3Y)
         {
             return GeoPlanarNet.AboutEquals((point3Y - point2Y) * (point2X - point1X), (point2Y - point1Y) * (point3X - point2X));
+        }
+
+        /// <summary>
+        /// deg
+        /// </summary>
+        /// <param name="point1X"></param>
+        /// <param name="point1Y"></param>
+        /// <param name="point2X"></param>
+        /// <param name="point2Y"></param>
+        /// <returns></returns>
+        public static double GetAngle(double point1X, double point1Y, double point2X, double point2Y)
+        {
+            var dx = point2X - point1X;
+            var dy = point2Y - point1Y;
+
+            var deg = Convert.ToInt32(Math.Atan2(dy, dx) * (180 / Math.PI));
+
+            if (deg < 0)
+            {
+                deg += 360;
+            }
+
+            return deg;
         }
     }
 }

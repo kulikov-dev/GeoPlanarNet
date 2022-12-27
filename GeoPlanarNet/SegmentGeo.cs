@@ -352,8 +352,8 @@ namespace GeoPlanarNet
             var segment1ProjectionY = segment1EndY - segment1StartY;
 
             var segment2ProjectionX = segment2EndX - segment2StartX;
-            var segment2ProjectionН = segment2EndY - segment2StartY;
-            var div = segment2ProjectionН * segment1ProjectionX - segment2ProjectionX * segment1ProjectionY;
+            var segment2ProjectionY = segment2EndY - segment2StartY;
+            var div = segment2ProjectionY * segment1ProjectionX - segment2ProjectionX * segment1ProjectionY;
 
             if (Math.Abs(div) < GeoPlanarNet.Epsilon)
             {
@@ -369,7 +369,7 @@ namespace GeoPlanarNet
                 return false;
             }
 
-            koef = (segment2ProjectionX * segment12ProjectionY - segment2ProjectionН * segment12ProjectionX) / div;
+            koef = (segment2ProjectionX * segment12ProjectionY - segment2ProjectionY * segment12ProjectionX) / div;
 
             if (koef < -GeoPlanarNet.Epsilon || koef > 1 + GeoPlanarNet.Epsilon)
             {

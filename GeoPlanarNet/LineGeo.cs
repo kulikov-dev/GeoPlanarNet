@@ -236,15 +236,17 @@ namespace GeoPlanarNet
         public static bool FindRectIntersection(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY,
                                                 out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y)
         {
+            RectGeo.GetPoints(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
+
             intersection1X = intersection1Y = intersection2X = intersection2Y = double.NaN;
 
-            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY, out var tempX, out var tempY))
+            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY, out var tempX, out var tempY))
             {
                 intersection1X = tempX;
                 intersection1Y = tempY;
             }
 
-            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, rectLeftTopX, rectRightBottomY, rectRightBottomX, rectRightBottomY, out tempX, out tempY))
+            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY, out tempX, out tempY))
             {
                 if (double.IsNaN(intersection1X) && double.IsNaN(intersection1Y))
                 {
@@ -258,7 +260,7 @@ namespace GeoPlanarNet
                 }
             }
 
-            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, rectRightBottomX, rectRightBottomY, rectRightBottomX, rectLeftTopY, out tempX, out tempY))
+            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY, out tempX, out tempY))
             {
                 if (double.IsNaN(intersection1X) && double.IsNaN(intersection1Y))
                 {
@@ -272,7 +274,7 @@ namespace GeoPlanarNet
                 }
             }
 
-            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, rectRightBottomX, rectLeftTopY, rectLeftTopX, rectLeftTopY, out tempX, out tempY))
+            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, rectLeftBottomX, rectLeftBottomY, rectLeftTopX, rectLeftTopY, out tempX, out tempY))
             {
                 if (double.IsNaN(intersection1X) && double.IsNaN(intersection1Y))
                 {

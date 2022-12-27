@@ -913,5 +913,53 @@ namespace GeoPlanarNet
         {
             return PointGeo.DistanceToLine(circleCenterX, circleCenterY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y) - radius;
         }
+
+        /// <summary>
+        /// Check if two lines are parallel
+        /// </summary>
+        /// <param name="line1Point1"> Line 1, point 1 </param>
+        /// <param name="line1Point2"> Line 1, point 2 </param>
+        /// <param name="line2Point1"> Line 2, point 1 </param>
+        /// <param name="line2Point2"> Line 2, point 2 </param>
+        /// <returns> True, if lines are parallel </returns>
+        public static bool IsParallel(PointF line1Point1, PointF line1Point2, PointF line2Point1, PointF line2Point2)
+        {
+            return IsParallel(line1Point1.X, line1Point1.Y, line1Point2.X, line1Point2.Y, line2Point1.X, line2Point1.Y, line2Point2.X, line2Point2.Y);
+        }
+
+        /// <summary>
+        /// Check if two lines are parallel
+        /// </summary>
+        /// <param name="line1Point1"> Line 1, point 1 </param>
+        /// <param name="line1Point2"> Line 1, point 2 </param>
+        /// <param name="line2Point1"> Line 2, point 1 </param>
+        /// <param name="line2Point2"> Line 2, point 2 </param>
+        /// <returns> True, if lines are parallel </returns>
+        public static bool IsParallel(Point line1Point1, Point line1Point2, Point line2Point1, Point line2Point2)
+        {
+            return IsParallel(line1Point1.X, line1Point1.Y, line1Point2.X, line1Point2.Y, line2Point1.X, line2Point1.Y, line2Point2.X, line2Point2.Y);
+        }
+
+        /// <summary>
+        /// Check if two lines are parallel/anti-parallel
+        /// </summary>
+        /// <param name="line1x1"> Line 1, point 1: coordinate X </param>
+        /// <param name="line1y1"> Line 1, point 1: coordinate Y </param>
+        /// <param name="line1x2"> Line 1, point 2: coordinate X </param>
+        /// <param name="line1y2"> Line 1, point 2: coordinate Y </param>
+        /// <param name="line2x1"> Line 2, point 1: coordinate X </param>
+        /// <param name="line2y1"> Line 2, point 1: coordinate Y </param>
+        /// <param name="line2x2"> Line 2, point 2: coordinate X </param>
+        /// <param name="line2y2"> Line 2, point 2: coordinate Y </param>
+        /// <returns> True, if lines are parallel/anti-parallel </returns>
+        public static bool IsParallel(double line1x1, double line1y1, double line1x2, double line1y2, double line2x1, double line2y1, double line2x2, double line2y2)
+        {
+            var dx1 = line1x2 - line1x1;
+            var dy1 = line1y2 - line1y1;
+            var dx2 = line2x2 - line2x1;
+            var dy2 = line2y2 - line2y1;
+            var cosAngle = Math.Abs((dx1 * dx2 + dy1 * dy2) / Math.Sqrt((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2)));
+            return cosAngle.AboutEquals(1);
+        }
     }
 }

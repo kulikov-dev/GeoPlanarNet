@@ -206,9 +206,9 @@ namespace GeoPlanarNet
         /// <param name="apex2"> Apex 2 </param>
         /// <param name="apex3"> Apex 3 </param>
         /// <returns> Bounding box </returns>
-        public static RectangleF GetBoundingRect(PointF apex1, PointF apex2, PointF apex3)
+        public static RectangleF GetAABB(PointF apex1, PointF apex2, PointF apex3)
         {
-            GetBoundingRect(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var leftTopX, out var leftTopY, out var width, out var height);
+            GetAABB(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var leftTopX, out var leftTopY, out var width, out var height);
             return new Rectangle((int)leftTopX, (int)leftTopY, (int)width, (int)height);
         }
 
@@ -219,9 +219,9 @@ namespace GeoPlanarNet
         /// <param name="apex2"> Apex 2 </param>
         /// <param name="apex3"> Apex 3 </param>
         /// <returns> Bounding box </returns>
-        public static Rectangle GetBoundingRect(Point apex1, Point apex2, Point apex3)
+        public static Rectangle GetAABB(Point apex1, Point apex2, Point apex3)
         {
-            GetBoundingRect(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var leftTopX, out var leftTopY, out var width, out var height);
+            GetAABB(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var leftTopX, out var leftTopY, out var width, out var height);
             return new Rectangle((int)leftTopX, (int)leftTopY, (int)width, (int)height);
         }
 
@@ -234,7 +234,7 @@ namespace GeoPlanarNet
         /// <param name="apex2Y"> Apex 2: Y coordinate </param>
         /// <param name="apex3X"> Apex 3: X coordinate </param>
         /// <param name="apex3Y"> Apex 3: Y coordinate </param>
-        public static void GetBoundingRect(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, out double leftTopX, out double leftTopY, out double width, out double height)
+        public static void GetAABB(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, out double leftTopX, out double leftTopY, out double width, out double height)
         {
             var minX = Math.Min(apex1X, Math.Min(apex2X, apex3X));
             var minY = Math.Min(apex1X, Math.Min(apex2X, apex3X));

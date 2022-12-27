@@ -63,9 +63,9 @@ namespace GeoPlanarNet
         /// <param name="circleCenter"> Center point </param>
         /// <param name="radius"> Radius </param>
         /// <returns> Bounding rectangle </returns>
-        public static RectangleF GetBoundingRect(PointF circleCenter, float radius)
+        public static RectangleF GetAABB(PointF circleCenter, float radius)
         {
-            GetBoundingRect(circleCenter.X, circleCenter.Y, radius, out var leftTopX, out var leftTopY, out var width, out var height);
+            GetAABB(circleCenter.X, circleCenter.Y, radius, out var leftTopX, out var leftTopY, out var width, out var height);
             return new RectangleF((float)leftTopX, (float)leftTopY, (float)width, (float)height);
         }
 
@@ -75,9 +75,9 @@ namespace GeoPlanarNet
         /// <param name="circleCenter"> Center point </param>
         /// <param name="radius"> Radius </param>
         /// <returns> Bounding rectangle </returns>
-        public static Rectangle GetBoundingRect(Point circleCenter, float radius)
+        public static Rectangle GetAABB(Point circleCenter, float radius)
         {
-            GetBoundingRect(circleCenter.X, circleCenter.Y, radius, out var leftTopX, out var leftTopY, out var width, out var height);
+            GetAABB(circleCenter.X, circleCenter.Y, radius, out var leftTopX, out var leftTopY, out var width, out var height);
             return new Rectangle((int)leftTopX, (int)leftTopY, (int)width, (int)height);
         }
 
@@ -91,7 +91,7 @@ namespace GeoPlanarNet
         /// <param name="leftTopY"> Rectangle left top point: Y coodinate </param>
         /// <param name="width"> Rectangle width </param>
         /// <param name="height"> Rectangle height </param>
-        public static void GetBoundingRect(double circleCenterX, double circleCenterY, double radius, out double leftTopX, out double leftTopY, out double width, out double height)
+        public static void GetAABB(double circleCenterX, double circleCenterY, double radius, out double leftTopX, out double leftTopY, out double width, out double height)
         {
             leftTopX = circleCenterX - radius;
             leftTopY = circleCenterY + radius;

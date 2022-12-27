@@ -272,7 +272,7 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="surface"> Surface </param>
         /// <returns> Rectangle </returns>
-        public static RectangleF GetBoundingRect(PointF[] surface)
+        public static RectangleF GetAABB(PointF[] surface)
         {
             var xMin = float.MaxValue;
             var xMax = -float.MaxValue;
@@ -295,7 +295,7 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="surface"> Surface </param>
         /// <returns> Rectangle </returns>
-        public static Rectangle GetBoundingRect(Point[] surface)
+        public static Rectangle GetAABB(Point[] surface)
         {
             var xMin = int.MaxValue;
             var xMax = -int.MaxValue;

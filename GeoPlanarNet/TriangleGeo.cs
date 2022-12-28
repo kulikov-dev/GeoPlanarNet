@@ -237,14 +237,83 @@ namespace GeoPlanarNet
         public static void GetAABB(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, out double leftTopX, out double leftTopY, out double width, out double height)
         {
             var minX = Math.Min(apex1X, Math.Min(apex2X, apex3X));
-            var minY = Math.Min(apex1X, Math.Min(apex2X, apex3X));
+            var minY = Math.Min(apex1Y, Math.Min(apex2Y, apex3Y));
             var maxX = Math.Min(apex1X, Math.Min(apex2X, apex3X));
-            var maxY = Math.Min(apex1X, Math.Min(apex2X, apex3X));
+            var maxY = Math.Min(apex1Y, Math.Min(apex2Y, apex3Y));
 
             leftTopX = minX;
             leftTopY = minY;
             width = maxX - minX;
             height = maxY - minY;
+        }
+
+        /// <summary>
+        /// Rotate the triangle around the point
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="point"> Point around rotation </param>
+        /// <param name="angleRadian"> Angle to rotate </param>
+        /// <param name="rotatedApex1"> Rotated apex 1 </param>
+        /// <param name="rotatedApex2"> Rotated apex 2 </param>
+        /// <param name="rotatedApex3"> Rotated apex 3 </param>
+        public static void Rotate(PointF apex1, PointF apex2, PointF apex3, PointF point, double angleRadian, out PointF rotatedApex1, out PointF rotatedApex2, out PointF rotatedApex3)
+        {
+            Rotate(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, point.X, point.Y, angleRadian,
+                out var rotatedApex1X, out var rotatedApex1Y, out var rotatedApex2X, out var rotatedApex2Y, out var rotatedApex3X, out var rotatedApex3Y);
+
+            rotatedApex1 = new PointF((float)rotatedApex1X, (float)rotatedApex1Y);
+            rotatedApex2 = new PointF((float)rotatedApex2X, (float)rotatedApex2Y);
+            rotatedApex3 = new PointF((float)rotatedApex3X, (float)rotatedApex3Y);
+        }
+
+        /// <summary>
+        /// Rotate the triangle around the point
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="point"> Point around rotation </param>
+        /// <param name="angleRadian"> Angle to rotate </param>
+        /// <param name="rotatedApex1"> Rotated apex 1 </param>
+        /// <param name="rotatedApex2"> Rotated apex 2 </param>
+        /// <param name="rotatedApex3"> Rotated apex 3 </param>
+        public static void Rotate(Point apex1, Point apex2, Point apex3, Point point, double angleRadian, out Point rotatedApex1, out Point rotatedApex2, out Point rotatedApex3)
+        {
+            Rotate(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, point.X, point.Y, angleRadian,
+                    out var rotatedApex1X, out var rotatedApex1Y, out var rotatedApex2X, out var rotatedApex2Y, out var rotatedApex3X, out var rotatedApex3Y);
+
+            rotatedApex1 = new Point((int)rotatedApex1X, (int)rotatedApex1Y);
+            rotatedApex2 = new Point((int)rotatedApex2X, (int)rotatedApex2Y);
+            rotatedApex3 = new Point((int)rotatedApex3X, (int)rotatedApex3Y);
+        }
+
+        /// <summary>
+        /// Rotate the triangle around the point
+        /// </summary>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <param name="pointX"> Point to rotate: X coordinate </param>
+        /// <param name="pointY"> Point to rotate: X coordinate </param>
+        /// <param name="angleRadian"> Angle to rotate </param>
+        /// <param name="rotatedApex1X"> Rotated apex 1: X coordinate </param>
+        /// <param name="rotatedApex1Y"> Rotated apex 1: Y coordinate </param>
+        /// <param name="rotatedApex2X"> Rotated apex 2: X coordinate </param>
+        /// <param name="rotatedApex2Y"> Rotated apex 2: Y coordinate </param>
+        /// <param name="rotatedApex3X"> Rotated apex 3: X coordinate </param>
+        /// <param name="rotatedApex3Y"> Rotated apex 3: Y coordinate </param>
+        public static void Rotate(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, double pointX, double pointY, double angleRadian,
+                                  out double rotatedApex1X, out double rotatedApex1Y, out double rotatedApex2X, out double rotatedApex2Y, out double rotatedApex3X, out double rotatedApex3Y)
+        {
+            PointGeo.Rotate(apex1X, apex1Y, pointX, pointY, angleRadian, out rotatedApex1X, out rotatedApex1Y);
+            PointGeo.Rotate(apex2X, apex2Y, pointX, pointY, angleRadian, out rotatedApex2X, out rotatedApex2Y);
+            PointGeo.Rotate(apex3X, apex3Y, pointX, pointY, angleRadian, out rotatedApex3X, out rotatedApex3Y);
+
         }
     }
 }

@@ -315,5 +315,115 @@ namespace GeoPlanarNet
             PointGeo.Rotate(apex3X, apex3Y, pointX, pointY, angleRadian, out rotatedApex3X, out rotatedApex3Y);
 
         }
+
+        /// <summary>
+        /// Rotate the triangle around the center
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="angleRadian"> Angle to rotate </param>
+        /// <param name="rotatedApex1"> Rotated apex 1 </param>
+        /// <param name="rotatedApex2"> Rotated apex 2 </param>
+        /// <param name="rotatedApex3"> Rotated apex 3 </param>
+        public static void Rotate(PointF apex1, PointF apex2, PointF apex3, double angleRadian, out PointF rotatedApex1, out PointF rotatedApex2, out PointF rotatedApex3)
+        {
+            Rotate(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, angleRadian,
+                out var rotatedApex1X, out var rotatedApex1Y, out var rotatedApex2X, out var rotatedApex2Y, out var rotatedApex3X, out var rotatedApex3Y);
+
+            rotatedApex1 = new PointF((float)rotatedApex1X, (float)rotatedApex1Y);
+            rotatedApex2 = new PointF((float)rotatedApex2X, (float)rotatedApex2Y);
+            rotatedApex3 = new PointF((float)rotatedApex3X, (float)rotatedApex3Y);
+        }
+
+        /// <summary>
+        /// Rotate the triangle around the center
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="angleRadian"> Angle to rotate </param>
+        /// <param name="rotatedApex1"> Rotated apex 1 </param>
+        /// <param name="rotatedApex2"> Rotated apex 2 </param>
+        /// <param name="rotatedApex3"> Rotated apex 3 </param>
+        public static void Rotate(Point apex1, Point apex2, Point apex3, double angleRadian, out Point rotatedApex1, out Point rotatedApex2, out Point rotatedApex3)
+        {
+            Rotate(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, angleRadian,
+                    out var rotatedApex1X, out var rotatedApex1Y, out var rotatedApex2X, out var rotatedApex2Y, out var rotatedApex3X, out var rotatedApex3Y);
+
+            rotatedApex1 = new Point((int)rotatedApex1X, (int)rotatedApex1Y);
+            rotatedApex2 = new Point((int)rotatedApex2X, (int)rotatedApex2Y);
+            rotatedApex3 = new Point((int)rotatedApex3X, (int)rotatedApex3Y);
+        }
+
+        /// <summary>
+        /// Rotate the triangle around the center
+        /// </summary>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <param name="angleRadian"> Angle to rotate </param>
+        /// <param name="rotatedApex1X"> Rotated apex 1: X coordinate </param>
+        /// <param name="rotatedApex1Y"> Rotated apex 1: Y coordinate </param>
+        /// <param name="rotatedApex2X"> Rotated apex 2: X coordinate </param>
+        /// <param name="rotatedApex2Y"> Rotated apex 2: Y coordinate </param>
+        /// <param name="rotatedApex3X"> Rotated apex 3: X coordinate </param>
+        /// <param name="rotatedApex3Y"> Rotated apex 3: Y coordinate </param>
+        public static void Rotate(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, double angleRadian,
+                                  out double rotatedApex1X, out double rotatedApex1Y, out double rotatedApex2X, out double rotatedApex2Y, out double rotatedApex3X, out double rotatedApex3Y)
+        {
+            Center(apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y, out var centerX, out var centerY);
+
+            PointGeo.Rotate(apex1X, apex1Y, centerX, centerY, angleRadian, out rotatedApex1X, out rotatedApex1Y);
+            PointGeo.Rotate(apex2X, apex2Y, centerX, centerY, angleRadian, out rotatedApex2X, out rotatedApex2Y);
+            PointGeo.Rotate(apex3X, apex3Y, centerX, centerY, angleRadian, out rotatedApex3X, out rotatedApex3Y);
+
+        }
+
+        /// <summary>
+        /// Get average center of the rectangle
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Center point </returns>
+        public static PointF Center(PointF apex1, PointF apex2, PointF apex3)
+        {
+            Center(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var centerX, out var centerY);
+            return new PointF((float) centerX, (float) centerY);
+        }
+
+        /// <summary>
+        /// Get average center of the rectangle
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Center point </returns>
+        public static Point Center(Point apex1, Point apex2, Point apex3)
+        {
+            Center(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var centerX, out var centerY);
+            return new Point((int)centerX, (int)centerY);
+        }
+
+        /// <summary>
+        /// Get average center of the rectangle
+        /// </summary>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <param name="centerX"> Center point: X coordinate </param>
+        /// <param name="centerY"> Center point: Y coordinate </param>
+        public static void Center(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, out double centerX, out double centerY)
+        {
+            centerX = (apex1X + apex2X + apex3X) / 3d;
+            centerY = (apex1Y + apex2Y + apex3Y) / 3d;
+        }
     }
 }

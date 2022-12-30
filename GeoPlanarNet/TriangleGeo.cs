@@ -200,6 +200,135 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
+        /// Check if one angle is equal 90 degrees
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> One angle is equal to 90 degrees </returns>
+        public static bool IsRight(PointF apex1, PointF apex2, PointF apex3)
+        {
+            return IsRight(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Check if one angle is equal 90 degrees
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> One angle is equal to 90 degrees </returns>
+        public static bool IsRight(Point apex1, Point apex2, Point apex3)
+        {
+            return IsRight(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Check if one angle is equal 90 degrees
+        /// </summary>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <returns> One angle is equal to 90 degrees </returns>
+        public static bool IsRight(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
+        {
+            GetAngles(apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y, out var alpha, out var betta, out var gamma);
+
+            var rightAngle = Math.PI / 2;
+
+            return alpha.AboutEquals(rightAngle) || betta.AboutEquals(rightAngle) || gamma.AboutEquals(rightAngle);
+        }
+
+        /// <summary>
+        /// Check if one angle is greater than 90 degrees
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> One angle is greater than 90 degrees </returns>
+        public static bool IsObtuse(PointF apex1, PointF apex2, PointF apex3)
+        {
+            return IsObtuse(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Check if one angle is greater than 90 degrees
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> One angle is greater than 90 degrees </returns>
+        public static bool IsObtuse(Point apex1, Point apex2, Point apex3)
+        {
+            return IsObtuse(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Check if one angle is greater than 90 degrees
+        /// </summary>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <returns> One angle is greater than 90 degrees </returns>
+        public static bool IsObtuse(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
+        {
+            GetAngles(apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y, out var alpha, out var betta, out var gamma);
+
+            var rightAngle = Math.PI / 2;
+
+            return alpha > rightAngle || betta > rightAngle || gamma > rightAngle;
+        }
+
+        /// <summary>
+        /// Check if all angles are less than 90 degrees
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> All angles are less than 90 degrees </returns>
+        public static bool IsAcute(PointF apex1, PointF apex2, PointF apex3)
+        {
+            return IsAcute(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Check if all angles are less than 90 degrees
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> All angles are less than 90 degrees </returns>
+        public static bool IsAcute(Point apex1, Point apex2, Point apex3)
+        {
+            return IsAcute(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Check if all angles are less than 90 degrees
+        /// </summary>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <returns> All angles are less than 90 degrees </returns>
+        public static bool IsAcute(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
+        {
+            GetAngles(apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y, out var alpha, out var betta, out var gamma);
+
+            var rightAngle = Math.PI / 2;
+
+            return alpha < rightAngle & betta < rightAngle && gamma < rightAngle;
+        }
+
+        /// <summary>
         /// Get the bounding rect of the triangle
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>
@@ -375,7 +504,7 @@ namespace GeoPlanarNet
         public static void Rotate(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, double angleRadian,
                                   out double rotatedApex1X, out double rotatedApex1Y, out double rotatedApex2X, out double rotatedApex2Y, out double rotatedApex3X, out double rotatedApex3Y)
         {
-            Center(apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y, out var centerX, out var centerY);
+            GetCenter(apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y, out var centerX, out var centerY);
 
             PointGeo.Rotate(apex1X, apex1Y, centerX, centerY, angleRadian, out rotatedApex1X, out rotatedApex1Y);
             PointGeo.Rotate(apex2X, apex2Y, centerX, centerY, angleRadian, out rotatedApex2X, out rotatedApex2Y);
@@ -390,10 +519,10 @@ namespace GeoPlanarNet
         /// <param name="apex2"> Apex 2 </param>
         /// <param name="apex3"> Apex 3 </param>
         /// <returns> Center point </returns>
-        public static PointF Center(PointF apex1, PointF apex2, PointF apex3)
+        public static PointF GetCenter(PointF apex1, PointF apex2, PointF apex3)
         {
-            Center(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var centerX, out var centerY);
-            return new PointF((float) centerX, (float) centerY);
+            GetCenter(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var centerX, out var centerY);
+            return new PointF((float)centerX, (float)centerY);
         }
 
         /// <summary>
@@ -403,9 +532,9 @@ namespace GeoPlanarNet
         /// <param name="apex2"> Apex 2 </param>
         /// <param name="apex3"> Apex 3 </param>
         /// <returns> Center point </returns>
-        public static Point Center(Point apex1, Point apex2, Point apex3)
+        public static Point GetCenter(Point apex1, Point apex2, Point apex3)
         {
-            Center(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var centerX, out var centerY);
+            GetCenter(apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y, out var centerX, out var centerY);
             return new Point((int)centerX, (int)centerY);
         }
 
@@ -420,7 +549,7 @@ namespace GeoPlanarNet
         /// <param name="apex3Y"> Apex 3: Y coordinate </param>
         /// <param name="centerX"> Center point: X coordinate </param>
         /// <param name="centerY"> Center point: Y coordinate </param>
-        public static void Center(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, out double centerX, out double centerY)
+        public static void GetCenter(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, out double centerX, out double centerY)
         {
             centerX = (apex1X + apex2X + apex3X) / 3d;
             centerY = (apex1Y + apex2Y + apex3Y) / 3d;

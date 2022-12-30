@@ -45,58 +45,6 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get width/height of the rectangle
-        /// </summary>
-        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
-        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
-        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
-        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
-        /// <param name="width"> Width </param>
-        /// <param name="height"> Height </param>
-        public static void GetDimensions(double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY, out double width, out double height)
-        {
-            GetPoints(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
-
-            width = PointGeo.DistanceTo(rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightBottomY);
-            height = PointGeo.DistanceTo(rectLeftTopX, rectRightTopY, rectLeftBottomX, rectLeftBottomY);
-        }
-
-        /// <summary>
-        /// Get point of the rectangle base on diagonal 0-2 points.
-        /// </summary>
-        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
-        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
-        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
-        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
-        /// <param name="rectRightTopX"> Rectangle right top: X coordinate </param>
-        /// <param name="rectRightTopY"> Rectangle right top: Y coordinate </param>
-        /// <param name="rectLeftBottomX"> Rectangle left bottom: X coordinate </param>
-        /// <param name="rectLeftBottomY"> Rectangle left bottom: Y coordinate </param>
-        public static void GetPoints(double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY,
-            out double rectRightTopX, out double rectRightTopY, out double rectLeftBottomX, out double rectLeftBottomY)
-        {
-            GetCenter(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var centerPointX, out var centerPointY);
-
-            var angle = PointGeo.GetAngle(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY);
-
-            var cos = Math.Cos(-angle);
-            var sin = Math.Sin(-angle);
-
-            var x1u = cos * (rectLeftTopX - centerPointX) - sin * (rectLeftTopY - centerPointY) + centerPointX;
-            var y1u = sin * (rectLeftTopX - centerPointX) + cos * (rectLeftTopY - centerPointY) + centerPointY;
-            var x3u = cos * (rectRightBottomX - centerPointX) - sin * (rectRightBottomY - centerPointY) + centerPointX;
-            var y3u = sin * (rectRightBottomX - centerPointX) + cos * (rectRightBottomY - centerPointY) + centerPointY;
-
-            cos = Math.Cos(angle);
-            sin = Math.Sin(angle);
-
-            rectRightTopX = cos * (x1u - centerPointX) - sin * (y3u - centerPointY) + centerPointX;
-            rectRightTopY = sin * (x1u - centerPointX) + cos * (y3u - centerPointY) + centerPointY;
-            rectLeftBottomX = cos * (x3u - centerPointX) - sin * (y1u - centerPointY) + centerPointX;
-            rectLeftBottomY = sin * (x3u - centerPointX) + cos * (y1u - centerPointY) + centerPointY;
-        }
-
-        /// <summary>
         /// Get the center point of the rectangle
         /// </summary>
         /// <param name="rectLeftTop"> Rectangle left top </param>
@@ -133,6 +81,156 @@ namespace GeoPlanarNet
         {
             centerPointX = rectLeftTopX + (rectRightBottomX - rectLeftTopX) * 0.5;
             centerPointY = rectLeftTopY + (rectRightBottomY - rectLeftTopY) * 0.5;
+        }
+
+        /// <summary>
+        /// Get width/height of the rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="width"> Width </param>
+        /// <param name="height"> Height </param>
+        public static void GetDimensions(PointF rectLeftTop, PointF rectRightBottom, out double width, out double height)
+        {
+            GetDimensions(rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y, out width, out height);
+        }
+
+        /// <summary>
+        /// Get width/height of the rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="width"> Width </param>
+        /// <param name="height"> Height </param>
+        public static void GetDimensions(Point rectLeftTop, Point rectRightBottom, out double width, out double height)
+        {
+            GetDimensions(rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y, out width, out height);
+        }
+
+        /// <summary>
+        /// Get width/height of the rectangle
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="width"> Width </param>
+        /// <param name="height"> Height </param>
+        public static void GetDimensions(double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY, out double width, out double height)
+        {
+            GetPoints(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
+
+            GetDimensions(rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY, out width, out height);
+        }
+
+        /// <summary>
+        /// Get width/height of the rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
+        /// <param name="width"> Width </param>
+        /// <param name="height"> Height </param>
+        public static void GetDimensions(PointF rectLeftTop, PointF rectRightTop, PointF rectRightBottom, PointF rectLeftBottom, out double width, out double height)
+        {
+            GetDimensions(rectLeftTop.X, rectLeftTop.Y, rectRightTop.X, rectRightTop.Y, rectRightBottom.X, rectRightBottom.Y, rectLeftBottom.X, rectLeftBottom.Y, out width, out height);
+        }
+
+        /// <summary>
+        /// Get width/height of the rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
+        /// <param name="width"> Width </param>
+        /// <param name="height"> Height </param>
+        public static void GetDimensions(Point rectLeftTop, Point rectRightTop, Point rectRightBottom, Point rectLeftBottom, out double width, out double height)
+        {
+            GetDimensions(rectLeftTop.X, rectLeftTop.Y, rectRightTop.X, rectRightTop.Y, rectRightBottom.X, rectRightBottom.Y, rectLeftBottom.X, rectLeftBottom.Y, out width, out height);
+        }
+
+        /// <summary>
+        /// Get width/height of the rectangle
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightTopX"> Rectangle right top: X coordinate </param>
+        /// <param name="rectRightTopY"> Rectangle right top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="rectLeftBottomX"> Rectangle left bottom: X coordinate </param>
+        /// <param name="rectLeftBottomY"> Rectangle left bottom: Y coordinate </param>
+        /// <param name="width"> Width </param>
+        /// <param name="height"> Height </param>
+        public static void GetDimensions(double rectLeftTopX, double rectLeftTopY, double rectRightTopX, double rectRightTopY,
+                                        double rectRightBottomX, double rectRightBottomY, double rectLeftBottomX, double rectLeftBottomY,
+                                        out double width, out double height)
+        {
+            width = PointGeo.DistanceTo(rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightBottomY);
+            height = PointGeo.DistanceTo(rectLeftTopX, rectLeftTopY, rectLeftBottomX, rectLeftBottomY);
+        }
+
+        /// <summary>
+        /// Get the center point of the rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        public static void GetPoints(PointF rectLeftTop, PointF rectRightBottom, out PointF rectRightTop, out PointF rectLeftBottom)
+        {
+            GetPoints(rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
+
+            rectRightTop = new PointF((float)rectRightTopX, (float)rectRightTopY);
+            rectLeftBottom = new PointF((float)rectLeftBottomX, (float)rectLeftBottomY);
+        }
+
+        /// <summary>
+        /// Get the center point of the rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        public static void GetPoints(Point rectLeftTop, Point rectRightBottom, out Point rectRightTop, out Point rectLeftBottom)
+        {
+            GetPoints(rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
+
+            rectRightTop = new Point((int)rectRightTopX, (int)rectRightTopY);
+            rectLeftBottom = new Point((int)rectLeftBottomX, (int)rectLeftBottomY);
+        }
+
+        /// <summary>
+        /// Get point of the rectangle base on diagonal 0-2 points.
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="rectRightTopX"> Rectangle right top: X coordinate </param>
+        /// <param name="rectRightTopY"> Rectangle right top: Y coordinate </param>
+        /// <param name="rectLeftBottomX"> Rectangle left bottom: X coordinate </param>
+        /// <param name="rectLeftBottomY"> Rectangle left bottom: Y coordinate </param>
+        public static void GetPoints(double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY,
+            out double rectRightTopX, out double rectRightTopY, out double rectLeftBottomX, out double rectLeftBottomY)
+        {
+            GetCenter(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var centerPointX, out var centerPointY);
+
+            var angle = PointGeo.GetAngle(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY);
+
+            var cos = Math.Cos(-angle);
+            var sin = Math.Sin(-angle);
+
+            var x1u = cos * (rectLeftTopX - centerPointX) - sin * (rectLeftTopY - centerPointY) + centerPointX;
+            var y1u = sin * (rectLeftTopX - centerPointX) + cos * (rectLeftTopY - centerPointY) + centerPointY;
+            var x3u = cos * (rectRightBottomX - centerPointX) - sin * (rectRightBottomY - centerPointY) + centerPointX;
+            var y3u = sin * (rectRightBottomX - centerPointX) + cos * (rectRightBottomY - centerPointY) + centerPointY;
+
+            cos = Math.Cos(angle);
+            sin = Math.Sin(angle);
+
+            rectRightTopX = cos * (x1u - centerPointX) - sin * (y3u - centerPointY) + centerPointX;
+            rectRightTopY = sin * (x1u - centerPointX) + cos * (y3u - centerPointY) + centerPointY;
+            rectLeftBottomX = cos * (x3u - centerPointX) - sin * (y1u - centerPointY) + centerPointX;
+            rectLeftBottomY = sin * (x3u - centerPointX) + cos * (y1u - centerPointY) + centerPointY;
         }
     }
 }

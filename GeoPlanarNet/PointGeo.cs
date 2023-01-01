@@ -954,54 +954,54 @@ namespace GeoPlanarNet
         #region GetClosestPoint
 
         /// <summary>
-        /// Find the point on the line closest to the given one
+        /// Find the point on the segment closest to the given one
         /// </summary>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="segmentStart"> Segment point 1 </param>
+        /// <param name="segmentEnd"> Segment point 2 </param>
         /// <param name="point"> Given point </param>
-        /// <returns> Closest point on the line </returns>
-        public static PointF GetClosestPointOnLine(this PointF point, PointF linePoint1, PointF linePoint2)
+        /// <returns> Closest point on the Segment </returns>
+        public static PointF GetClosestPointOnSegment(this PointF point, PointF segmentStart, PointF segmentEnd)
         {
-            GetClosestPointOnLine(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, point.X, point.Y, out var x, out var y);
+            GetClosestPointOnLine(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, point.X, point.Y, out var x, out var y);
             return new PointF((float)x, (float)y);
         }
 
         /// <summary>
-        /// Find the point on the line closest to the given one
+        /// Find the point on the segment closest to the given one
         /// </summary>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="segmentStart"> Segment point 1 </param>
+        /// <param name="segmentEnd"> Segment point 2 </param>
         /// <param name="point"> Given point </param>
-        /// <returns> Closest point on the line </returns>
-        public static Point GetClosestPointOnLine(this Point point, Point linePoint1, Point linePoint2)
+        /// <returns> Closest point on the segment </returns>
+        public static Point GetClosestPointOnSegment(this Point point, Point segmentStart, Point segmentEnd)
         {
-            GetClosestPointOnLine(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, point.X, point.Y, out var x, out var y);
+            GetClosestPointOnLine(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, point.X, point.Y, out var x, out var y);
             return new Point((int)x, (int)y);
         }
 
         /// <summary>
-        /// Find the point on the line closest to the given one
+        /// Find the point on the segment closest to the given one
         /// </summary>
-        /// <param name="linePoint1X"> Line point 1: X </param>
-        /// <param name="linePoint1Y"> Line point 1: Y </param>
-        /// <param name="linePoint2X"> Line point 2: X </param>
-        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <param name="segmentStartX"> Segment point 1: X </param>
+        /// <param name="segmentStartY"> Segment point 1: Y </param>
+        /// <param name="segmentEndX"> Segment point 2: X </param>
+        /// <param name="segmentEndY"> Segment point 2: Y </param>
         /// <param name="pointX"> Given point: X </param>
         /// <param name="pointY"> Given point: Y </param>
-        /// <param name="closestPointX"> Closest point on the line: X </param>
-        /// <param name="closestPointY"> Closest point on the line: Y </param>
-        public static void GetClosestPointOnLine(double pointX, double pointY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double closestPointX, out double closestPointY)
+        /// <param name="closestPointX"> Closest point on the segment: X </param>
+        /// <param name="closestPointY"> Closest point on the segment: Y </param>
+        public static void GetClosestPointOnSegment(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, out double closestPointX, out double closestPointY)
         {
-            var projectionLineX = linePoint2X - linePoint1X;
-            var projectionLineY = linePoint2Y - linePoint1Y;
-            var toPointX = pointX - linePoint1X;
-            var toPointY = pointY - linePoint1Y;
+            var projectionLineX = segmentEndX - segmentStartX;
+            var projectionLineY = segmentEndY - segmentStartY;
+            var toPointX = pointX - segmentStartX;
+            var toPointY = pointY - segmentStartY;
             var koefC1 = projectionLineX * toPointX + projectionLineY * toPointY;
             var koefC2 = projectionLineX * projectionLineX + projectionLineY * projectionLineY;
             var ratio = koefC1 / koefC2;
 
-            closestPointX = linePoint1X + ratio * projectionLineX;
-            closestPointY = linePoint1Y + ratio * projectionLineY;
+            closestPointX = segmentStartX + ratio * projectionLineX;
+            closestPointY = segmentStartY + ratio * projectionLineY;
         }
 
         /// <summary>

@@ -77,6 +77,49 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
+        /// Check if the point belongs to the line
+        /// </summary>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Flag if the point belongs to the line </returns>
+        public static bool BelongsToLine(PointF segmentStart, PointF segmentEnd, PointF linePoint1, PointF linePoint2)
+        {
+            return BelongsToLine(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
+        }
+
+        /// <summary>
+        /// Check if the point belongs to the line
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Flag if the point belongs to the line </returns>
+        public static bool BelongsToLine(Point segmentStart, Point segmentEnd, Point linePoint1, Point linePoint2)
+        {
+            return BelongsToLine(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
+        }
+
+        /// <summary>
+        /// Check if the point belongs to the line
+        /// </summary>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: X coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <param name="linePoint1X"> Segment start point: X coordinate </param>
+        /// <param name="linePoint1Y"> Segment start point: Y coodinate </param>
+        /// <param name="linePoint2X"> Segment end point: X coordinate </param>
+        /// <param name="linePoint2Y"> Segment end point: Y coordinate </param>
+        /// <returns> Flag if the point belongs to the line </returns>
+        public static bool BelongsToLine(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
+        {
+            return PointGeo.BelongsToLine(segmentStartX, segmentStartY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y) &&
+                   PointGeo.BelongsToLine(segmentEndX, segmentEndY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y);
+        }
+
+        /// <summary>
         /// Get a segment tilt angle relative to the X axis
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>

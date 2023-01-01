@@ -962,7 +962,7 @@ namespace GeoPlanarNet
         /// <returns> Closest point on the Segment </returns>
         public static PointF GetClosestPointOnSegment(this PointF point, PointF segmentStart, PointF segmentEnd)
         {
-            GetClosestPointOnLine(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, point.X, point.Y, out var x, out var y);
+            GetClosestPointOnSegment(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, point.X, point.Y, out var x, out var y);
             return new PointF((float)x, (float)y);
         }
 
@@ -975,7 +975,7 @@ namespace GeoPlanarNet
         /// <returns> Closest point on the segment </returns>
         public static Point GetClosestPointOnSegment(this Point point, Point segmentStart, Point segmentEnd)
         {
-            GetClosestPointOnLine(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, point.X, point.Y, out var x, out var y);
+            GetClosestPointOnSegment(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, point.X, point.Y, out var x, out var y);
             return new Point((int)x, (int)y);
         }
 
@@ -1098,15 +1098,15 @@ namespace GeoPlanarNet
 
             if (distanceAB < distanceBC && distanceAB < distanceCA)
             {
-                GetClosestPointOnLine(pointX, pointY, apex1X, apex1Y, apex2X, apex2Y, out closestPointX, out closestPointY);
+                GetClosestPointOnSegment(pointX, pointY, apex1X, apex1Y, apex2X, apex2Y, out closestPointX, out closestPointY);
             }
             else if (distanceBC < distanceCA)
             {
-                GetClosestPointOnLine(pointX, pointY, apex2X, apex2Y, apex3X, apex3Y, out closestPointX, out closestPointY);
+                GetClosestPointOnSegment(pointX, pointY, apex2X, apex2Y, apex3X, apex3Y, out closestPointX, out closestPointY);
             }
             else
             {
-                GetClosestPointOnLine(pointX, pointY, apex3X, apex3Y, apex1X, apex1Y, out closestPointX, out closestPointY);
+                GetClosestPointOnSegment(pointX, pointY, apex3X, apex3Y, apex1X, apex1Y, out closestPointX, out closestPointY);
             }
         }
 
@@ -1184,19 +1184,19 @@ namespace GeoPlanarNet
 
             if (distanceAB < distanceBC && distanceAB < distanceCD && distanceAB < distanceDA)
             {
-                GetClosestPointOnLine(pointX, pointY, rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY, out closestPointX, out closestPointY);
+                GetClosestPointOnSegment(pointX, pointY, rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY, out closestPointX, out closestPointY);
             }
             else if (distanceBC < distanceCD && distanceBC < distanceDA)
             {
-                GetClosestPointOnLine(pointX, pointY, rectLeftTopX, rectRightBottomY, rectRightBottomX, rectRightBottomY, out closestPointX, out closestPointY);
+                GetClosestPointOnSegment(pointX, pointY, rectLeftTopX, rectRightBottomY, rectRightBottomX, rectRightBottomY, out closestPointX, out closestPointY);
             }
             else if (distanceCD < distanceDA)
             {
-                GetClosestPointOnLine(pointX, pointY, rectRightBottomX, rectRightBottomY, rectRightBottomX, rectLeftTopY, out closestPointX, out closestPointY);
+                GetClosestPointOnSegment(pointX, pointY, rectRightBottomX, rectRightBottomY, rectRightBottomX, rectLeftTopY, out closestPointX, out closestPointY);
             }
             else
             {
-                GetClosestPointOnLine(pointX, pointY, rectRightBottomX, rectLeftTopY, rectLeftTopX, rectLeftTopY, out closestPointX, out closestPointY);
+                GetClosestPointOnSegment(pointX, pointY, rectRightBottomX, rectLeftTopY, rectLeftTopX, rectLeftTopY, out closestPointX, out closestPointY);
             }
         }
 

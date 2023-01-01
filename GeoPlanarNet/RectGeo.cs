@@ -232,5 +232,106 @@ namespace GeoPlanarNet
             rectLeftBottomX = cos * (x3u - centerPointX) - sin * (y1u - centerPointY) + centerPointX;
             rectLeftBottomY = sin * (x3u - centerPointX) + cos * (y1u - centerPointY) + centerPointY;
         }
+
+        /// <summary>
+        /// Get the AABB rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <returns> AABB rect </returns>
+        public static RectangleF GetAABB(PointF rectLeftTop, PointF rectRightBottom)
+        {
+            GetAABB(rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y, out var leftTopX, out var leftTopY, out var width, out var height);
+            return new RectangleF((float)leftTopX, (float)leftTopY, (float)width, (float)height);
+        }
+
+        /// <summary>
+        /// Get the AABB rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <returns> AABB rect </returns>
+        public static Rectangle GetAABB(Point rectLeftTop, Point rectRightBottom)
+        {
+            GetAABB(rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y, out var leftTopX, out var leftTopY, out var width, out var height);
+            return new Rectangle((int)leftTopX, (int)leftTopY, (int)width, (int)height);
+        }
+
+        /// <summary>
+        /// Get the AABB rectangle
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="leftTopX"> AABB left top: X coordinate </param>
+        /// <param name="leftTopY"> AABB left top: Y coordinate </param>
+        /// <param name="width"> Width </param>
+        /// <param name="height"> Height </param>
+        public static void GetAABB(double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY,
+                                     out double leftTopX, out double leftTopY, out double width, out double height)
+        {
+            GetPoints(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
+
+            GetAABB(rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY, out leftTopX, out leftTopY, out width, out height);
+        }
+
+        /// <summary>
+        /// Get the AABB rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
+        /// <returns> AABB rect </returns>
+        public static RectangleF GetAABB(PointF rectLeftTop, PointF rectRightTop, PointF rectRightBottom, PointF rectLeftBottom)
+        {
+            GetAABB(rectLeftTop.X, rectLeftTop.Y, rectRightTop.X, rectRightTop.Y, rectRightBottom.X, rectRightBottom.Y, rectLeftBottom.X, rectLeftBottom.Y, out var leftTopX, out var leftTopY, out var width, out var height);
+            return new RectangleF((float)leftTopX, (float)leftTopY, (float)width, (float)height);
+        }
+
+        /// <summary>
+        /// Get the AABB rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
+        /// <returns> AABB rect </returns>
+        public static Rectangle GetAABB(Point rectLeftTop, Point rectRightTop, Point rectRightBottom, Point rectLeftBottom)
+        {
+            GetAABB(rectLeftTop.X, rectLeftTop.Y, rectRightTop.X, rectRightTop.Y, rectRightBottom.X, rectRightBottom.Y, rectLeftBottom.X, rectLeftBottom.Y, out var leftTopX, out var leftTopY, out var width, out var height);
+            return new Rectangle((int)leftTopX, (int)leftTopY, (int)width, (int)height);
+        }
+
+        /// <summary>
+        /// Get the AABB rectangle
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightTopX"> Rectangle right top: X coordinate </param>
+        /// <param name="rectRightTopY"> Rectangle right top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="rectLeftBottomX"> Rectangle left bottom: X coordinate </param>
+        /// <param name="rectLeftBottomY"> Rectangle left bottom: Y coordinate </param>
+        /// <param name="leftTopX"> AABB left top: X coordinate </param>
+        /// <param name="leftTopY"> AABB left top: Y coordinate </param>
+        /// <param name="width"> Width </param>
+        /// <param name="height"> Height </param>
+        public static void GetAABB(double rectLeftTopX, double rectLeftTopY, double rectRightTopX, double rectRightTopY,
+                                        double rectRightBottomX, double rectRightBottomY, double rectLeftBottomX, double rectLeftBottomY,
+                                        out double leftTopX, out double leftTopY, out double width, out double height)
+        {
+            var minX = Math.Min(rectLeftTopX, Math.Min(rectRightTopX, Math.Min(rectRightBottomX, rectLeftBottomX)));
+            var minY = Math.Min(rectLeftTopY, Math.Min(rectRightTopY, Math.Min(rectRightBottomY, rectLeftBottomY)));
+            var maxX = Math.Max(rectLeftTopX, Math.Max(rectRightTopX, Math.Max(rectRightBottomX, rectLeftBottomX)));
+            var maxY = Math.Max(rectLeftTopY, Math.Max(rectRightTopY, Math.Max(rectRightBottomY, rectLeftBottomY)));
+
+            leftTopX = minX;
+            leftTopY = minY;
+            width = maxX - minX;
+            height = maxY - minY;
+        }
     }
 }

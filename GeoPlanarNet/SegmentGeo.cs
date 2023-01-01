@@ -820,5 +820,48 @@ namespace GeoPlanarNet
         {
             return PointGeo.DistanceToSegment(circleCenterX, circleCenterY, segmentStartX, segmentStartY, segmentEndX, segmentEndY) - radius;
         }
+
+        /// <summary>
+        /// Check if two segments are parallel
+        /// </summary>
+        /// <param name="segment1Start"> Segment 1, point 1 </param>
+        /// <param name="segment1End"> Segment 1, point 2 </param>
+        /// <param name="segment2Start"> Segment 2, point 1 </param>
+        /// <param name="segment2End"> Segment 2, point 2 </param>
+        /// <returns> True, if segments are parallel </returns>
+        public static bool IsParallel(PointF segment1Start, PointF segment1End, PointF segment2Start, PointF segment2End)
+        {
+            return IsParallel(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y);
+        }
+
+        /// <summary>
+        /// Check if two segments are parallel
+        /// </summary>
+        /// <param name="segment1Start"> Segment 1, point 1 </param>
+        /// <param name="segment1End"> Segment 1, point 2 </param>
+        /// <param name="segment2Start"> Segment 2, point 1 </param>
+        /// <param name="segment2End"> Segment 2, point 2 </param>
+        /// <returns> True, if segments are parallel </returns>
+        public static bool IsParallel(Point segment1Start, Point segment1End, Point segment2Start, Point segment2End)
+        {
+            return IsParallel(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y);
+        }
+
+        /// <summary>
+        /// Check if two segments are parallel/anti-parallel
+        /// </summary>
+        /// <param name="segment1StartX"> Segment 1, start point: coordinate X </param>
+        /// <param name="segment1StartY"> Segment 1, start point: coordinate Y </param>
+        /// <param name="segment1EndX"> Segment 1, end point: coordinate X </param>
+        /// <param name="segment1EndY"> Segment 1, end point: coordinate Y </param>
+        /// <param name="segment2StartX"> Segment 2, start point: coordinate X </param>
+        /// <param name="segment2StartY"> Segment 2, start point: coordinate Y </param>
+        /// <param name="segment2EndX"> Segment 2, end point: coordinate X </param>
+        /// <param name="segment2EndY"> Segment 2, end point: coordinate Y </param>
+        /// <returns> True, if segments are parallel/anti-parallel </returns>
+        public static bool IsParallel(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY, double segment2StartX, double segment2StartY, double segment2EndX, double segment2EndY)
+        {
+            return LineGeo.IsParallel(segment1StartX, segment1StartY, segment1StartX, segment1StartY, segment2StartX, segment2StartY, segment2EndX, segment2EndY);
+        }
     }
 }

@@ -559,10 +559,7 @@ namespace GeoPlanarNet
         /// <returns> Flag if the point belongs to the ellipse </returns>
         public static bool BelongsToEllipse(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double radiusX, double radiusY)
         {
-            var distX = pointX - ellipseCenterX;
-            var distY = pointY - ellipseCenterY;
-
-            return distX * distX / (radiusX * radiusX) + distY * distY / (radiusY * radiusY) <= 1;
+            return GetRelativeLocationEllipse(pointX, pointY, ellipseCenterX, ellipseCenterY, radiusX, radiusY) != PointAgainstFigureLocation.Outside;
         }
 
         /// <summary>
@@ -1423,7 +1420,7 @@ namespace GeoPlanarNet
         /// <param name="pointY"> Point: Y Coordinate </param>
         /// <param name="circleCenterPointX"> Circle center point: X Coordinate </param>
         /// <param name="circleCenterPointY"> Circle center point: Y Coordinate </param>
-        /// <param name="circleCenterRadius"> Circle cente radius </param>
+        /// <param name="circleCenterRadius"> Circle center radius </param>
         /// <returns> Point location </returns>
         public static PointAgainstFigureLocation GetRelativeLocationCircle(double pointX, double pointY, double circleCenterPointX, double circleCenterPointY, double circleCenterRadius)
         {
@@ -1438,12 +1435,7 @@ namespace GeoPlanarNet
                 return PointAgainstFigureLocation.Inside;
             }
 
-            if (diff == radSqr)
-            {
-                return PointAgainstFigureLocation.OnTheEdge;
-            }
-
-            return PointAgainstFigureLocation.Outside;
+            return diff.AboutEquals(radSqr) ? PointAgainstFigureLocation.OnTheEdge : PointAgainstFigureLocation.Outside;
         }
 
         /// <summary>
@@ -1478,6 +1470,57 @@ namespace GeoPlanarNet
             }
 
             return PointAgainstFigureLocation.Inside;
+        }
+
+        /// <summary>
+        /// Get the point location relative to the ellipse
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="ellipseCenter"> Ellipse center </param>
+        /// <param name="radiusX"> Radius on X axis </param>
+        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <returns> Point location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationEllipse(this PointF point, PointF ellipseCenter, float radiusX, float radiusY)
+        {
+            return GetRelativeLocationEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY);
+        }
+
+        /// <summary>
+        /// Get the point location relative to the ellipse
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="ellipseCenter"> Ellipse center </param>
+        /// <param name="radiusX"> Radius on X axis </param>
+        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <returns> Point location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationEllipse(this Point point, Point ellipseCenter, int radiusX, int radiusY)
+        {
+            return GetRelativeLocationEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY);
+        }
+
+        /// <summary>
+        /// Check if a point belongs to an ellipse
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="ellipseCenterX"> Ellipse center: X coordinate </param>
+        /// <param name="ellipseCenterY"> Ellipse center: Y coordinate </param>
+        /// <param name="radiusX"> Radius on X axis </param>
+        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <returns> Point location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationEllipse(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double radiusX, double radiusY)
+        {
+            var distX = pointX - ellipseCenterX;
+            var distY = pointY - ellipseCenterY;
+
+            var diff = distX * distX / (radiusX * radiusX) + distY * distY / (radiusY * radiusY);
+
+            if (diff < 1)
+            {
+                return PointAgainstFigureLocation.Inside;
+            }
+
+            return diff.AboutEquals(1) ? PointAgainstFigureLocation.OnTheEdge : PointAgainstFigureLocation.Outside;
         }
 
         #endregion

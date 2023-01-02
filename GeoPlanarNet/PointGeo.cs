@@ -526,12 +526,12 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
-        /// <param name="radiusX"> Radius on X axis </param>
-        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <param name="semiMajor"> Radius on X axis </param>
+        /// <param name="semiMinor"> Radius on Y axis </param>
         /// <returns> Flag if the point belongs to the ellipse </returns>
-        public static bool BelongsToEllipse(this PointF point, PointF ellipseCenter, float radiusX, float radiusY)
+        public static bool BelongsToEllipse(this PointF point, PointF ellipseCenter, float semiMajor, float semiMinor)
         {
-            return BelongsToEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY);
+            return BelongsToEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, semiMajor, semiMinor);
         }
 
         /// <summary>
@@ -539,12 +539,12 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
-        /// <param name="radiusX"> Radius on X axis </param>
-        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <param name="semiMajor"> Radius on X axis </param>
+        /// <param name="semiMinor"> Radius on Y axis </param>
         /// <returns> Flag if the point belongs to the ellipse </returns>
-        public static bool BelongsToEllipse(this Point point, Point ellipseCenter, int radiusX, int radiusY)
+        public static bool BelongsToEllipse(this Point point, Point ellipseCenter, int semiMajor, int semiMinor)
         {
-            return BelongsToEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY);
+            return BelongsToEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, semiMajor, semiMinor);
         }
 
         /// <summary>
@@ -554,12 +554,12 @@ namespace GeoPlanarNet
         /// <param name="pointY"> Point: Y coordinate </param>
         /// <param name="ellipseCenterX"> Ellipse center: X coordinate </param>
         /// <param name="ellipseCenterY"> Ellipse center: Y coordinate </param>
-        /// <param name="radiusX"> Radius on X axis </param>
-        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <param name="semiMajor"> Radius on X axis </param>
+        /// <param name="semiMinor"> Radius on Y axis </param>
         /// <returns> Flag if the point belongs to the ellipse </returns>
-        public static bool BelongsToEllipse(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double radiusX, double radiusY)
+        public static bool BelongsToEllipse(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double semiMajor, double semiMinor)
         {
-            return GetRelativeLocationEllipse(pointX, pointY, ellipseCenterX, ellipseCenterY, radiusX, radiusY) != PointAgainstFigureLocation.Outside;
+            return GetRelativeLocationEllipse(pointX, pointY, ellipseCenterX, ellipseCenterY, semiMajor, semiMinor) != PointAgainstFigureLocation.Outside;
         }
 
         /// <summary>
@@ -567,14 +567,14 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
-        /// <param name="radiusX"> Radius on X axis </param>
-        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <param name="semiMajor"> Radius on X axis </param>
+        /// <param name="semiMinor"> Radius on Y axis </param>
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
         /// <returns> Flag if the point belongs to the ellipse sector </returns>
-        public static bool BelongsToEllipseSector(PointF point, PointF ellipseCenter, float radiusX, float radiusY, float sectorStartAngleRad, float sectorEndAngleRad)
+        public static bool BelongsToEllipseSector(PointF point, PointF ellipseCenter, float semiMajor, float semiMinor, float sectorStartAngleRad, float sectorEndAngleRad)
         {
-            return BelongsToEllipseSector(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY, sectorStartAngleRad, sectorEndAngleRad);
+            return BelongsToEllipseSector(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, semiMajor, semiMinor, sectorStartAngleRad, sectorEndAngleRad);
         }
 
         /// <summary>
@@ -582,14 +582,14 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
-        /// <param name="radiusX"> Radius on X axis </param>
-        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <param name="semiMajor"> Radius on X axis </param>
+        /// <param name="semiMinor"> Radius on Y axis </param>
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
         /// <returns> Flag if the point belongs to the ellipse sector </returns>
-        public static bool BelongsToEllipseSector(Point point, Point ellipseCenter, int radiusX, int radiusY, int sectorStartAngleRad, int sectorEndAngleRad)
+        public static bool BelongsToEllipseSector(Point point, Point ellipseCenter, int semiMajor, int semiMinor, int sectorStartAngleRad, int sectorEndAngleRad)
         {
-            return BelongsToEllipseSector(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY, sectorStartAngleRad, sectorEndAngleRad);
+            return BelongsToEllipseSector(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, semiMajor, semiMinor, sectorStartAngleRad, sectorEndAngleRad);
         }
 
         /// <summary>
@@ -599,14 +599,14 @@ namespace GeoPlanarNet
         /// <param name="pointY"> Point: Y coordinate </param>
         /// <param name="ellipseCenterX"> Ellipse center: X coordinate </param>
         /// <param name="ellipseCenterY"> Ellipse center: Y coordinate </param>
-        /// <param name="radiusX"> Radius on X axis </param>
-        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <param name="semiMajor"> Radius on X axis </param>
+        /// <param name="semiMinor"> Radius on Y axis </param>
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
         /// <returns> Flag if the point belongs to the ellipse sector </returns>
-        public static bool BelongsToEllipseSector(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double radiusX, double radiusY, double sectorStartAngleRad, double sectorEndAngleRad)
+        public static bool BelongsToEllipseSector(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double semiMajor, double semiMinor, double sectorStartAngleRad, double sectorEndAngleRad)
         {
-            return BelongsToEllipse(pointX, pointY, ellipseCenterX, ellipseCenterY, radiusX, radiusY) && SegmentGeo.IsBetweenAngles(pointX, pointY, ellipseCenterX, ellipseCenterY, sectorStartAngleRad, sectorEndAngleRad);
+            return BelongsToEllipse(pointX, pointY, ellipseCenterX, ellipseCenterY, semiMajor, semiMinor) && SegmentGeo.IsBetweenAngles(pointX, pointY, ellipseCenterX, ellipseCenterY, sectorStartAngleRad, sectorEndAngleRad);
         }
 
         /// <summary>
@@ -1048,6 +1048,85 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
+        /// Get closest point on the ellipse to the given point
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="ellipseCenter"> Ellipse center </param>
+        /// <param name="semiMajor"> Radius on X axis </param>
+        /// <param name="semiMinor"> Radius on Y axis </param>
+        /// <returns> Point location </returns>
+        public static PointF GetClosestPointOnEllipse(this PointF point, PointF ellipseCenter, float semiMajor, float semiMinor)
+        {
+            GetClosestPointOnEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, semiMajor, semiMinor, out var closestPointX, out var closestPointY);
+            return new PointF((float)closestPointX, (float)closestPointY);
+        }
+
+        /// <summary>
+        /// Get closest point on the ellipse to the given point
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="ellipseCenter"> Ellipse center </param>
+        /// <param name="semiMajor"> Radius on X axis </param>
+        /// <param name="semiMinor"> Radius on Y axis </param>
+        /// <returns> Point location </returns>
+        public static Point GetClosestPointOnEllipse(this Point point, Point ellipseCenter, int semiMajor, int semiMinor)
+        {
+            GetClosestPointOnEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, semiMajor, semiMinor, out var closestPointX, out var closestPointY);
+            return new Point((int)closestPointX, (int)closestPointY);
+        }
+
+        /// <summary>
+        /// Get closest point on the ellipse to the given point
+        /// </summary>
+        /// <param name="pointX"></param>
+        /// <param name="pointY"></param>
+        /// <param name="semiMajor"></param>
+        /// <param name="semiMinor"></param>
+        /// <param name="closestPointX"></param>
+        /// <param name="closestPointY"></param>
+        /// <remarks> Credit to Adrian Stephens for the Trig-Free Optimization: https://github.com/0xfaded/ellipse_demo/issues/1 </remarks>
+        public static void GetClosestPointOnEllipse(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double semiMajor, double semiMinor, out double closestPointX, out double closestPointY)
+        {
+            var px = Math.Abs(pointX);
+            var py = Math.Abs(pointY);
+
+            var t = Math.PI / 4;
+
+            for (var i = 0; i < 4; ++i)
+            {
+                var cost = Math.Cos(t);
+                var sint = Math.Sin(t);
+
+                closestPointX = semiMajor * cost;
+                closestPointY = semiMinor * sint;
+
+                var ex = (semiMajor * semiMajor - semiMinor * semiMinor) * (cost * cost * cost) / semiMajor;
+                var ey = (semiMinor * semiMinor - semiMajor * semiMajor) * (sint * sint * sint) / semiMinor;
+
+                var rx = closestPointX - ex;
+                var ry = closestPointY - ey;
+
+                var qx = px - ex;
+                var qy = py - ey;
+
+                var r = Math.Sqrt(rx * rx + ry * ry);
+                var q = Math.Sqrt(qx * qx + qy * qy);
+
+                var delta_c = r * Math.Asin((rx * qy - ry * qx) / (r * q));
+                var delta_t = delta_c / Math.Sqrt(semiMajor * semiMajor + semiMinor * semiMinor - closestPointX * closestPointX - closestPointY * closestPointY);
+
+                t += delta_t;
+                t = Math.Min(Math.PI / 2, Math.Max(0, t));
+            }
+
+            closestPointX = ellipseCenterX + semiMajor * Math.Cos(t);
+            closestPointY = ellipseCenterY + semiMinor * Math.Sin(t);
+
+            closestPointX = pointX < 0 ? -closestPointX : closestPointX;
+            closestPointY = pointY < 0 ? -closestPointY : closestPointY;
+        }
+
+        /// <summary>
         /// Get closest point on the triangle to the given point
         /// </summary>
         /// <param name="point"> Point </param>
@@ -1477,12 +1556,12 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
-        /// <param name="radiusX"> Radius on X axis </param>
-        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <param name="semiMajor"> Radius on X axis </param>
+        /// <param name="semiMinor"> Radius on Y axis </param>
         /// <returns> Point location </returns>
-        public static PointAgainstFigureLocation GetRelativeLocationEllipse(this PointF point, PointF ellipseCenter, float radiusX, float radiusY)
+        public static PointAgainstFigureLocation GetRelativeLocationEllipse(this PointF point, PointF ellipseCenter, float semiMajor, float semiMinor)
         {
-            return GetRelativeLocationEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY);
+            return GetRelativeLocationEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, semiMajor, semiMinor);
         }
 
         /// <summary>
@@ -1490,12 +1569,12 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
-        /// <param name="radiusX"> Radius on X axis </param>
-        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <param name="semiMajor"> Radius on X axis </param>
+        /// <param name="semiMinor"> Radius on Y axis </param>
         /// <returns> Point location </returns>
-        public static PointAgainstFigureLocation GetRelativeLocationEllipse(this Point point, Point ellipseCenter, int radiusX, int radiusY)
+        public static PointAgainstFigureLocation GetRelativeLocationEllipse(this Point point, Point ellipseCenter, int semiMajor, int semiMinor)
         {
-            return GetRelativeLocationEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, radiusX, radiusY);
+            return GetRelativeLocationEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, semiMajor, semiMinor);
         }
 
         /// <summary>
@@ -1505,15 +1584,15 @@ namespace GeoPlanarNet
         /// <param name="pointY"> Point: Y coordinate </param>
         /// <param name="ellipseCenterX"> Ellipse center: X coordinate </param>
         /// <param name="ellipseCenterY"> Ellipse center: Y coordinate </param>
-        /// <param name="radiusX"> Radius on X axis </param>
-        /// <param name="radiusY"> Radius on Y axis </param>
+        /// <param name="semiMajor"> Radius on X axis </param>
+        /// <param name="semiMinor"> Radius on Y axis </param>
         /// <returns> Point location </returns>
-        public static PointAgainstFigureLocation GetRelativeLocationEllipse(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double radiusX, double radiusY)
+        public static PointAgainstFigureLocation GetRelativeLocationEllipse(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double semiMajor, double semiMinor)
         {
             var distX = pointX - ellipseCenterX;
             var distY = pointY - ellipseCenterY;
 
-            var diff = distX * distX / (radiusX * radiusX) + distY * distY / (radiusY * radiusY);
+            var diff = distX * distX / (semiMajor * semiMajor) + distY * distY / (semiMinor * semiMinor);
 
             if (diff < 1)
             {

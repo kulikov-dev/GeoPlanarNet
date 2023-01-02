@@ -5,6 +5,9 @@ using System.Text;
 
 namespace GeoPlanarNet
 {
+    /// <summary>
+    /// axis-parallel ellipses 
+    /// </summary>
     public static class EllipseGeo
     {
         /// <summary>

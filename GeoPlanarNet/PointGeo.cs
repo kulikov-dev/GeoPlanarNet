@@ -392,9 +392,7 @@ namespace GeoPlanarNet
         /// <returns> Flag if the point belongs to the segment </returns>
         public static bool BelongsToSegment(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
-            return GeoPlanarNet.AboutEquals(
-                                DistanceTo(segmentStartX, segmentStartY, pointX, pointY) + DistanceTo(segmentEndX, segmentEndY, pointX, pointY),
-                                DistanceTo(segmentStartX, segmentStartY, segmentEndX, segmentEndY));
+            return (DistanceTo(segmentStartX, segmentStartY, pointX, pointY) + DistanceTo(segmentEndX, segmentEndY, pointX, pointY)).AboutEquals(DistanceTo(segmentStartX, segmentStartY, segmentEndX, segmentEndY));
         }
 
         /// <summary>
@@ -435,7 +433,7 @@ namespace GeoPlanarNet
         {
             LineGeo.FindSlopeKoef(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out var slopeKoef, out var yIntersection);
 
-            return GeoPlanarNet.AboutEquals(pointY, slopeKoef * pointX + yIntersection);
+            return pointY.AboutEquals(slopeKoef * pointX + yIntersection);
         }
 
         /// <summary>
@@ -789,7 +787,7 @@ namespace GeoPlanarNet
                 }
                 else
                 {
-                    if (GeoPlanarNet.AboutZero(yDiff))
+                    if (yDiff.AboutZero())
                     {
                         var firstYDiff = area[firstIndex].Y - point.Y;
                         while (area[secondIndex].Y.AboutEquals(point.Y))
@@ -1780,7 +1778,7 @@ namespace GeoPlanarNet
         {
             LineGeo.FindSlopeKoef(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out var k, out var b);
 
-            if (GeoPlanarNet.AboutZero(k))
+            if (k.AboutZero())
             {
                 projectionPointX = pointX;
                 projectionPointY = b;
@@ -1811,7 +1809,7 @@ namespace GeoPlanarNet
         /// <returns> Projection point </returns>
         public static PointF GetProjectionToLine(this PointF point, float slopeKoef, float yZeroValue)
         {
-            if (GeoPlanarNet.AboutZero(slopeKoef))
+            if (slopeKoef.AboutZero())
             {
                 return new PointF(point.X, yZeroValue);
             }
@@ -1954,7 +1952,7 @@ namespace GeoPlanarNet
         /// <returns> Flag, if points are collinear </returns>
         public static bool IsCollinear(double point1X, double point1Y, double point2X, double point2Y, double point3X, double point3Y)
         {
-            return GeoPlanarNet.AboutEquals((point3Y - point2Y) * (point2X - point1X), (point2Y - point1Y) * (point3X - point2X));
+            return ((point3Y - point2Y) * (point2X - point1X)).AboutEquals((point2Y - point1Y) * (point3X - point2X));
         }
 
         /// <summary>

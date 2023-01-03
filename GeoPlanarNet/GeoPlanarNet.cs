@@ -20,22 +20,22 @@ namespace GeoPlanarNet
 
         public static bool AboutEquals(this float a, float b)
         {
-            return Math.Abs(a - b) < GeoPlanarNet.Epsilon;
+            return Math.Abs(a - b) < Epsilon;
         }
 
         public static bool AboutZero(this float a)
         {
-            return Math.Abs(a) < GeoPlanarNet.Epsilon;
+            return Math.Abs(a) < Epsilon;
         }
 
         public static bool AboutEquals(this double a, double b)
         {
-            return Math.Abs(a - b) < GeoPlanarNet.Epsilon;
+            return Math.Abs(a - b) < Epsilon;
         }
 
         public static bool AboutZero(this double a)
         {
-            return Math.Abs(a) < GeoPlanarNet.Epsilon;
+            return Math.Abs(a) < Epsilon;
         }
     }
 }

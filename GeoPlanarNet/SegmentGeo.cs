@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using GeoPlanarNet.Enums;
 
 namespace GeoPlanarNet
 {
@@ -73,7 +74,7 @@ namespace GeoPlanarNet
         /// <returns> Segment length </returns>
         public static double LengthSqr(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
-            return PointGeo.DistanceTo(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+            return PointGeo.DistanceToSqr(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
         }
 
         /// <summary>
@@ -92,7 +93,8 @@ namespace GeoPlanarNet
         /// <summary>
         /// Check if the point belongs to the line
         /// </summary>
-        /// <param name="point"> Point </param>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
         /// <returns> Flag if the point belongs to the line </returns>
@@ -201,12 +203,7 @@ namespace GeoPlanarNet
         public static double GetAngleRadians(double commonPointX, double commonPointY, double segment1StartX, double segment1StartY, double segment2StartX, double segment2StartY)
         {
             var numerator = (segment1StartX - commonPointX) * (segment2StartX - commonPointX) + (segment1StartY - commonPointY) * (segment2StartY - commonPointY);
-            var proj1X = segment1StartX - commonPointX;
-            var proj1Y = segment1StartY - commonPointY;
-            var proj2X = segment2StartX - commonPointX;
-            var proj2Y = segment2StartY - commonPointY;
-
-            var denominator = Math.Sqrt(proj1X * proj1X + proj1Y * proj1Y) * Math.Sqrt(proj2X * proj2X + proj2Y * proj2Y);
+            var denominator = PointGeo.DistanceTo(segment1StartX, segment1StartY, commonPointX, commonPointY) * PointGeo.DistanceTo(segment2StartX, segment2StartY, commonPointX, commonPointY);
 
             return Math.Acos(numerator / denominator);
         }
@@ -221,7 +218,7 @@ namespace GeoPlanarNet
         /// <returns> Angle (radians) </returns>
         public static double GetAngleRadians(PointF segment1Start, PointF segment1End, PointF segment2Start, PointF segment2End)
         {
-            return AngleBetweenVectors(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y);
+            return GetAngleRadians(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y);
         }
 
         /// <summary>
@@ -234,7 +231,7 @@ namespace GeoPlanarNet
         /// <returns> Angle (radians) </returns>
         public static double GetAngleRadians(Point segment1Start, Point segment1End, Point segment2Start, Point segment2End)
         {
-            return AngleBetweenVectors(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y);
+            return GetAngleRadians(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y);
         }
 
         /// <summary>
@@ -249,7 +246,7 @@ namespace GeoPlanarNet
         /// <param name="segment2EndX"> Start point of 1 segment: X coordinate </param>
         /// <param name="segment2EndY"> Start point of 1 segment: X coordinate </param>
         /// <returns> Angle (radians) </returns>
-        public static double AngleBetweenVectors(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY,
+        public static double GetAngleRadians(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY,
                                                  double segment2StartX, double segment2StartY, double segment2EndX, double segment2EndY)
         {
             var diff1X = segment1EndX - segment1StartX;
@@ -288,6 +285,16 @@ namespace GeoPlanarNet
             return IsBetweenAngles(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, sectorStartAngleRad, sectorEndAngleRad);
         }
 
+        /// <summary>
+        /// Check if a segment lays between start angle and end angle (angles from the start point)
+        /// </summary>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: X coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <param name="sectorStartAngleRad"> Start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Start angle (radians) </param>
+        /// <returns> Flag if the segment lays between angles </returns>
         public static bool IsBetweenAngles(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double sectorStartAngleRad, double sectorEndAngleRad)
         {
             var ang = Math.Atan2(segmentEndY - segmentStartY, segmentEndX - segmentStartX);
@@ -393,9 +400,9 @@ namespace GeoPlanarNet
 
             var segment1ProjectionX = segment1EndX - segment1StartX;
             var segment1ProjectionY = segment1EndY - segment1StartY;
-
             var segment2ProjectionX = segment2EndX - segment2StartX;
             var segment2ProjectionY = segment2EndY - segment2StartY;
+
             var div = segment2ProjectionY * segment1ProjectionX - segment2ProjectionX * segment1ProjectionY;
 
             if (Math.Abs(div) < GeoPlanarNet.Epsilon)
@@ -428,42 +435,71 @@ namespace GeoPlanarNet
         /// <summary>
         /// Find intersection between line and rectangle
         /// </summary>
-        /// <param name="segment1Start"> Line point 1 </param>
-        /// <param name="segment1End"> Line point 2 </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
         /// <param name="rect"> Rectangle </param>
         /// <returns> True if line and rectangle has intersection </returns>
-        public static bool HasRectIntersection(PointF segment1Start, PointF segment1End, RectangleF rect)
+        public static bool HasRectIntersection(PointF segmentStart, PointF segmentEnd, RectangleF rect)
         {
-            return FindRectIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
-                                     out var _, out var _, out var _, out var _);
+            return FindRectIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
+                                     out _, out _, out _, out _);
         }
 
         /// <summary>
         /// Find intersection between line and rectangle
         /// </summary>
-        /// <param name="segment1Start"> Line point 1 </param>
-        /// <param name="segment1End"> Line point 2 </param>
-        /// <param name="rect"> Rectangle </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="rectLeftTop"> Rectangle left top point </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom point </param>
         /// <returns> True if line and rectangle has intersection </returns>
-        public static bool HasRectIntersection(Point segment1Start, Point segment1End, Rectangle rect)
+        public static bool HasRectIntersection(PointF segmentStart, PointF segmentEnd, PointF rectLeftTop, PointF rectRightBottom)
         {
-            return FindRectIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
-                                              out var _, out var _, out var _, out var _);
+            return FindRectIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y,
+                out _, out _, out _, out _);
         }
 
         /// <summary>
         /// Find intersection between line and rectangle
         /// </summary>
-        /// <param name="segment1Start"> Line point 1 </param>
-        /// <param name="segment1End"> Line point 2 </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
         /// <param name="rect"> Rectangle </param>
+        /// <returns> True if line and rectangle has intersection </returns>
+        public static bool HasRectIntersection(Point segmentStart, Point segmentEnd, Rectangle rect)
+        {
+            return FindRectIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
+                                              out _, out _, out _, out _);
+        }
+
+        /// <summary>
+        /// Find intersection between line and rectangle
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="rectLeftTop"> Rectangle left top point </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom point </param>
+        /// <returns> True if line and rectangle has intersection </returns>
+        public static bool HasRectIntersection(Point segmentStart, Point segmentEnd, Point rectLeftTop, Point rectRightBottom)
+        {
+            return FindRectIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y,
+                out _, out _, out _, out _);
+        }
+
+        /// <summary>
+        /// Find intersection between line and rectangle
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="rectLeftTop"> Rectangle left top point </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom point </param>
         /// <param name="intersection1"> Intersection point 1 </param>
         /// <param name="intersection2"> Intersection point 2 </param>
         /// <returns> True if line and rectangle has intersection </returns>
-        public static bool FindRectIntersection(PointF segment1Start, PointF segment1End, RectangleF rect, out PointF intersection1, out PointF intersection2)
+        public static bool FindRectIntersection(PointF segmentStart, PointF segmentEnd, PointF rectLeftTop, PointF rectRightBottom, out PointF intersection1, out PointF intersection2)
         {
             intersection1 = intersection2 = PointF.Empty;
-            var hasIntersection = FindRectIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
+            var hasIntersection = FindRectIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y,
                                               out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
 
             if (hasIntersection)
@@ -478,16 +514,40 @@ namespace GeoPlanarNet
         /// <summary>
         /// Find intersection between line and rectangle
         /// </summary>
-        /// <param name="segment1Start"> Line point 1 </param>
-        /// <param name="segment1End"> Line point 2 </param>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
         /// <param name="rect"> Rectangle </param>
         /// <param name="intersection1"> Intersection point 1 </param>
         /// <param name="intersection2"> Intersection point 2 </param>
         /// <returns> True if line and rectangle has intersection </returns>
-        public static bool FindRectIntersection(Point segment1Start, Point segment1End, Rectangle rect, out Point intersection1, out Point intersection2)
+        public static bool FindRectIntersection(PointF segmentStart, PointF segmentEnd, RectangleF rect, out PointF intersection1, out PointF intersection2)
+        {
+            intersection1 = intersection2 = PointF.Empty;
+            var hasIntersection = FindRectIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
+                out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
+
+            if (hasIntersection)
+            {
+                intersection1 = new PointF((float)intersection1X, (float)intersection1Y);
+                intersection2 = new PointF((float)intersection2X, (float)intersection2Y);
+            }
+
+            return hasIntersection;
+        }
+
+        /// <summary>
+        /// Find intersection between line and rectangle
+        /// </summary>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <param name="intersection1"> Intersection point 1 </param>
+        /// <param name="intersection2"> Intersection point 2 </param>
+        /// <returns> True if line and rectangle has intersection </returns>
+        public static bool FindRectIntersection(Point segmentStart, Point segmentEnd, Rectangle rect, out Point intersection1, out Point intersection2)
         {
             intersection1 = intersection2 = Point.Empty;
-            var hasIntersection = FindRectIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
+            var hasIntersection = FindRectIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
                                               out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
 
             if (hasIntersection)
@@ -502,10 +562,10 @@ namespace GeoPlanarNet
         /// <summary>
         /// Find intersection between line and rectangle
         /// </summary>
-        /// <param name="segment1StartX"> Line point 1: X coordinate </param>
-        /// <param name="segment1StartY"> Line point 1: Y coordinate </param>
-        /// <param name="segment1EndX"> Line point 2: X coordinate </param>
-        /// <param name="segment1EndY"> Line point 2: Y coordinate </param>
+        /// <param name="segmentStartX"> Line point 1: X coordinate </param>
+        /// <param name="segmentStartY"> Line point 1: Y coordinate </param>
+        /// <param name="segmentEndX"> Line point 2: X coordinate </param>
+        /// <param name="segmentEndY"> Line point 2: Y coordinate </param>
         /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
         /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
         /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
@@ -515,20 +575,20 @@ namespace GeoPlanarNet
         /// <param name="intersection2X"> Intersection point 2: X coordinate </param>
         /// <param name="intersection2Y"> Intersection point 2: Y coordinate </param>
         /// <returns> True if line and rectangle has intersection </returns>
-        public static bool FindRectIntersection(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY,
+        public static bool FindRectIntersection(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY,
                                                 out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y)
         {
             RectGeo.GetPoints(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
 
             intersection1X = intersection1Y = intersection2X = intersection2Y = double.NaN;
 
-            if (SegmentGeo.FindIntersection(segment1StartX, segment1StartY, segment1EndX, segment1EndY, rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY, out var tempX, out var tempY))
+            if (FindIntersection(segmentStartX, segmentStartY, segmentEndX, segmentEndY, rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY, out var tempX, out var tempY))
             {
                 intersection1X = tempX;
                 intersection1Y = tempY;
             }
 
-            if (SegmentGeo.FindIntersection(segment1StartX, segment1StartY, segment1EndX, segment1EndY, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY, out tempX, out tempY))
+            if (FindIntersection(segmentStartX, segmentStartY, segmentEndX, segmentEndY, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY, out tempX, out tempY))
             {
                 if (double.IsNaN(intersection1X) && double.IsNaN(intersection1Y))
                 {
@@ -542,7 +602,7 @@ namespace GeoPlanarNet
                 }
             }
 
-            if (SegmentGeo.FindIntersection(segment1StartX, segment1StartY, segment1EndX, segment1EndY, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY, out tempX, out tempY))
+            if (FindIntersection(segmentStartX, segmentStartY, segmentEndX, segmentEndY, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY, out tempX, out tempY))
             {
                 if (double.IsNaN(intersection1X) && double.IsNaN(intersection1Y))
                 {
@@ -556,7 +616,7 @@ namespace GeoPlanarNet
                 }
             }
 
-            if (SegmentGeo.FindIntersection(segment1StartX, segment1StartY, segment1EndX, segment1EndY, rectLeftBottomX, rectLeftBottomY, rectLeftTopX, rectLeftTopY, out tempX, out tempY))
+            if (FindIntersection(segmentStartX, segmentStartY, segmentEndX, segmentEndY, rectLeftBottomX, rectLeftBottomY, rectLeftTopX, rectLeftTopY, out tempX, out tempY))
             {
                 if (double.IsNaN(intersection1X) && double.IsNaN(intersection1Y))
                 {
@@ -574,7 +634,7 @@ namespace GeoPlanarNet
 
             if (hasIntersection)
             {
-                if (PointGeo.DistanceTo(segment1StartX, segment1StartY, intersection2X, intersection2Y) < PointGeo.DistanceTo(segment1StartX, segment1StartY, intersection1X, intersection1Y))
+                if (PointGeo.DistanceTo(segmentStartX, segmentStartY, intersection2X, intersection2Y) < PointGeo.DistanceTo(segmentStartX, segmentStartY, intersection1X, intersection1Y))
                 {
                     tempX = intersection1X;
                     tempY = intersection1Y;
@@ -602,7 +662,7 @@ namespace GeoPlanarNet
         public static bool HasTriangleIntersection(PointF segment1Start, PointF segment1End, PointF apex1, PointF apex2, PointF apex3)
         {
             return FindTriangleIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y,
-                                     out var _, out var _, out var _, out var _);
+                                     out _, out _, out _, out _);
         }
 
         /// <summary>
@@ -617,7 +677,7 @@ namespace GeoPlanarNet
         public static bool HasTriangleIntersection(Point segment1Start, Point segment1End, PointF apex1, PointF apex2, PointF apex3)
         {
             return FindTriangleIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y,
-                                              out var _, out var _, out var _, out var _);
+                                              out _, out _, out _, out _);
         }
 
         /// <summary>
@@ -695,13 +755,13 @@ namespace GeoPlanarNet
         {
             intersection1X = intersection1Y = intersection2X = intersection2Y = double.NaN;
 
-            if (SegmentGeo.FindIntersection(segment1StartX, segment1StartY, segment1EndX, segment1EndY, apex1X, apex1Y, apex2X, apex2Y, out var tempX, out var tempY))
+            if (FindIntersection(segment1StartX, segment1StartY, segment1EndX, segment1EndY, apex1X, apex1Y, apex2X, apex2Y, out var tempX, out var tempY))
             {
                 intersection1X = tempX;
                 intersection1Y = tempY;
             }
 
-            if (SegmentGeo.FindIntersection(segment1StartX, segment1StartY, segment1EndX, segment1EndY, apex2X, apex2Y, apex3X, apex3Y, out tempX, out tempY))
+            if (FindIntersection(segment1StartX, segment1StartY, segment1EndX, segment1EndY, apex2X, apex2Y, apex3X, apex3Y, out tempX, out tempY))
             {
                 if (double.IsNaN(intersection1X) && double.IsNaN(intersection1Y))
                 {
@@ -715,7 +775,7 @@ namespace GeoPlanarNet
                 }
             }
 
-            if (SegmentGeo.FindIntersection(segment1StartX, segment1StartY, segment1EndX, segment1EndY, apex3X, apex3Y, apex1X, apex1Y, out tempX, out tempY))
+            if (FindIntersection(segment1StartX, segment1StartY, segment1EndX, segment1EndY, apex3X, apex3Y, apex1X, apex1Y, out tempX, out tempY))
             {
                 if (double.IsNaN(intersection1X) && double.IsNaN(intersection1Y))
                 {
@@ -1185,7 +1245,70 @@ namespace GeoPlanarNet
         /// <returns> True, if segments are parallel/anti-parallel </returns>
         public static bool IsParallel(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY, double segment2StartX, double segment2StartY, double segment2EndX, double segment2EndY)
         {
-            return LineGeo.IsParallel(segment1StartX, segment1StartY, segment1StartX, segment1StartY, segment2StartX, segment2StartY, segment2EndX, segment2EndY);
+            return LineGeo.IsParallel(segment1StartX, segment1StartY, segment1EndX, segment1EndY, segment2StartX, segment2StartY, segment2EndX, segment2EndY);
+        }
+
+        /// <summary>
+        /// Get the line location relative to the triangle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Relative location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationTriangle(PointF linePoint1, PointF linePoint2, PointF apex1, PointF apex2, PointF apex3)
+        {
+            return GetRelativeLocationTriangle(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Get the line location relative to the triangle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <returns> Relative location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationTriangle(Point linePoint1, Point linePoint2, PointF apex1, PointF apex2, PointF apex3)
+        {
+            return GetRelativeLocationTriangle(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Get the line location relative to the triangle
+        /// </summary>
+        /// <param name="linePoint1X"> Line point 1: X </param>
+        /// <param name="linePoint1Y"> Line point 1: Y </param>
+        /// <param name="linePoint2X"> Line point 2: X </param>
+        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <returns> Point location </returns>
+        /// <remarks> Return 'inside' if has two intersections </remarks>
+        public static PointAgainstFigureLocation GetRelativeLocationTriangle(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
+        {
+            FindTriangleIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y, out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
+
+            var hasIntersection1 = !double.IsNaN(intersection1X) && !double.IsNaN(intersection1Y);
+            var hasIntersection2 = !double.IsNaN(intersection2X) && !double.IsNaN(intersection2Y);
+
+            if (hasIntersection1 && hasIntersection2)
+            {
+                return PointAgainstFigureLocation.Inside;
+            }
+
+            if (hasIntersection1)
+            {
+                return PointAgainstFigureLocation.OnTheEdge;
+            }
+
+            return PointAgainstFigureLocation.Outside;
         }
     }
 }

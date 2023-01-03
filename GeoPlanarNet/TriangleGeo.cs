@@ -4,6 +4,9 @@ using GeoPlanarNet.Enums;
 
 namespace GeoPlanarNet
 {
+    /// <summary>
+    /// Additional methods to work with triangle
+    /// </summary>
     public static class TriangleGeo
     {
         /// <summary>
@@ -237,7 +240,7 @@ namespace GeoPlanarNet
         {
             GetAngles(apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y, out var alpha, out var betta, out var gamma);
 
-            var rightAngle = Math.PI / 2;
+            const double rightAngle = Math.PI / 2;
 
             return alpha.AboutEquals(rightAngle) || betta.AboutEquals(rightAngle) || gamma.AboutEquals(rightAngle);
         }
@@ -280,7 +283,7 @@ namespace GeoPlanarNet
         {
             GetAngles(apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y, out var alpha, out var betta, out var gamma);
 
-            var rightAngle = Math.PI / 2;
+            const double rightAngle = Math.PI / 2;
 
             return alpha > rightAngle || betta > rightAngle || gamma > rightAngle;
         }
@@ -323,7 +326,7 @@ namespace GeoPlanarNet
         {
             GetAngles(apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y, out var alpha, out var betta, out var gamma);
 
-            var rightAngle = Math.PI / 2;
+            const double rightAngle = Math.PI / 2;
 
             return alpha < rightAngle & betta < rightAngle && gamma < rightAngle;
         }
@@ -446,7 +449,6 @@ namespace GeoPlanarNet
             PointGeo.Rotate(apex1X, apex1Y, pointX, pointY, angleRadian, out rotatedApex1X, out rotatedApex1Y);
             PointGeo.Rotate(apex2X, apex2Y, pointX, pointY, angleRadian, out rotatedApex2X, out rotatedApex2Y);
             PointGeo.Rotate(apex3X, apex3Y, pointX, pointY, angleRadian, out rotatedApex3X, out rotatedApex3Y);
-
         }
 
         /// <summary>

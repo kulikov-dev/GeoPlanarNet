@@ -232,6 +232,7 @@ namespace GeoPlanarNet
         public static FiguresOverlapping HasOverlapping(double circleCenter1X, double circleCenter1Y, double radius1, double circleCenter2X, double circleCenter2Y, double radius2)
         {
             var distance = PointGeo.DistanceTo(circleCenter1X, circleCenter1Y, circleCenter2X, circleCenter2Y);
+
             if (distance <= radius1 - radius2)
             {
                 return FiguresOverlapping.Figure2InsideFigure1;

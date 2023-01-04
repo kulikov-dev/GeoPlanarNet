@@ -4,6 +4,9 @@ using GeoPlanarNet.Enums;
 
 namespace GeoPlanarNet
 {
+    /// <summary>
+    /// Class for manipulations with the circle
+    /// </summary>
     public static class CircleGeo
     {
         /// <summary>
@@ -11,7 +14,7 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="radius"> Radius </param>
         /// <returns> Area </returns>
-        public static double Area(double radius)
+        public static double GetArea(double radius)
         {
             return radius * radius * Math.PI;
         }
@@ -142,13 +145,65 @@ namespace GeoPlanarNet
         /// <returns> True, if has intersection </returns>
         public static bool HasRectIntersection(double circleCenterX, double circleCenterY, double radius, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY)
         {
-            return PointGeo.BelongsToRect(circleCenterX, circleCenterY, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY) ||
-                   LineGeo.HasCircleIntersection(rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY, circleCenterX, circleCenterY, radius) ||
-                   LineGeo.HasCircleIntersection(rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY, circleCenterX, circleCenterY, radius) ||
-                   LineGeo.HasCircleIntersection(rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY, circleCenterX, circleCenterY, radius) ||
-                   LineGeo.HasCircleIntersection(rectLeftTopX, rectLeftTopY, rectLeftTopX, rectRightBottomY, circleCenterX, circleCenterY, radius);
+            RectGeo.GetPoints(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
+
+            return HasRectIntersection(circleCenterX, circleCenterY, radius, rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY);
+        }
+        
+        /// <summary>
+        /// Check if the circle has intersection with the rectangle
+        /// </summary>
+        /// <param name="circleCenterX"> Center point: X coordinate </param>
+        /// <param name="circleCenterY"> Center point: Y coordinate </param>
+        /// <param name="radius"> Radius </param>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
+        public static bool HasRectIntersection(double circleCenterX, double circleCenterY, double radius, PointF rectLeftTop, PointF rectRightTop, PointF rectRightBottom, PointF rectLeftBottom)
+        {
+            return HasRectIntersection(circleCenterX, circleCenterY, radius, rectLeftTop.X, rectLeftTop.Y, rectRightTop.X, rectRightTop.Y, rectRightBottom.X, rectRightBottom.Y, rectLeftBottom.X, rectLeftBottom.Y);
         }
 
+        /// <summary>
+        /// Check if the circle has intersection with the rectangle
+        /// </summary>
+        /// <param name="circleCenterX"> Center point: X coordinate </param>
+        /// <param name="circleCenterY"> Center point: Y coordinate </param>
+        /// <param name="radius"> Radius </param>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
+        public static bool HasRectIntersection(double circleCenterX, double circleCenterY, double radius, Point rectLeftTop, Point rectRightTop, Point rectRightBottom, Point rectLeftBottom)
+        {
+            return HasRectIntersection(circleCenterX, circleCenterY, radius, rectLeftTop.X, rectLeftTop.Y, rectRightTop.X, rectRightTop.Y, rectRightBottom.X, rectRightBottom.Y, rectLeftBottom.X, rectLeftBottom.Y);
+        }
+
+        /// <summary>
+        /// Check if the circle has intersection with the rectangle
+        /// </summary>
+        /// <param name="circleCenterX"> Center point: X coordinate </param>
+        /// <param name="circleCenterY"> Center point: Y coordinate </param>
+        /// <param name="radius"> Radius </param>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightTopX"> Rectangle right top: X coordinate </param>
+        /// <param name="rectRightTopY"> Rectangle right top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="rectLeftBottomX"> Rectangle left bottom: X coordinate </param>
+        /// <param name="rectLeftBottomY"> Rectangle left bottom: Y coordinate </param>
+        public static bool HasRectIntersection(double circleCenterX, double circleCenterY, double radius, double rectLeftTopX, double rectLeftTopY, double rectRightTopX, double rectRightTopY,
+                                        double rectRightBottomX, double rectRightBottomY, double rectLeftBottomX, double rectLeftBottomY)
+        {
+            return PointGeo.BelongsToRect(circleCenterX, circleCenterY, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY) ||
+                   LineGeo.HasCircleIntersection(rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY, circleCenterX, circleCenterY, radius) ||
+                   LineGeo.HasCircleIntersection(rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY, circleCenterX, circleCenterY, radius) ||
+                   LineGeo.HasCircleIntersection(rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY, circleCenterX, circleCenterY, radius) ||
+                   LineGeo.HasCircleIntersection(rectLeftBottomX, rectLeftBottomY, rectLeftTopX, rectLeftTopY, circleCenterX, circleCenterY, radius);
+        }
+        
         /// <summary>
         /// Check if two circles are orthogonal 
         /// </summary>
@@ -187,8 +242,7 @@ namespace GeoPlanarNet
         /// <returns> True, if circles are orthogonal </returns>
         public static bool IsOrthogonal(double circleCenter1X, double circleCenter1Y, double radius1, double circleCenter2X, double circleCenter2Y, double radius2)
         {
-            var distanceSqr = (circleCenter1X - circleCenter2X) * (circleCenter1X - circleCenter2X) +
-                              (circleCenter1Y - circleCenter2Y) * (circleCenter1Y - circleCenter2Y);
+            var distanceSqr = PointGeo.DistanceToSqr(circleCenter1X, circleCenter1Y, circleCenter2X, circleCenter2Y);
 
             return distanceSqr.AboutEquals(radius1 * radius1 + radius2 * radius2);
         }

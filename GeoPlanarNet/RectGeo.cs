@@ -168,7 +168,7 @@ namespace GeoPlanarNet
                                         double rectRightBottomX, double rectRightBottomY, double rectLeftBottomX, double rectLeftBottomY,
                                         out double width, out double height)
         {
-            width = PointGeo.DistanceTo(rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightBottomY);
+            width = PointGeo.DistanceTo(rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY);
             height = PointGeo.DistanceTo(rectLeftTopX, rectLeftTopY, rectLeftBottomX, rectLeftBottomY);
         }
 

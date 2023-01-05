@@ -3,39 +3,55 @@
 namespace GeoPlanarNet
 {
     /// <summary>
-    /// Implement global constants
+    /// Common utils
     /// </summary>
     public static class GeoPlanarNet
     {
         /// <summary>
         /// Customizable epsilon tolerance
         /// </summary>
-        public static double Epsilon
+        public static double Epsilon => 1E-3;
+
+        /// <summary>
+        /// Check if two floating-point numbers are equal
+        /// </summary>
+        /// <param name="num1"> Number 1 </param>
+        /// <param name="num2"> Number 2 </param>
+        /// <returns> True, if equals </returns>
+        public static bool AboutEquals(this float num1, float num2)
         {
-            get
-            {
-                return 1E-3;
-            }
+            return Math.Abs(num1 - num2) < Epsilon;
         }
 
-        public static bool AboutEquals(this float a, float b)
+        /// <summary>
+        /// Check if floating-point number is equal to zero
+        /// </summary>
+        /// <param name="num"> Number </param>
+        /// <returns> True, if equal </returns>
+        public static bool AboutZero(this float num)
         {
-            return Math.Abs(a - b) < Epsilon;
+            return Math.Abs(num) < Epsilon;
         }
 
-        public static bool AboutZero(this float a)
+        /// <summary>
+        /// Check if two floating-point numbers are equal
+        /// </summary>
+        /// <param name="num1"> Number 1 </param>
+        /// <param name="num2"> Number 2 </param>
+        /// <returns> True, if equals </returns>
+        public static bool AboutEquals(this double num1, double num2)
         {
-            return Math.Abs(a) < Epsilon;
+            return Math.Abs(num1 - num2) < Epsilon;
         }
 
-        public static bool AboutEquals(this double a, double b)
+        /// <summary>
+        /// Check if floating-point number is equal to zero
+        /// </summary>
+        /// <param name="num"> Number </param>
+        /// <returns> True, if equal </returns>
+        public static bool AboutZero(this double num)
         {
-            return Math.Abs(a - b) < Epsilon;
-        }
-
-        public static bool AboutZero(this double a)
-        {
-            return Math.Abs(a) < Epsilon;
+            return Math.Abs(num) < Epsilon;
         }
     }
 }

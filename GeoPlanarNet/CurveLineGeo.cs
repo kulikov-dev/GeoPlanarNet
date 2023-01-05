@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 
 namespace GeoPlanarNet
 {
+    /// <summary>
+    /// Class for manipulations with the curved line (line with sections)
+    /// </summary>
     public class CurveLineGeo
     {
         /// <summary>

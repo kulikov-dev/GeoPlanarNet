@@ -4,6 +4,9 @@ using GeoPlanarNet.Enums;
 
 namespace GeoPlanarNet
 {
+    /// <summary>
+    /// Class for manipulations with the line
+    /// </summary>
     public static class LineGeo
     {
         /// <summary>
@@ -69,76 +72,76 @@ namespace GeoPlanarNet
         /// <summary>
         /// Check if two lines have intersection
         /// </summary>
-        /// <param name="line1x1"> Line 1, point 1: coordinate X </param>
-        /// <param name="line1y1"> Line 1, point 1: coordinate Y </param>
-        /// <param name="line1x2"> Line 1, point 2: coordinate X </param>
-        /// <param name="line1y2"> Line 1, point 2: coordinate Y </param>
-        /// <param name="line2x1"> Line 2, point 1: coordinate X </param>
-        /// <param name="line2y1"> Line 2, point 1: coordinate Y </param>
-        /// <param name="line2x2"> Line 2, point 2: coordinate X </param>
-        /// <param name="line2y2"> Line 2, point 2: coordinate Y </param>
+        /// <param name="line1X1"> Line 1, point 1: coordinate X </param>
+        /// <param name="line1Y1"> Line 1, point 1: coordinate Y </param>
+        /// <param name="line1X2"> Line 1, point 2: coordinate X </param>
+        /// <param name="line1Y2"> Line 1, point 2: coordinate Y </param>
+        /// <param name="line2X1"> Line 2, point 1: coordinate X </param>
+        /// <param name="line2Y1"> Line 2, point 1: coordinate Y </param>
+        /// <param name="line2X2"> Line 2, point 2: coordinate X </param>
+        /// <param name="line2Y2"> Line 2, point 2: coordinate Y </param>
         /// <param name="intesectionX"> Intersection point: coordinate X; NaN if not intersects </param>
         /// <param name="intersectionY"> Intersection point: coordinate Y; NaN if not intersects </param>
         /// <returns> True, if lines have intersection </returns>
-        public static bool FindIntersection(double line1x1, double line1y1, double line1x2, double line1y2, double line2x1, double line2y1, double line2x2, double line2y2, out double intesectionX, out double intersectionY)
+        public static bool FindIntersection(double line1X1, double line1Y1, double line1X2, double line1Y2, double line2X1, double line2Y1, double line2X2, double line2Y2, out double intesectionX, out double intersectionY)
         {
             intesectionX = intersectionY = double.NaN;
 
-            var projectionLengthX1 = line1x2 - line1x1;
-            var projectionLengthY1 = line1y2 - line1y1;
+            var lengthX1 = line1X2 - line1X1;
+            var lengthY1 = line1Y2 - line1Y1;
 
-            var projectionLengthX2 = line2x2 - line2x1;
-            var projectionLengthY2 = line2y2 - line2y1;
+            var lengthX2 = line2X2 - line2X1;
+            var lengthY2 = line2Y2 - line2Y1;
 
-            if (projectionLengthX1.AboutZero() && projectionLengthY1.AboutZero() && projectionLengthX2.AboutZero() && projectionLengthY2.AboutZero())
+            if (lengthX1.AboutZero() && lengthY1.AboutZero() && lengthX2.AboutZero() && lengthY2.AboutZero())
             {
-                var lineIsPoint = line1x1.AboutEquals(line2x2) && line1y1.AboutEquals(line2y2);
+                var lineIsPoint = line1X1.AboutEquals(line2X2) && line1Y1.AboutEquals(line2Y2);
 
                 if (lineIsPoint)
                 {
-                    intesectionX = line1x1;
-                    intersectionY = line1y1;
+                    intesectionX = line1X1;
+                    intersectionY = line1Y1;
                 }
 
                 return lineIsPoint;
             }
 
-            if (projectionLengthX1.AboutZero() && projectionLengthY1.AboutZero())
+            if (lengthX1.AboutZero() && lengthY1.AboutZero())
             {
-                var line1IsPoint = PointGeo.DistanceToSegment(line1x1, line1y1, line2x1, line2y1, line2x2, line2y2) < GeoPlanarNet.Epsilon;
+                var line1IsPoint = PointGeo.DistanceToSegment(line1X1, line1Y1, line2X1, line2Y1, line2X2, line2Y2) < GeoPlanarNet.Epsilon;
 
                 if (line1IsPoint)
                 {
-                    intesectionX = line1x1;
-                    intersectionY = line1y1;
+                    intesectionX = line1X1;
+                    intersectionY = line1Y1;
                 }
 
                 return line1IsPoint;
             }
 
-            if (projectionLengthX2.AboutZero() && projectionLengthY2.AboutZero())
+            if (lengthX2.AboutZero() && lengthY2.AboutZero())
             {
-                var line2IsPoint = PointGeo.DistanceToSegment(line2x1, line2y1, line1x1, line1y1, line1x2, line1y2) < GeoPlanarNet.Epsilon;
+                var line2IsPoint = PointGeo.DistanceToSegment(line2X1, line2Y1, line1X1, line1Y1, line1X2, line1Y2) < GeoPlanarNet.Epsilon;
 
                 if (line2IsPoint)
                 {
-                    intesectionX = line2x1;
-                    intersectionY = line2y1;
+                    intesectionX = line2X1;
+                    intersectionY = line2Y1;
                 }
 
                 return line2IsPoint;
             }
 
-            var div = projectionLengthY2 * projectionLengthX1 - projectionLengthX2 * projectionLengthY1;
+            var div = lengthY2 * lengthX1 - lengthX2 * lengthY1;
 
             if (div.AboutZero())
             {
                 return false;
             }
 
-            var koefIv = (projectionLengthX2 * (line1y1 - line2y1) - projectionLengthY2 * (line1x1 - line2x1)) / div;
-            intesectionX = line1x1 + koefIv * (line1x2 - line1x1);
-            intersectionY = line1y1 + koefIv * (line1y2 - line1y1);
+            var koefIv = (lengthX2 * (line1Y1 - line2Y1) - lengthY2 * (line1X1 - line2X1)) / div;
+            intesectionX = line1X1 + koefIv * (line1X2 - line1X1);
+            intersectionY = line1Y1 + koefIv * (line1Y2 - line1Y1);
 
             return true;
         }
@@ -171,7 +174,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get koefficients of line linear function K and B
+        /// Get coefficients of line linear function K and B
         /// </summary>
         /// <param name="linePoint1X"> Line point 1: X </param>
         /// <param name="linePoint1Y"> Line point 1: Y </param>
@@ -245,8 +248,7 @@ namespace GeoPlanarNet
             {
                 return false;
             }
-
-
+            
             if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, xBoundsMin, Math.Min(linePoint1Y, linePoint2Y) - 1, xBoundsMin, Math.Max(linePoint1Y, linePoint2Y) + 1, out var x, out var y))
             {
                 if (linePoint1X <= xBoundsMin)
@@ -279,13 +281,13 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Has intersection between line and rectangle
+        /// Has intersection between the line and the circle
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
         /// <param name="circleCenter"> Circle center </param>
         /// <param name="radius"> Circle radius </param>
-        /// <returns> True if line and rectangle has intersection </returns>
+        /// <returns> True if the line and the circle has intersection </returns>
         public static bool HasCircleIntersection(PointF linePoint1, PointF linePoint2, PointF circleCenter, float radius)
         {
             return FindCircleIntersection(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenter.X, circleCenter.Y, radius,
@@ -293,13 +295,13 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Has intersection between line and rectangle
+        /// Has intersection between the line and the circle
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
         /// <param name="circleCenter"> Circle center </param>
         /// <param name="radius"> Circle radius </param>
-        /// <returns> True if line and rectangle has intersection </returns>
+        /// <returns> True if the line and the circle has intersection </returns>
         public static bool HasCircleIntersection(Point linePoint1, Point linePoint2, PointF circleCenter, float radius)
         {
             return FindCircleIntersection(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenter.X, circleCenter.Y, radius,
@@ -307,7 +309,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Has intersection between line and circle
+        /// Has intersection between the line and the circle
         /// </summary>
         /// <param name="linePoint1X"> Line point 1: X coordinate </param>
         /// <param name="linePoint1Y"> Line point 1: Y coordinate </param>
@@ -316,7 +318,7 @@ namespace GeoPlanarNet
         /// <param name="circleCenterX"> Circle center point: X coordinate </param>
         /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
         /// <param name="radius"> Circle radius </param>
-        /// <returns> True if line and circle has intersection </returns>
+        /// <returns> True if the line and the circle has intersection </returns>
         public static bool HasCircleIntersection(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double circleCenterX, double circleCenterY, double radius)
         {
             return FindCircleIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, circleCenterX, circleCenterY, radius,
@@ -324,7 +326,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and circle
+        /// Find intersection between the line and the circle
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
@@ -332,12 +334,12 @@ namespace GeoPlanarNet
         /// <param name="radius"> Circle radius </param>
         /// <param name="intersection1"> Intersection point 1 </param>
         /// <param name="intersection2"> Intersection point 2 </param>
-        /// <returns> True if line and circle has intersection </returns>
+        /// <returns> True if the line and the circle has intersection </returns>
         public static bool FindCircleIntersection(PointF linePoint1, PointF linePoint2, PointF circleCenter, float radius, out PointF intersection1, out PointF intersection2)
         {
             intersection1 = intersection2 = Point.Empty;
             var hasIntersection = FindCircleIntersection(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenter.X, circleCenter.Y, radius,
-                                              out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
+                                                         out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
 
             if (hasIntersection)
             {
@@ -362,7 +364,7 @@ namespace GeoPlanarNet
         {
             intersection1 = intersection2 = Point.Empty;
             var hasIntersection = FindCircleIntersection(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenter.X, circleCenter.Y, radius,
-                                              out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
+                                                         out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
 
             if (hasIntersection)
             {
@@ -393,11 +395,11 @@ namespace GeoPlanarNet
         {
             intersection1X = intersection1Y = intersection2X = intersection2Y = double.NaN;
 
-            var dx = linePoint2X - linePoint1X;
-            var dy = linePoint2Y - linePoint1Y;
+            var lengthX = linePoint2X - linePoint1X;
+            var lengthY = linePoint2Y - linePoint1Y;
 
-            var A = dx * dx + dy * dy;
-            var B = 2 * (dx * (linePoint1X - circleCenterX) + dy * (linePoint1Y - circleCenterY));
+            var A = lengthX * lengthX + lengthY * lengthY;
+            var B = 2 * (lengthX * (linePoint1X - circleCenterX) + lengthY * (linePoint1Y - circleCenterY));
             var C = (linePoint1X - circleCenterX) * (linePoint1X - circleCenterX) + (linePoint1Y - circleCenterY) * (linePoint1Y - circleCenterY) - radius * radius;
 
             var determinant = B * B - 4 * A * C;
@@ -410,18 +412,18 @@ namespace GeoPlanarNet
             if (determinant.AboutZero())
             {
                 var koef = -B / (2 * A);
-                intersection1X = linePoint1X + koef * dx;
-                intersection1Y = linePoint1Y + koef * dy;
+                intersection1X = linePoint1X + koef * lengthX;
+                intersection1Y = linePoint1Y + koef * lengthY;
             }
             else
             {
                 var koef = (float)((-B + Math.Sqrt(determinant)) / (2 * A));
-                intersection1X = linePoint1X + koef * dx;
-                intersection1Y = linePoint1Y + koef * dy;
+                intersection1X = linePoint1X + koef * lengthX;
+                intersection1Y = linePoint1Y + koef * lengthY;
 
                 koef = (float)((-B - Math.Sqrt(determinant)) / (2 * A));
-                intersection2X = linePoint1X + koef * dx;
-                intersection2Y = linePoint1Y + koef * dy;
+                intersection2X = linePoint1X + koef * lengthX;
+                intersection2Y = linePoint1Y + koef * lengthY;
             }
 
             return true;
@@ -556,22 +558,23 @@ namespace GeoPlanarNet
         /// <summary>
         /// Check if two lines are parallel/anti-parallel
         /// </summary>
-        /// <param name="line1x1"> Line 1, point 1: coordinate X </param>
-        /// <param name="line1y1"> Line 1, point 1: coordinate Y </param>
-        /// <param name="line1x2"> Line 1, point 2: coordinate X </param>
-        /// <param name="line1y2"> Line 1, point 2: coordinate Y </param>
-        /// <param name="line2x1"> Line 2, point 1: coordinate X </param>
-        /// <param name="line2y1"> Line 2, point 1: coordinate Y </param>
-        /// <param name="line2x2"> Line 2, point 2: coordinate X </param>
-        /// <param name="line2y2"> Line 2, point 2: coordinate Y </param>
+        /// <param name="line1X1"> Line 1, point 1: coordinate X </param>
+        /// <param name="line1Y1"> Line 1, point 1: coordinate Y </param>
+        /// <param name="line1X2"> Line 1, point 2: coordinate X </param>
+        /// <param name="line1Y2"> Line 1, point 2: coordinate Y </param>
+        /// <param name="line2X1"> Line 2, point 1: coordinate X </param>
+        /// <param name="line2Y1"> Line 2, point 1: coordinate Y </param>
+        /// <param name="line2X2"> Line 2, point 2: coordinate X </param>
+        /// <param name="line2Y2"> Line 2, point 2: coordinate Y </param>
         /// <returns> True, if lines are parallel/anti-parallel </returns>
-        public static bool IsParallel(double line1x1, double line1y1, double line1x2, double line1y2, double line2x1, double line2y1, double line2x2, double line2y2)
+        public static bool IsParallel(double line1X1, double line1Y1, double line1X2, double line1Y2, double line2X1, double line2Y1, double line2X2, double line2Y2)
         {
-            var dx1 = line1x2 - line1x1;
-            var dy1 = line1y2 - line1y1;
-            var dx2 = line2x2 - line2x1;
-            var dy2 = line2y2 - line2y1;
+            var dx1 = line1X2 - line1X1;
+            var dy1 = line1Y2 - line1Y1;
+            var dx2 = line2X2 - line2X1;
+            var dy2 = line2Y2 - line2Y1;
             var cosAngle = Math.Abs((dx1 * dx2 + dy1 * dy2) / Math.Sqrt((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2)));
+
             return cosAngle.AboutEquals(1);
         }
     }

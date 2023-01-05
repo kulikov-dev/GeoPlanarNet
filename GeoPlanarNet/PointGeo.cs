@@ -520,33 +520,33 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to an ellipse
+        /// Check if a point belongs to an axis-parallel ellipse
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
         /// <param name="semiMajor"> Radius on X axis </param>
         /// <param name="semiMinor"> Radius on Y axis </param>
-        /// <returns> Flag if the point belongs to the ellipse </returns>
+        /// <returns> Flag if the point belongs to the axis-parallel ellipse </returns>
         public static bool BelongsToEllipse(this PointF point, PointF ellipseCenter, float semiMajor, float semiMinor)
         {
             return BelongsToEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, semiMajor, semiMinor);
         }
 
         /// <summary>
-        /// Check if a point belongs to an ellipse
+        /// Check if a point belongs to an axis-parallel ellipse
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
         /// <param name="semiMajor"> Radius on X axis </param>
         /// <param name="semiMinor"> Radius on Y axis </param>
-        /// <returns> Flag if the point belongs to the ellipse </returns>
+        /// <returns> Flag if the point belongs to the axis-parallel ellipse </returns>
         public static bool BelongsToEllipse(this Point point, Point ellipseCenter, int semiMajor, int semiMinor)
         {
             return BelongsToEllipse(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, semiMajor, semiMinor);
         }
 
         /// <summary>
-        /// Check if a point belongs to an ellipse
+        /// Check if a point belongs to an axis-parallel ellipse
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -554,14 +554,14 @@ namespace GeoPlanarNet
         /// <param name="ellipseCenterY"> Ellipse center: Y coordinate </param>
         /// <param name="semiMajor"> Radius on X axis </param>
         /// <param name="semiMinor"> Radius on Y axis </param>
-        /// <returns> Flag if the point belongs to the ellipse </returns>
+        /// <returns> Flag if the point belongs to the axis-parallel ellipse </returns>
         public static bool BelongsToEllipse(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double semiMajor, double semiMinor)
         {
             return GetRelativeLocationEllipse(pointX, pointY, ellipseCenterX, ellipseCenterY, semiMajor, semiMinor) != PointAgainstFigureLocation.Outside;
         }
 
         /// <summary>
-        /// Check if a point belong to a specific ellipse sector
+        /// Check if a point belong to a specific axis-parallel ellipse sector
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
@@ -569,14 +569,14 @@ namespace GeoPlanarNet
         /// <param name="semiMinor"> Radius on Y axis </param>
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
-        /// <returns> Flag if the point belongs to the ellipse sector </returns>
+        /// <returns> Flag if the point belongs to the axis-parallel ellipse sector </returns>
         public static bool BelongsToEllipseSector(PointF point, PointF ellipseCenter, float semiMajor, float semiMinor, float sectorStartAngleRad, float sectorEndAngleRad)
         {
             return BelongsToEllipseSector(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, semiMajor, semiMinor, sectorStartAngleRad, sectorEndAngleRad);
         }
 
         /// <summary>
-        /// Check if a point belong to a specific ellipse sector
+        /// Check if a point belong to a specific axis-parallel ellipse sector
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
@@ -584,14 +584,14 @@ namespace GeoPlanarNet
         /// <param name="semiMinor"> Radius on Y axis </param>
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
-        /// <returns> Flag if the point belongs to the ellipse sector </returns>
+        /// <returns> Flag if the point belongs to the axis-parallel ellipse sector </returns>
         public static bool BelongsToEllipseSector(Point point, Point ellipseCenter, int semiMajor, int semiMinor, int sectorStartAngleRad, int sectorEndAngleRad)
         {
             return BelongsToEllipseSector(point.X, point.Y, ellipseCenter.X, ellipseCenter.Y, semiMajor, semiMinor, sectorStartAngleRad, sectorEndAngleRad);
         }
 
         /// <summary>
-        /// Check if a point belong to a specific ellipse sector
+        /// Check if a point belong to a specific axis-parallel ellipse sector
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -601,7 +601,7 @@ namespace GeoPlanarNet
         /// <param name="semiMinor"> Radius on Y axis </param>
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
-        /// <returns> Flag if the point belongs to the ellipse sector </returns>
+        /// <returns> Flag if the point belongs to the axis-parallel ellipse sector </returns>
         public static bool BelongsToEllipseSector(double pointX, double pointY, double ellipseCenterX, double ellipseCenterY, double semiMajor, double semiMinor, double sectorStartAngleRad, double sectorEndAngleRad)
         {
             return BelongsToEllipse(pointX, pointY, ellipseCenterX, ellipseCenterY, semiMajor, semiMinor) && SegmentGeo.IsBetweenAngles(pointX, pointY, ellipseCenterX, ellipseCenterY, sectorStartAngleRad, sectorEndAngleRad);
@@ -1046,7 +1046,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get closest point on the ellipse to the given point
+        /// Get closest point on the axis-parallel ellipse to the given point
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
@@ -1060,7 +1060,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get closest point on the ellipse to the given point
+        /// Get closest point on the axis-parallel ellipse to the given point
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
@@ -1074,7 +1074,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get closest point on the ellipse to the given point
+        /// Get closest point on the axis-parallel ellipse to the given point
         /// </summary>
         /// <param name="pointX"></param>
         /// <param name="pointY"></param>
@@ -1110,10 +1110,10 @@ namespace GeoPlanarNet
                 var r = Math.Sqrt(rx * rx + ry * ry);
                 var q = Math.Sqrt(qx * qx + qy * qy);
 
-                var delta_c = r * Math.Asin((rx * qy - ry * qx) / (r * q));
-                var delta_t = delta_c / Math.Sqrt(semiMajor * semiMajor + semiMinor * semiMinor - closestPointX * closestPointX - closestPointY * closestPointY);
+                var deltaC = r * Math.Asin((rx * qy - ry * qx) / (r * q));
+                var deltaT = deltaC / Math.Sqrt(semiMajor * semiMajor + semiMinor * semiMinor - closestPointX * closestPointX - closestPointY * closestPointY);
 
-                t += delta_t;
+                t += deltaT;
                 t = Math.Min(Math.PI / 2, Math.Max(0, t));
             }
 
@@ -1550,7 +1550,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get the point location relative to the ellipse
+        /// Get the point location relative to the axis-parallel ellipse
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
@@ -1563,7 +1563,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get the point location relative to the ellipse
+        /// Get the point location relative to the axis-parallel ellipse
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
@@ -1576,7 +1576,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to an ellipse
+        /// Check if a point belongs to an axis-parallel ellipse
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>

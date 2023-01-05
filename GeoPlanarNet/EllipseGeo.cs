@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
 
 namespace GeoPlanarNet
 {
     /// <summary>
-    /// axis-parallel ellipses 
+    /// Class for manipulations with the ellipse
     /// </summary>
     public static class EllipseGeo
     {
@@ -73,7 +70,7 @@ namespace GeoPlanarNet
         /// <returns> Eccentricity </returns>
         public static double Eccentricity(double semiMajor, double semiMinor)
         {
-            return Math.Sqrt(1 - (semiMinor * semiMinor) / (semiMajor * semiMajor));
+            return Math.Sqrt(1 - semiMinor * semiMinor / (semiMajor * semiMajor));
         }
 
         /// <summary>
@@ -111,7 +108,7 @@ namespace GeoPlanarNet
         {
             var diffMinus = semiMajor - semiMinor;
             var diffPlus = semiMajor + semiMinor;
-            var h = (diffMinus * diffMinus) / (diffPlus * diffPlus);
+            var h = diffMinus * diffMinus / (diffPlus * diffPlus);
 
             return Math.PI * (semiMajor + semiMinor) * (1 + 3 * h / (10 + Math.Sqrt(4 - 3 * h)));
         }

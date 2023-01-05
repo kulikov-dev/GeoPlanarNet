@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 
 namespace GeoPlanarNet
@@ -219,18 +218,18 @@ namespace GeoPlanarNet
             var cos = Math.Cos(-angle);
             var sin = Math.Sin(-angle);
 
-            var x1u = cos * (rectLeftTopX - centerPointX) - sin * (rectLeftTopY - centerPointY) + centerPointX;
-            var y1u = sin * (rectLeftTopX - centerPointX) + cos * (rectLeftTopY - centerPointY) + centerPointY;
-            var x3u = cos * (rectRightBottomX - centerPointX) - sin * (rectRightBottomY - centerPointY) + centerPointX;
-            var y3u = sin * (rectRightBottomX - centerPointX) + cos * (rectRightBottomY - centerPointY) + centerPointY;
+            var x1U = cos * (rectLeftTopX - centerPointX) - sin * (rectLeftTopY - centerPointY) + centerPointX;
+            var y1U = sin * (rectLeftTopX - centerPointX) + cos * (rectLeftTopY - centerPointY) + centerPointY;
+            var x3U = cos * (rectRightBottomX - centerPointX) - sin * (rectRightBottomY - centerPointY) + centerPointX;
+            var y3U = sin * (rectRightBottomX - centerPointX) + cos * (rectRightBottomY - centerPointY) + centerPointY;
 
             cos = Math.Cos(angle);
             sin = Math.Sin(angle);
 
-            rectRightTopX = cos * (x1u - centerPointX) - sin * (y3u - centerPointY) + centerPointX;
-            rectRightTopY = sin * (x1u - centerPointX) + cos * (y3u - centerPointY) + centerPointY;
-            rectLeftBottomX = cos * (x3u - centerPointX) - sin * (y1u - centerPointY) + centerPointX;
-            rectLeftBottomY = sin * (x3u - centerPointX) + cos * (y1u - centerPointY) + centerPointY;
+            rectRightTopX = cos * (x1U - centerPointX) - sin * (y3U - centerPointY) + centerPointX;
+            rectRightTopY = sin * (x1U - centerPointX) + cos * (y3U - centerPointY) + centerPointY;
+            rectLeftBottomX = cos * (x3U - centerPointX) - sin * (y1U - centerPointY) + centerPointX;
+            rectLeftBottomY = sin * (x3U - centerPointX) + cos * (y1U - centerPointY) + centerPointY;
         }
 
         /// <summary>

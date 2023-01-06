@@ -195,7 +195,7 @@ namespace GeoPlanarNet
         /// <param name="xBoundsMax"> Bounds X: max value </param>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
-        /// <returns> Flag, if success </returns>
+        /// <returns> True, if success </returns>
         public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, ref PointF linePoint1, ref PointF linePoint2)
         {
             var linePoint1X = (double)linePoint1.X;
@@ -217,7 +217,7 @@ namespace GeoPlanarNet
         /// <param name="xBoundsMax"> Bounds X: max value </param>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
-        /// <returns> Flag, if success </returns>
+        /// <returns> True, if success </returns>
         public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, ref Point linePoint1, ref Point linePoint2)
         {
             var linePoint1X = (double)linePoint1.X;
@@ -241,7 +241,7 @@ namespace GeoPlanarNet
         /// <param name="linePoint1Y"> Line point 1: Y </param>
         /// <param name="linePoint2X"> Line point 2: X </param>
         /// <param name="linePoint2Y"> Line point 2: Y </param>
-        /// <returns> Flag, if success </returns>
+        /// <returns> True, if success </returns>
         public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, ref double linePoint1X, ref double linePoint1Y, ref double linePoint2X, ref double linePoint2Y)
         {
             if (Math.Min(linePoint1X, linePoint2X) > xBoundsMax || Math.Max(linePoint1X, linePoint2X) < xBoundsMin)

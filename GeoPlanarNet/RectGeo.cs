@@ -3,6 +3,9 @@ using System.Drawing;
 
 namespace GeoPlanarNet
 {
+    /// <summary>
+    /// Class for manipulations with the rectangle
+    /// </summary>
     public static class RectGeo
     {
         /// <summary>
@@ -176,6 +179,8 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="rectLeftTop"> Rectangle left top </param>
         /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
         public static void GetPoints(PointF rectLeftTop, PointF rectRightBottom, out PointF rectRightTop, out PointF rectLeftBottom)
         {
             GetPoints(rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
@@ -189,6 +194,8 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="rectLeftTop"> Rectangle left top </param>
         /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
         public static void GetPoints(Point rectLeftTop, Point rectRightBottom, out Point rectRightTop, out Point rectLeftBottom)
         {
             GetPoints(rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
@@ -268,7 +275,7 @@ namespace GeoPlanarNet
         /// <param name="width"> Width </param>
         /// <param name="height"> Height </param>
         public static void GetAABB(double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY,
-                                     out double leftTopX, out double leftTopY, out double width, out double height)
+                                   out double leftTopX, out double leftTopY, out double width, out double height)
         {
             GetPoints(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY, out var rectRightTopX, out var rectRightTopY, out var rectLeftBottomX, out var rectLeftBottomY);
 

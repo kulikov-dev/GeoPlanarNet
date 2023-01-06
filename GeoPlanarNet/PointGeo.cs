@@ -6,7 +6,7 @@ using System.Drawing;
 namespace GeoPlanarNet
 {
     /// <summary>
-    /// Class to process operations with points
+    /// Class for manipulations with the point
     /// </summary>
     public static class PointGeo
     {

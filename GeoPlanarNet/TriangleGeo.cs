@@ -1,16 +1,16 @@
-﻿using System;
+﻿using GeoPlanarNet.Enums;
+using System;
 using System.Drawing;
-using GeoPlanarNet.Enums;
 
 namespace GeoPlanarNet
 {
     /// <summary>
-    /// Additional methods to work with triangle
+    /// Class for manipulations with the triangle
     /// </summary>
     public static class TriangleGeo
     {
         /// <summary>
-        /// Get triangle area
+        /// Get the triangle area
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
@@ -22,7 +22,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get triangle area
+        /// Get the triangle area
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
@@ -34,7 +34,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get triangle area
+        /// Get the triangle area
         /// </summary>
         /// <param name="apex1X"> Apex 1: X coordinate </param>
         /// <param name="apex1Y"> Apex 1: Y coordinate </param>
@@ -49,7 +49,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get triangle perimeter
+        /// Get the triangle perimeter
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
@@ -61,7 +61,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get triangle perimeter
+        /// Get the triangle perimeter
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
@@ -73,7 +73,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get triangle perimeter
+        /// Get the triangle perimeter
         /// </summary>
         /// <param name="apex1X"> Apex 1: X coordinate </param>
         /// <param name="apex1Y"> Apex 1: Y coordinate </param>
@@ -92,7 +92,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get triangle type
+        /// Get the triangle type
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
@@ -104,7 +104,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get triangle type
+        /// Get the triangle type
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
@@ -116,7 +116,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get triangle type
+        /// Get the triangle type
         /// </summary>
         /// <param name="apex1X"> Apex 1: X coordinate </param>
         /// <param name="apex1Y"> Apex 1: Y coordinate </param>
@@ -145,7 +145,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get triangle area
+        /// Get the triangle angles
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
@@ -160,7 +160,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get triangle area
+        /// Get the triangle angles
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
@@ -175,7 +175,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get angles of the triangle
+        /// Get the triangle angles
         /// </summary>
         /// <param name="apex1X"> Apex 1: X coordinate </param>
         /// <param name="apex1Y"> Apex 1: Y coordinate </param>
@@ -197,9 +197,9 @@ namespace GeoPlanarNet
             var lengthB = Math.Sqrt(lengthBSqr);
             var lengthC = Math.Sqrt(lengthCSqr);
 
-            alphaRad = Math.Acos((lengthBSqr + lengthCSqr - lengthASqr) / (2 * lengthB * lengthC));
-            bettaRad = Math.Acos((lengthASqr + lengthCSqr - lengthBSqr) / (2 * lengthA * lengthC));
-            gammaRad = Math.Acos((lengthASqr + lengthBSqr - lengthCSqr) / (2 * lengthA * lengthB));
+            alphaRad = Math.Acos((lengthBSqr + lengthCSqr - lengthASqr) / (2d * lengthB * lengthC));
+            bettaRad = Math.Acos((lengthASqr + lengthCSqr - lengthBSqr) / (2d * lengthA * lengthC));
+            gammaRad = Math.Acos((lengthASqr + lengthBSqr - lengthCSqr) / (2d * lengthA * lengthB));
         }
 
         /// <summary>
@@ -240,9 +240,7 @@ namespace GeoPlanarNet
         {
             GetAngles(apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y, out var alpha, out var betta, out var gamma);
 
-            const double rightAngle = Math.PI / 2;
-
-            return alpha.AboutEquals(rightAngle) || betta.AboutEquals(rightAngle) || gamma.AboutEquals(rightAngle);
+            return alpha.AboutEquals(GeoPlanarNet.RightAngle) || betta.AboutEquals(GeoPlanarNet.RightAngle) || gamma.AboutEquals(GeoPlanarNet.RightAngle);
         }
 
         /// <summary>
@@ -283,9 +281,7 @@ namespace GeoPlanarNet
         {
             GetAngles(apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y, out var alpha, out var betta, out var gamma);
 
-            const double rightAngle = Math.PI / 2;
-
-            return alpha > rightAngle || betta > rightAngle || gamma > rightAngle;
+            return alpha > GeoPlanarNet.RightAngle || betta > GeoPlanarNet.RightAngle || gamma > GeoPlanarNet.RightAngle;
         }
 
         /// <summary>
@@ -326,9 +322,7 @@ namespace GeoPlanarNet
         {
             GetAngles(apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y, out var alpha, out var betta, out var gamma);
 
-            const double rightAngle = Math.PI / 2;
-
-            return alpha < rightAngle & betta < rightAngle && gamma < rightAngle;
+            return alpha < GeoPlanarNet.RightAngle & betta < GeoPlanarNet.RightAngle && gamma < GeoPlanarNet.RightAngle;
         }
 
         /// <summary>

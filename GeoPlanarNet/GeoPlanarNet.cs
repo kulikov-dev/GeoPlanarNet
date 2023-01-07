@@ -13,6 +13,11 @@ namespace GeoPlanarNet
         public static double Epsilon => 1E-3;
 
         /// <summary>
+        /// Right angle
+        /// </summary>
+        public const double RightAngle = Math.PI / 2;
+
+        /// <summary>
         /// Check if two floating-point numbers are equal
         /// </summary>
         /// <param name="num1"> Number 1 </param>

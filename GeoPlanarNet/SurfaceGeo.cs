@@ -3,10 +3,13 @@ using System.Drawing;
 
 namespace GeoPlanarNet
 {
+    /// <summary>
+    /// Class for manipulations with the surface
+    /// </summary>
     public static class SurfaceGeo
     {
         /// <summary>
-        /// Get surface square
+        /// Get the surface square
         /// </summary>
         /// <param name="surface"> Surface </param>
         /// <returns> Square </returns>
@@ -23,7 +26,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get surface square
+        /// Get the surface square
         /// </summary>
         /// <param name="surface"> Surface </param>
         /// <returns> Square </returns>
@@ -43,7 +46,7 @@ namespace GeoPlanarNet
         /// Get a minimum point of the surface
         /// </summary>
         /// <param name="surface"> Surface </param>
-        /// <returns> Minumum point </returns>
+        /// <returns> Minimum point </returns>
         public static PointF GetMinPoint(PointF[] surface)
         {
             if (surface.Length == 0)
@@ -130,7 +133,7 @@ namespace GeoPlanarNet
         /// Get a minimum point of the surface
         /// </summary>
         /// <param name="surface"> Surface </param>
-        /// <returns> Minumum point </returns>
+        /// <returns> Minimum point </returns>
         public static Point GetMinPoint(Point[] surface)
         {
             if (surface.Length == 0)
@@ -220,6 +223,11 @@ namespace GeoPlanarNet
         /// <returns> Center point </returns>
         public static PointF GetCenterPoint(PointF[] surface)
         {
+            if (surface.Length == 0)
+            {
+                return PointF.Empty;
+            }
+
             var centerPoint = new PointF();
             var maxPoint = GetMaxPoint(surface);
 
@@ -232,6 +240,11 @@ namespace GeoPlanarNet
                 centerPoint.X += currentSquare * (maxPoint.X + surface[i].X + surface[(i + 1) % surface.Length].X) / 3;
                 centerPoint.Y += currentSquare * (maxPoint.Y + surface[i].Y + surface[(i + 1) % surface.Length].Y) / 3;
                 sumSquare += currentSquare;
+            }
+
+            if (sumSquare.AboutZero())
+            {
+                return PointF.Empty;
             }
 
             centerPoint.X /= sumSquare;
@@ -247,6 +260,11 @@ namespace GeoPlanarNet
         /// <returns> Center point </returns>
         public static Point GetCenterPoint(Point[] surface)
         {
+            if (surface.Length == 0)
+            {
+                return Point.Empty;
+            }
+
             var centerPoint = new Point();
             var maxPoint = GetMaxPoint(surface);
 
@@ -259,6 +277,11 @@ namespace GeoPlanarNet
                 centerPoint.X += currentSquare * (maxPoint.X + surface[i].X + surface[(i + 1) % surface.Length].X) / 3;
                 centerPoint.Y += currentSquare * (maxPoint.Y + surface[i].Y + surface[(i + 1) % surface.Length].Y) / 3;
                 sumSquare += currentSquare;
+            }
+
+            if (sumSquare == 0)
+            {
+                return Point.Empty;
             }
 
             centerPoint.X /= sumSquare;

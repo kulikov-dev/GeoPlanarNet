@@ -1,6 +1,6 @@
-﻿using System;
+﻿using GeoPlanarNet.Enums;
+using System;
 using System.Collections.Generic;
-using GeoPlanarNet.Enums;
 using System.Drawing;
 
 namespace GeoPlanarNet

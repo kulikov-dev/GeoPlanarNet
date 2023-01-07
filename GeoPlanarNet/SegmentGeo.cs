@@ -1,10 +1,13 @@
-﻿using System;
+﻿using GeoPlanarNet.Enums;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using GeoPlanarNet.Enums;
 
 namespace GeoPlanarNet
 {
+    /// <summary>
+    /// Class for manipulations with the line segment
+    /// </summary>
     public static class SegmentGeo
     {
         /// <summary>
@@ -158,54 +161,12 @@ namespace GeoPlanarNet
 
             if (diffX.AboutZero())
             {
-                return diffY > 0 ? Math.PI / 2 : 3 * Math.PI / 2;
+                return diffY > 0 ? Math.PI / 2 : 3 * GeoPlanarNet.RightAngle;
             }
 
             var angle = Math.Atan2(diffY, diffX);
 
             return angle < 0 ? angle + 2 * Math.PI : angle;
-        }
-
-        /// <summary>
-        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
-        /// </summary>
-        /// <param name="commonPoint"> Common point </param>
-        /// <param name="segment1Start"> Start point of a segment 1 </param>
-        /// <param name="segment2Start"> Start point of a segment 2 </param>
-        /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(PointF commonPoint, PointF segment1Start, PointF segment2Start)
-        {
-            return GetAngleRadians(commonPoint.X, commonPoint.Y, segment1Start.X, segment1Start.Y, segment2Start.X, segment2Start.Y);
-        }
-
-        /// <summary>
-        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
-        /// </summary>
-        /// <param name="commonPoint"> Common point </param>
-        /// <param name="segment1Start"> Start point of a segment 1 </param>
-        /// <param name="segment2Start"> Start point of a segment 2 </param>
-        /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(Point commonPoint, Point segment1Start, Point segment2Start)
-        {
-            return GetAngleRadians(commonPoint.X, commonPoint.Y, segment1Start.X, segment1Start.Y, segment2Start.X, segment2Start.Y);
-        }
-
-        /// <summary>
-        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
-        /// </summary>
-        /// <param name="commonPointX"> Common point: X coordinate </param>
-        /// <param name="commonPointY"> Common point: Y coordinate </param>
-        /// <param name="segment1StartX"> Start point of 1 segment: X coordinate </param>
-        /// <param name="segment1StartY"> Start point of 1 segment: Y coordinate </param>
-        /// <param name="segment2StartX"> Start point of 2 segment: X coordinate </param>
-        /// <param name="segment2StartY"> Start point of 2 segment: Y coordinate </param>
-        /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(double commonPointX, double commonPointY, double segment1StartX, double segment1StartY, double segment2StartX, double segment2StartY)
-        {
-            var numerator = (segment1StartX - commonPointX) * (segment2StartX - commonPointX) + (segment1StartY - commonPointY) * (segment2StartY - commonPointY);
-            var denominator = PointGeo.DistanceTo(segment1StartX, segment1StartY, commonPointX, commonPointY) * PointGeo.DistanceTo(segment2StartX, segment2StartY, commonPointX, commonPointY);
-
-            return Math.Acos(numerator / denominator);
         }
 
         /// <summary>
@@ -257,6 +218,48 @@ namespace GeoPlanarNet
             var angle = (diff1X * diff2X + diff1Y * diff2Y) / (Math.Sqrt(diff1X * diff1X + diff1Y * diff1Y) * Math.Sqrt(diff2X * diff2X + diff2Y * diff2Y));
 
             return Math.Acos(Math.Round(angle, 3));
+        }
+
+        /// <summary>
+        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
+        /// </summary>
+        /// <param name="commonPoint"> Common point </param>
+        /// <param name="segment1Start"> Start point of a segment 1 </param>
+        /// <param name="segment2Start"> Start point of a segment 2 </param>
+        /// <returns> Angle (radians) </returns>
+        public static double GetAngleRadians(PointF commonPoint, PointF segment1Start, PointF segment2Start)
+        {
+            return GetAngleRadians(commonPoint.X, commonPoint.Y, segment1Start.X, segment1Start.Y, segment2Start.X, segment2Start.Y);
+        }
+
+        /// <summary>
+        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
+        /// </summary>
+        /// <param name="commonPoint"> Common point </param>
+        /// <param name="segment1Start"> Start point of a segment 1 </param>
+        /// <param name="segment2Start"> Start point of a segment 2 </param>
+        /// <returns> Angle (radians) </returns>
+        public static double GetAngleRadians(Point commonPoint, Point segment1Start, Point segment2Start)
+        {
+            return GetAngleRadians(commonPoint.X, commonPoint.Y, segment1Start.X, segment1Start.Y, segment2Start.X, segment2Start.Y);
+        }
+
+        /// <summary>
+        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
+        /// </summary>
+        /// <param name="commonPointX"> Common point: X coordinate </param>
+        /// <param name="commonPointY"> Common point: Y coordinate </param>
+        /// <param name="segment1StartX"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment1StartY"> Start point of 1 segment: Y coordinate </param>
+        /// <param name="segment2StartX"> Start point of 2 segment: X coordinate </param>
+        /// <param name="segment2StartY"> Start point of 2 segment: Y coordinate </param>
+        /// <returns> Angle (radians) </returns>
+        public static double GetAngleRadians(double commonPointX, double commonPointY, double segment1StartX, double segment1StartY, double segment2StartX, double segment2StartY)
+        {
+            var numerator = (segment1StartX - commonPointX) * (segment2StartX - commonPointX) + (segment1StartY - commonPointY) * (segment2StartY - commonPointY);
+            var denominator = PointGeo.DistanceTo(segment1StartX, segment1StartY, commonPointX, commonPointY) * PointGeo.DistanceTo(segment2StartX, segment2StartY, commonPointX, commonPointY);
+
+            return Math.Acos(numerator / denominator);
         }
 
         /// <summary>

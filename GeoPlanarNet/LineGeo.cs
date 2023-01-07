@@ -1,6 +1,6 @@
-﻿using System;
+﻿using GeoPlanarNet.Enums;
+using System;
 using System.Drawing;
-using GeoPlanarNet.Enums;
 
 namespace GeoPlanarNet
 {
@@ -248,7 +248,7 @@ namespace GeoPlanarNet
             {
                 return false;
             }
-            
+
             if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, xBoundsMin, Math.Min(linePoint1Y, linePoint2Y) - 1, xBoundsMin, Math.Max(linePoint1Y, linePoint2Y) + 1, out var x, out var y))
             {
                 if (linePoint1X <= xBoundsMin)

@@ -59,7 +59,7 @@ namespace GeoPlanarNet
         /// <returns> Eccentricity </returns>
         public static double Eccentricity(int semiMajor, int semiMinor)
         {
-            return Eccentricity((double) semiMajor, semiMinor);
+            return Eccentricity((double)semiMajor, semiMinor);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace GeoPlanarNet
         /// <remarks> Ramanujan approximation v3 </remarks>
         public static double Perimeter(int semiMajor, int semiMinor)
         {
-            return Perimeter(semiMajor, (double) semiMinor);
+            return Perimeter(semiMajor, (double)semiMinor);
         }
 
         /// <summary>

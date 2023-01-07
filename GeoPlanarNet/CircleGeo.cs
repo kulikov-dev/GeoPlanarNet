@@ -1,6 +1,6 @@
-﻿using System;
+﻿using GeoPlanarNet.Enums;
+using System;
 using System.Drawing;
-using GeoPlanarNet.Enums;
 
 namespace GeoPlanarNet
 {
@@ -149,7 +149,7 @@ namespace GeoPlanarNet
 
             return HasRectIntersection(circleCenterX, circleCenterY, radius, rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY);
         }
-        
+
         /// <summary>
         /// Check if the circle has intersection with the rectangle
         /// </summary>
@@ -203,7 +203,7 @@ namespace GeoPlanarNet
                    LineGeo.HasCircleIntersection(rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY, circleCenterX, circleCenterY, radius) ||
                    LineGeo.HasCircleIntersection(rectLeftBottomX, rectLeftBottomY, rectLeftTopX, rectLeftTopY, circleCenterX, circleCenterY, radius);
         }
-        
+
         /// <summary>
         /// Check if two circles are orthogonal 
         /// </summary>

@@ -189,51 +189,47 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Cut line to segment by X bounds
+        /// Cut the line to the segment by X bounds
         /// </summary>
         /// <param name="xBoundsMin"> Bounds X: min value </param>
         /// <param name="xBoundsMax"> Bounds X: max value </param>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
         /// <returns> True, if success </returns>
-        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, ref PointF linePoint1, ref PointF linePoint2)
+        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, PointF linePoint1, PointF linePoint2, out PointF segmentStart, out PointF segmentEnd)
         {
-            var linePoint1X = (double)linePoint1.X;
-            var linePoint1Y = (double)linePoint1.Y;
-            var linePoint2X = (double)linePoint2.X;
-            var linePoint2Y = (double)linePoint2.Y;
-
-            var result = CutByXBounds(xBoundsMin, xBoundsMax, ref linePoint1X, ref linePoint1Y, ref linePoint2X, ref linePoint2Y);
-            linePoint1 = new PointF((float)linePoint1X, (float)linePoint1Y);
-            linePoint2 = new PointF((float)linePoint2X, (float)linePoint2Y);
+            var result = CutByXBounds(xBoundsMin, xBoundsMax, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y,
+                                      out var segmentStartX, out var segmentStartY, out var segmentEndX, out var segmentEndY);
+            segmentStart = new PointF((float)segmentStartX, (float)segmentStartY);
+            segmentEnd = new PointF((float)segmentEndX, (float)segmentEndY);
 
             return result;
         }
 
         /// <summary>
-        /// Cut line to segment by X bounds
+        /// Cut the line to the segment by X bounds
         /// </summary>
         /// <param name="xBoundsMin"> Bounds X: min value </param>
         /// <param name="xBoundsMax"> Bounds X: max value </param>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
         /// <returns> True, if success </returns>
-        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, ref Point linePoint1, ref Point linePoint2)
+        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, Point linePoint1, Point linePoint2, out Point segmentStart, out Point segmentEnd)
         {
-            var linePoint1X = (double)linePoint1.X;
-            var linePoint1Y = (double)linePoint1.Y;
-            var linePoint2X = (double)linePoint2.X;
-            var linePoint2Y = (double)linePoint2.Y;
-
-            var result = CutByXBounds(xBoundsMin, xBoundsMax, ref linePoint1X, ref linePoint1Y, ref linePoint2X, ref linePoint2Y);
-            linePoint1 = new Point((int)linePoint1X, (int)linePoint1Y);
-            linePoint2 = new Point((int)linePoint2X, (int)linePoint2Y);
+            var result = CutByXBounds(xBoundsMin, xBoundsMax, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y,
+                                      out var segmentStartX, out var segmentStartY, out var segmentEndX, out var segmentEndY);
+            segmentStart = new Point((int)segmentStartX, (int)segmentStartY);
+            segmentEnd = new Point((int)segmentEndX, (int)segmentEndY);
 
             return result;
         }
 
         /// <summary>
-        /// Cut line to segment by X bounds
+        /// Cut the line to the segment by X bounds
         /// </summary>
         /// <param name="xBoundsMin"> Bounds X: min value </param>
         /// <param name="xBoundsMax"> Bounds X: max value </param>
@@ -241,9 +237,16 @@ namespace GeoPlanarNet
         /// <param name="linePoint1Y"> Line point 1: Y </param>
         /// <param name="linePoint2X"> Line point 2: X </param>
         /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <param name="segmentStartX"> Segment start point: X </param>
+        /// <param name="segmentStartY"> Segment start point: Y </param>
+        /// <param name="segmentEndX"> Segment end point: X </param>
+        /// <param name="segmentEndY"> Segment end point: Y </param>
         /// <returns> True, if success </returns>
-        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, ref double linePoint1X, ref double linePoint1Y, ref double linePoint2X, ref double linePoint2Y)
+        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y,
+                                        out double segmentStartX, out double segmentStartY, out double segmentEndX, out double segmentEndY)
         {
+            segmentStartX = segmentStartY = segmentEndX = segmentEndY = double.NaN;
+
             if (Math.Min(linePoint1X, linePoint2X) > xBoundsMax || Math.Max(linePoint1X, linePoint2X) < xBoundsMin)
             {
                 return false;
@@ -253,13 +256,13 @@ namespace GeoPlanarNet
             {
                 if (linePoint1X <= xBoundsMin)
                 {
-                    linePoint1X = x;
-                    linePoint1Y = y;
+                    segmentStartX = x;
+                    segmentStartY = y;
                 }
                 else
                 {
-                    linePoint2X = x;
-                    linePoint2Y = y;
+                    segmentEndX = x;
+                    segmentEndY = y;
                 }
             }
 
@@ -267,13 +270,13 @@ namespace GeoPlanarNet
             {
                 if (linePoint1X >= xBoundsMax)
                 {
-                    linePoint1X = x;
-                    linePoint1Y = y;
+                    segmentStartX = x;
+                    segmentStartY = y;
                 }
                 else
                 {
-                    linePoint2X = x;
-                    linePoint2Y = y;
+                    segmentEndX = x;
+                    segmentEndY = y;
                 }
             }
 
@@ -576,6 +579,88 @@ namespace GeoPlanarNet
             var cosAngle = Math.Abs((dx1 * dx2 + dy1 * dy2) / Math.Sqrt((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2)));
 
             return cosAngle.AboutEquals(1);
+        }
+
+        /// <summary>
+        /// Check if the line contains the segment
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
+        /// <returns> True, if the line contains the segment </returns>
+        public static bool Contains(PointF linePoint1, PointF linePoint2, PointF segmentStart, PointF segmentEnd)
+        {
+            return SegmentGeo.BelongsToLine(segmentStart, segmentEnd, linePoint1, linePoint2);
+        }
+
+        /// <summary>
+        /// Check if the line contains the segment
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
+        /// <returns> True, if the line contains the segment </returns>
+        public static bool Contains(Point linePoint1, Point linePoint2, Point segmentStart, Point segmentEnd)
+        {
+            return SegmentGeo.BelongsToLine(segmentStart, segmentEnd, linePoint1, linePoint2);
+        }
+
+        /// <summary>
+        /// Check if the line contains the segment
+        /// </summary>
+        /// <param name="linePoint1X"> Segment start point: X coordinate </param>
+        /// <param name="linePoint1Y"> Segment start point: Y coordinate </param>
+        /// <param name="linePoint2X"> Segment end point: X coordinate </param>
+        /// <param name="linePoint2Y"> Segment end point: Y coordinate </param>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: X coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> True, if the line contains the segment </returns>
+        public static bool Contains(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        {
+            return SegmentGeo.BelongsToLine(segmentStartX, segmentStartY, segmentEndX, segmentEndY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y);
+        }
+
+        /// <summary>
+        /// Get shortest distance to the point
+        /// </summary>
+        /// <param name="linePoint1"> Line first point </param>
+        /// <param name="linePoint2"> Line second point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance from a point to the line </returns>
+        public static double DistanceToPoint(PointF linePoint1, PointF linePoint2, PointF point)
+        {
+            return point.DistanceToLine(linePoint1, linePoint2);
+        }
+
+        /// <summary>
+        /// Get shortest distance to the point
+        /// </summary>
+        /// <param name="linePoint1"> Line first point </param>
+        /// <param name="linePoint2"> Line second point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance from a point to the line </returns>
+        public static double DistanceToPoint(Point linePoint1, Point linePoint2, Point point)
+        {
+            return point.DistanceToLine(linePoint1, linePoint2);
+        }
+
+        /// <summary>
+        /// Get shortest distance to the point
+        /// </summary>
+        /// <param name="linePoint1X">Line first point: X coordinate</param>
+        /// <param name="linePoint1Y">Line first point: X coordinate</param>
+        /// <param name="linePoint2X">Line second point: X coordinate</param>
+        /// <param name="linePoint2Y">Line second point: X coordinate</param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <returns> Distance from a point to the line </returns>
+        public static double DistanceToPoint(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double pointX, double pointY)
+        {
+            return PointGeo.DistanceToLine(pointX, pointY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y);
         }
     }
 }

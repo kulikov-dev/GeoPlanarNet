@@ -396,5 +396,226 @@ namespace GeoPlanarNet
         {
             return PointGeo.DistanceToTriangle(circleCenterX, circleCenterY, apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y) - radius;
         }
+
+        /// <summary>
+        /// Has intersection between the line and the circle
+        /// </summary>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> True if the line and the circle has intersection </returns>
+        public static bool HasLineIntersection(PointF circleCenter, float radius, PointF linePoint1, PointF linePoint2)
+        {
+            return LineGeo.HasCircleIntersection(linePoint1, linePoint2, circleCenter, radius);
+        }
+
+        /// <summary>
+        /// Has intersection between the line and the circle
+        /// </summary>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> True if the line and the circle has intersection </returns>
+        public static bool HasLineIntersection(PointF circleCenter, float radius, Point linePoint1, Point linePoint2)
+        {
+            return LineGeo.HasCircleIntersection(linePoint1, linePoint2, circleCenter, radius);
+        }
+
+        /// <summary>
+        /// Has intersection between the line and the circle
+        /// </summary>
+        /// <param name="circleCenterX"> Circle center point: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="linePoint1X"> Line point 1: X coordinate </param>
+        /// <param name="linePoint1Y"> Line point 1: Y coordinate </param>
+        /// <param name="linePoint2X"> Line point 2: X coordinate </param>
+        /// <param name="linePoint2Y"> Line point 2: Y coordinate </param>
+        /// <returns> True if the line and the circle has intersection </returns>
+        public static bool HasCircleIntersection(double circleCenterX, double circleCenterY, double radius, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
+        {
+            return LineGeo.HasCircleIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, circleCenterX, circleCenterY, radius);
+        }
+
+        /// <summary>
+        /// Find intersection between the line and the circle
+        /// </summary>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="intersection1"> Intersection point 1 </param>
+        /// <param name="intersection2"> Intersection point 2 </param>
+        /// <returns> True if the line and the circle has intersection </returns>
+        public static bool FindLineIntersection(PointF circleCenter, float radius, PointF linePoint1, PointF linePoint2, out PointF intersection1, out PointF intersection2)
+        {
+            return LineGeo.FindCircleIntersection(linePoint1, linePoint2, circleCenter, radius, out intersection1, out intersection2);
+        }
+
+        /// <summary>
+        /// Find intersection between line and circle
+        /// </summary>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="intersection1"> Intersection point 1 </param>
+        /// <param name="intersection2"> Intersection point 2 </param>
+        /// <returns> True if line and circle has intersection </returns>
+        public static bool FindLineIntersection(Point circleCenter, int radius, Point linePoint1, Point linePoint2, out Point intersection1, out Point intersection2)
+        {
+            return LineGeo.FindCircleIntersection(linePoint1, linePoint2, circleCenter, radius, out intersection1, out intersection2);
+        }
+
+        /// <summary>
+        /// Find intersection between line and circle
+        /// </summary>
+        /// <param name="circleCenterX"> Circle center point: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="linePoint1X"> Line point 1: X coordinate </param>
+        /// <param name="linePoint1Y"> Line point 1: Y coordinate </param>
+        /// <param name="linePoint2X"> Line point 2: X coordinate </param>
+        /// <param name="linePoint2Y"> Line point 2: Y coordinate </param>
+        /// <param name="intersection1X"> Intersection point 1: X coordinate </param>
+        /// <param name="intersection1Y"> Intersection point 1: Y coordinate </param>
+        /// <param name="intersection2X"> Intersection point 2: X coordinate </param>
+        /// <param name="intersection2Y"> Intersection point 2: Y coordinate </param>
+        /// <returns> True if line and circle has intersection </returns>
+        public static bool FindLineIntersection(double circleCenterX, double circleCenterY, double radius, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y,
+            out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y)
+        {
+            return LineGeo.FindCircleIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, circleCenterX, circleCenterY, radius,
+                                                  out intersection1X, out intersection1Y, out intersection2X, out intersection2Y);
+        }
+
+        /// <summary>
+        /// Get the line location relative to the circle
+        /// </summary>
+        /// <param name="circleCenterPoint"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius</param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Relative location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationLine(PointF circleCenterPoint, float circleRadius, PointF linePoint1, PointF linePoint2)
+        {
+            return LineGeo.GetRelativeLocationCircle(linePoint1, linePoint2, circleCenterPoint, circleRadius);
+        }
+
+        /// <summary>
+        /// Get the line location relative to the circle
+        /// </summary>
+        /// <param name="circleCenterPoint"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius</param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Relative location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationLine(Point circleCenterPoint, int circleRadius, Point linePoint1, Point linePoint2)
+        {
+            return LineGeo.GetRelativeLocationCircle(linePoint1, linePoint2, circleCenterPoint, circleRadius);
+        }
+
+        /// <summary>
+        /// Get the line location relative to the circle
+        /// </summary>
+        /// <param name="circleCenterPointX"> Circle center point: X Coordinate </param>
+        /// <param name="circleCenterPointY"> Circle center point: Y Coordinate </param>
+        /// <param name="circleCenterRadius"> Circle center radius </param>
+        /// <param name="linePoint1X"> Line point 1: X </param>
+        /// <param name="linePoint1Y"> Line point 1: Y </param>
+        /// <param name="linePoint2X"> Line point 2: X </param>
+        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <returns> Point location </returns>
+        /// <remarks> Return 'inside' if has two intersections </remarks>
+        public static PointAgainstFigureLocation GetRelativeLocationLine(double circleCenterPointX, double circleCenterPointY, double circleCenterRadius, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
+        {
+            return LineGeo.GetRelativeLocationCircle(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, circleCenterPointX, circleCenterPointY, circleCenterRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the line to the circle
+        /// </summary>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Distance between the line and the circle </returns>
+        public static double DistanceToLine(PointF circleCenter, float circleRadius, PointF linePoint1, PointF linePoint2)
+        {
+            return LineGeo.DistanceToCircle(linePoint1, linePoint2, circleCenter, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the line to the circle
+        /// </summary>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Distance between the line and the circle </returns>
+        public static double DistanceToLine(Point circleCenter, int circleRadius, Point linePoint1, Point linePoint2)
+        {
+            return LineGeo.DistanceToCircle(linePoint1, linePoint2, circleCenter, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the line to the circle
+        /// </summary>
+        /// <param name="circleCenterX"> Circle center point: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="linePoint1X"> Line point 1: X </param>
+        /// <param name="linePoint1Y"> Line point 1: Y </param>
+        /// <param name="linePoint2X"> Line point 2: X </param>
+        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <returns> Distance between the line and the circle </returns>
+        public static double DistanceToLine(double circleCenterX, double circleCenterY, double radius, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
+        {
+            return LineGeo.DistanceToCircle(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, circleCenterX, circleCenterY, radius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the segment to the circle
+        /// </summary>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
+        /// <returns> Distance between the segment and the circle </returns>
+        public static double DistanceToSegment(PointF circleCenter, float circleRadius, PointF segmentStart, PointF segmentEnd)
+        {
+            return SegmentGeo.DistanceToCircle(segmentStart, segmentEnd, circleCenter, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the segment to the circle
+        /// </summary>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
+        /// <returns> Distance between the segment and the circle </returns>
+        public static double DistanceToSegment(Point circleCenter, int circleRadius, Point segmentStart, Point segmentEnd)
+        {
+            return SegmentGeo.DistanceToCircle(segmentStart, segmentEnd, circleCenter, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the segment to the circle
+        /// </summary>
+        /// <param name="circleCenterX"> Circle center point: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="segmentStartX"> Segment, start point: coordinate X </param>
+        /// <param name="segmentStartY"> Segment, start point: coordinate Y </param>
+        /// <param name="segmentEndX"> Segment, end point: coordinate X </param>
+        /// <param name="segmentEndY"> Segment, end point: coordinate Y </param>
+        /// <returns> Distance between the segment and the circle </returns>
+        public static double DistanceToSegment(double circleCenterX, double circleCenterY, double radius, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        {
+            return SegmentGeo.DistanceToCircle(segmentStartX, segmentStartY, segmentEndX, segmentEndY, circleCenterX, circleCenterY, radius);
+        }
     }
 }

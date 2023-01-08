@@ -81,43 +81,43 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if the point belongs to the line
+        /// Check if the segment belongs to the line
         /// </summary>
         /// <param name="segmentStart"> Start segment point </param>
         /// <param name="segmentEnd"> End segment point </param>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
-        /// <returns> Flag if the point belongs to the line </returns>
+        /// <returns> True, if the segment belongs to the line </returns>
         public static bool BelongsToLine(PointF segmentStart, PointF segmentEnd, PointF linePoint1, PointF linePoint2)
         {
             return BelongsToLine(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
         }
 
         /// <summary>
-        /// Check if the point belongs to the line
+        /// Check if the segment belongs to the line
         /// </summary>
         /// <param name="segmentStart"> Start segment point </param>
         /// <param name="segmentEnd"> End segment point </param>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
-        /// <returns> Flag if the point belongs to the line </returns>
+        /// <returns> True, if the segment belongs to the line </returns>
         public static bool BelongsToLine(Point segmentStart, Point segmentEnd, Point linePoint1, Point linePoint2)
         {
             return BelongsToLine(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
         }
 
         /// <summary>
-        /// Check if the point belongs to the line
+        /// Check if the segment belongs to the line
         /// </summary>
         /// <param name="segmentStartX"> Segment start point: X coordinate </param>
         /// <param name="segmentStartY"> Segment start point: X coordinate </param>
         /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <param name="linePoint1X"> Segment start point: X coordinate </param>
-        /// <param name="linePoint1Y"> Segment start point: Y coodinate </param>
+        /// <param name="linePoint1Y"> Segment start point: Y coordinate </param>
         /// <param name="linePoint2X"> Segment end point: X coordinate </param>
         /// <param name="linePoint2Y"> Segment end point: Y coordinate </param>
-        /// <returns> Flag if the point belongs to the line </returns>
+        /// <returns> True, if the segment belongs to the line </returns>
         public static bool BelongsToLine(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
         {
             return PointGeo.BelongsToLine(segmentStartX, segmentStartY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y) &&
@@ -269,7 +269,7 @@ namespace GeoPlanarNet
         /// <param name="segmentEnd"> Segment end point </param>
         /// <param name="sectorStartAngleRad"> Start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Start angle (radians) </param>
-        /// <returns> Flag if the segment lays between angles </returns>
+        /// <returns> True, if the segment lays between angles </returns>
         public static bool IsBetweenAngles(PointF segmentStart, PointF segmentEnd, float sectorStartAngleRad, float sectorEndAngleRad)
         {
             return IsBetweenAngles(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, sectorStartAngleRad, sectorEndAngleRad);
@@ -282,7 +282,7 @@ namespace GeoPlanarNet
         /// <param name="segmentEnd"> Segment end point </param>
         /// <param name="sectorStartAngleRad"> Start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Start angle (radians) </param>
-        /// <returns> Flag if the segment lays between angles </returns>
+        /// <returns> True, if the segment lays between angles </returns>
         public static bool IsBetweenAngles(Point segmentStart, Point segmentEnd, double sectorStartAngleRad, double sectorEndAngleRad)
         {
             return IsBetweenAngles(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, sectorStartAngleRad, sectorEndAngleRad);
@@ -297,7 +297,7 @@ namespace GeoPlanarNet
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <param name="sectorStartAngleRad"> Start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Start angle (radians) </param>
-        /// <returns> Flag if the segment lays between angles </returns>
+        /// <returns> True, if the segment lays between angles </returns>
         public static bool IsBetweenAngles(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double sectorStartAngleRad, double sectorEndAngleRad)
         {
             var ang = Math.Atan2(segmentEndY - segmentStartY, segmentEndX - segmentStartX);
@@ -436,7 +436,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between the segment and the rectangle
+        /// Find intersection between the segment and the axis-oriented rectangle
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
@@ -463,7 +463,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between the segment and the rectangle
+        /// Find intersection between the segment and the axis-oriented rectangle
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
@@ -515,7 +515,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between the segment and the rectangle
+        /// Find intersection between the segment and the axis-oriented rectangle
         /// </summary>
         /// <param name="segmentStart"> Line point 1 </param>
         /// <param name="segmentEnd"> Line point 2 </param>
@@ -539,7 +539,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between the segment and the rectangle
+        /// Find intersection between the segment and the axis-oriented rectangle
         /// </summary>
         /// <param name="segmentStart"> Line point 1 </param>
         /// <param name="segmentEnd"> Line point 2 </param>
@@ -654,50 +654,50 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and triangle
+        /// Find intersection between the segment and the triangle
         /// </summary>
-        /// <param name="segment1Start"> Line point 1 </param>
-        /// <param name="segment1End"> Line point 2 </param>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
         /// <param name="apex3"> Apex 3 </param>
-        /// <returns> True if line and triangle has intersection </returns>
-        public static bool HasTriangleIntersection(PointF segment1Start, PointF segment1End, PointF apex1, PointF apex2, PointF apex3)
+        /// <returns> True if the segment and the triangle has intersection </returns>
+        public static bool HasTriangleIntersection(PointF segmentStart, PointF segmentEnd, PointF apex1, PointF apex2, PointF apex3)
         {
-            return FindTriangleIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y,
+            return FindTriangleIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y,
                                      out _, out _, out _, out _);
         }
 
         /// <summary>
-        /// Find intersection between line and triangle
+        /// Find intersection between the segment and the triangle
         /// </summary>
-        /// <param name="segment1Start"> Line point 1 </param>
-        /// <param name="segment1End"> Line point 2 </param>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
         /// <param name="apex3"> Apex 3 </param>
-        /// <returns> True if line and triangle has intersection </returns>
-        public static bool HasTriangleIntersection(Point segment1Start, Point segment1End, PointF apex1, PointF apex2, PointF apex3)
+        /// <returns> True if the segment and the triangle has intersection </returns>
+        public static bool HasTriangleIntersection(Point segmentStart, Point segmentEnd, PointF apex1, PointF apex2, PointF apex3)
         {
-            return FindTriangleIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y,
+            return FindTriangleIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y,
                                               out _, out _, out _, out _);
         }
 
         /// <summary>
-        /// Find intersection between line and triangle
+        /// Find intersection between the segment and the triangle
         /// </summary>
-        /// <param name="segment1Start"> Line point 1 </param>
-        /// <param name="segment1End"> Line point 2 </param>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
         /// <param name="apex3"> Apex 3 </param>
         /// <param name="intersection1"> Intersection point 1 </param>
         /// <param name="intersection2"> Intersection point 2 </param>
-        /// <returns> True if line and triangle has intersection </returns>
-        public static bool FindTriangleIntersection(PointF segment1Start, PointF segment1End, PointF apex1, PointF apex2, PointF apex3, out PointF intersection1, out PointF intersection2)
+        /// <returns> True if the segment and the triangle has intersection </returns>
+        public static bool FindTriangleIntersection(PointF segmentStart, PointF segmentEnd, PointF apex1, PointF apex2, PointF apex3, out PointF intersection1, out PointF intersection2)
         {
             intersection1 = intersection2 = PointF.Empty;
-            var hasIntersection = FindTriangleIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y,
+            var hasIntersection = FindTriangleIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y,
                                               out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
 
             if (hasIntersection)
@@ -710,20 +710,20 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and triangle
+        /// Find intersection between the segment and the triangle
         /// </summary>
-        /// <param name="segment1Start"> Line point 1 </param>
-        /// <param name="segment1End"> Line point 2 </param>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
         /// <param name="apex3"> Apex 3 </param>
         /// <param name="intersection1"> Intersection point 1 </param>
         /// <param name="intersection2"> Intersection point 2 </param>
-        /// <returns> True if line and triangle has intersection </returns>
-        public static bool FindTriangleIntersection(Point segment1Start, Point segment1End, PointF apex1, PointF apex2, PointF apex3, out Point intersection1, out Point intersection2)
+        /// <returns> True if the segment and the triangle has intersection </returns>
+        public static bool FindTriangleIntersection(Point segmentStart, Point segmentEnd, PointF apex1, PointF apex2, PointF apex3, out Point intersection1, out Point intersection2)
         {
             intersection1 = intersection2 = Point.Empty;
-            var hasIntersection = FindTriangleIntersection(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y,
+            var hasIntersection = FindTriangleIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y,
                                               out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
 
             if (hasIntersection)
@@ -736,12 +736,12 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and triangle
+        /// Find intersection between the segment and the triangle
         /// </summary>
-        /// <param name="segment1StartX"> Line point 1: X coordinate </param>
-        /// <param name="segment1StartY"> Line point 1: Y coordinate </param>
-        /// <param name="segment1EndX"> Line point 2: X coordinate </param>
-        /// <param name="segment1EndY"> Line point 2: Y coordinate </param>
+        /// <param name="segmentStartX"> Line point 1: X coordinate </param>
+        /// <param name="segmentStartY"> Line point 1: Y coordinate </param>
+        /// <param name="segmentEndX"> Line point 2: X coordinate </param>
+        /// <param name="segmentEndY"> Line point 2: Y coordinate </param>
         /// <param name="apex1X"> Apex 1: X coordinate </param>
         /// <param name="apex1Y"> Apex 1: Y coordinate </param>
         /// <param name="apex2X"> Apex 2: X coordinate </param>
@@ -752,19 +752,19 @@ namespace GeoPlanarNet
         /// <param name="intersection1Y"> Intersection point 1: Y coordinate </param>
         /// <param name="intersection2X"> Intersection point 2: X coordinate </param>
         /// <param name="intersection2Y"> Intersection point 2: Y coordinate </param>
-        /// <returns> True if line and triangle has intersection </returns>
-        public static bool FindTriangleIntersection(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY, double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y,
+        /// <returns> True if the segment and the triangle has intersection </returns>
+        public static bool FindTriangleIntersection(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y,
                                                 out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y)
         {
             intersection1X = intersection1Y = intersection2X = intersection2Y = double.NaN;
 
-            if (FindIntersection(segment1StartX, segment1StartY, segment1EndX, segment1EndY, apex1X, apex1Y, apex2X, apex2Y, out var tempX, out var tempY))
+            if (FindIntersection(segmentStartX, segmentStartY, segmentEndX, segmentEndY, apex1X, apex1Y, apex2X, apex2Y, out var tempX, out var tempY))
             {
                 intersection1X = tempX;
                 intersection1Y = tempY;
             }
 
-            if (FindIntersection(segment1StartX, segment1StartY, segment1EndX, segment1EndY, apex2X, apex2Y, apex3X, apex3Y, out tempX, out tempY))
+            if (FindIntersection(segmentStartX, segmentStartY, segmentEndX, segmentEndY, apex2X, apex2Y, apex3X, apex3Y, out tempX, out tempY))
             {
                 if (double.IsNaN(intersection1X) && double.IsNaN(intersection1Y))
                 {
@@ -778,7 +778,7 @@ namespace GeoPlanarNet
                 }
             }
 
-            if (FindIntersection(segment1StartX, segment1StartY, segment1EndX, segment1EndY, apex3X, apex3Y, apex1X, apex1Y, out tempX, out tempY))
+            if (FindIntersection(segmentStartX, segmentStartY, segmentEndX, segmentEndY, apex3X, apex3Y, apex1X, apex1Y, out tempX, out tempY))
             {
                 if (double.IsNaN(intersection1X) && double.IsNaN(intersection1Y))
                 {
@@ -796,7 +796,7 @@ namespace GeoPlanarNet
 
             if (hasIntersection)
             {
-                if (PointGeo.DistanceTo(segment1StartX, segment1StartY, intersection2X, intersection2Y) < PointGeo.DistanceTo(segment1StartX, segment1StartY, intersection1X, intersection1Y))
+                if (PointGeo.DistanceTo(segmentStartX, segmentStartY, intersection2X, intersection2Y) < PointGeo.DistanceTo(segmentStartX, segmentStartY, intersection1X, intersection1Y))
                 {
                     tempX = intersection1X;
                     tempY = intersection1Y;
@@ -1252,7 +1252,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get the line location relative to the triangle
+        /// Get the segment location relative to the triangle
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
@@ -1266,7 +1266,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get the line location relative to the triangle
+        /// Get the segment location relative to the triangle
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
@@ -1280,7 +1280,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get the line location relative to the triangle
+        /// Get the segment location relative to the triangle
         /// </summary>
         /// <param name="linePoint1X"> Line point 1: X </param>
         /// <param name="linePoint1Y"> Line point 1: Y </param>
@@ -1312,6 +1312,106 @@ namespace GeoPlanarNet
             }
 
             return PointAgainstFigureLocation.Outside;
+        }
+
+        /// <summary>
+        /// Check if a curve line and a segment has intersection
+        /// </summary>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="curve"> Curve </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool HasIntersection(PointF segmentStartPoint, PointF segmentEndPoint, PointF[] curve)
+        {
+            return CurveLineGeo.HasIntersection(curve, segmentStartPoint, segmentEndPoint);
+        }
+
+        /// <summary>
+        /// Check if a curve line and a segment has intersection
+        /// </summary>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="curve"> Curve </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool HasIntersection(Point segmentStartPoint, Point segmentEndPoint, Point[] curve)
+        {
+            return CurveLineGeo.HasIntersection(curve, segmentStartPoint, segmentEndPoint);
+        }
+
+        /// <summary>
+        /// Check if a curve line and a segment has intersection
+        /// </summary>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="curve"> Curve </param>
+        /// <param name="intersectionPoint"> Intersection point </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool FindIntersection(PointF segmentStartPoint, PointF segmentEndPoint, PointF[] curve, out PointF intersectionPoint)
+        {
+            return CurveLineGeo.FindIntersection(curve, segmentStartPoint, segmentEndPoint, out intersectionPoint);
+        }
+
+        /// <summary>
+        /// Check if a curve line and a segment has intersection
+        /// </summary>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="curve"> Curve </param>
+        /// <param name="intersectionPoint"> Intersection point </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool FindIntersection(Point segmentStartPoint, Point segmentEndPoint, Point[] curve, out Point intersectionPoint)
+        {
+            return CurveLineGeo.FindIntersection(curve, segmentStartPoint, segmentEndPoint, out intersectionPoint);
+        }
+
+        /// <summary>
+        /// Cut the line to the segment by X bounds
+        /// </summary>
+        /// <param name="xBoundsMin"> Bounds X: min value </param>
+        /// <param name="xBoundsMax"> Bounds X: max value </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> True, if success </returns>
+        public static bool CreateFromLine(double xBoundsMin, double xBoundsMax, PointF linePoint1, PointF linePoint2, out PointF segmentStart, out PointF segmentEnd)
+        {
+            return LineGeo.CutByXBounds(xBoundsMin, xBoundsMax, linePoint1, linePoint2, out segmentStart, out segmentEnd);
+        }
+
+        /// <summary>
+        /// Cut the line to the segment by X bounds
+        /// </summary>
+        /// <param name="xBoundsMin"> Bounds X: min value </param>
+        /// <param name="xBoundsMax"> Bounds X: max value </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> True, if success </returns>
+        public static bool CreateFromLine(double xBoundsMin, double xBoundsMax, Point linePoint1, Point linePoint2, out Point segmentStart, out Point segmentEnd)
+        {
+            return LineGeo.CutByXBounds(xBoundsMin, xBoundsMax, linePoint1, linePoint2, out segmentStart, out segmentEnd);
+        }
+
+        /// <summary>
+        /// Cut the line to the segment by X bounds
+        /// </summary>
+        /// <param name="xBoundsMin"> Bounds X: min value </param>
+        /// <param name="xBoundsMax"> Bounds X: max value </param>
+        /// <param name="linePoint1X"> Line point 1: X </param>
+        /// <param name="linePoint1Y"> Line point 1: Y </param>
+        /// <param name="linePoint2X"> Line point 2: X </param>
+        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <param name="segmentStartX"> Segment start point: X </param>
+        /// <param name="segmentStartY"> Segment start point: Y </param>
+        /// <param name="segmentEndX"> Segment end point: X </param>
+        /// <param name="segmentEndY"> Segment end point: Y </param>
+        /// <returns> True, if success </returns>
+        public static bool CreateFromLine(double xBoundsMin, double xBoundsMax, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y,
+                                        out double segmentStartX, out double segmentStartY, out double segmentEndX, out double segmentEndY)
+        {
+            return LineGeo.CutByXBounds(xBoundsMin, xBoundsMax, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out segmentStartX, out segmentStartY, out segmentEndX, out segmentEndY);
         }
     }
 }

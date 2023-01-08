@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace GeoPlanarNet
@@ -338,6 +339,241 @@ namespace GeoPlanarNet
             leftTopY = minY;
             width = maxX - minX;
             height = maxY - minY;
+        }
+
+        /// <summary>
+        /// Check if the circle has intersection with the rectangle
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="radius"> Radius </param>
+        /// <returns> True, if has intersection </returns>
+        public static bool HasCircleIntersection(float rectLeftTopX, float rectLeftTopY, float rectRightBottomX, float rectRightBottomY, PointF circleCenter, float radius)
+        {
+            return HasCircleIntersection(circleCenter.X, circleCenter.Y, radius, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY);
+        }
+
+        /// <summary>
+        /// Check if the circle has intersection with the rectangle
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="radius"> Radius </param>
+        /// <returns> True, if has intersection </returns>
+        public static bool HasCircleIntersection(int rectLeftTopX, int rectLeftTopY, int rectRightBottomX, int rectRightBottomY, Point circleCenter, int radius)
+        {
+            return HasCircleIntersection(circleCenter.X, circleCenter.Y, radius, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY);
+        }
+
+        /// <summary>
+        /// Check if the circle has intersection with the rectangle
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="circleCenterX"> Center point: X coordinate </param>
+        /// <param name="circleCenterY"> Center point: Y coordinate </param>
+        /// <param name="radius"> Radius </param>
+        /// <returns> True, if has intersection </returns>
+        public static bool HasCircleIntersection(double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY, double circleCenterX, double circleCenterY, double radius)
+        {
+            return CircleGeo.HasRectIntersection(circleCenterX, circleCenterY, radius, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY);
+        }
+
+        /// <summary>
+        /// Check if the circle has intersection with the rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
+        /// <param name="circleCenterX"> Center point: X coordinate </param>
+        /// <param name="circleCenterY"> Center point: Y coordinate </param>
+        /// <param name="radius"> Radius </param>
+        public static bool HasCircleIntersection(PointF rectLeftTop, PointF rectRightTop, PointF rectRightBottom, PointF rectLeftBottom, double circleCenterX, double circleCenterY, double radius)
+        {
+            return HasCircleIntersection(circleCenterX, circleCenterY, radius, rectLeftTop.X, rectLeftTop.Y, rectRightTop.X, rectRightTop.Y, rectRightBottom.X, rectRightBottom.Y, rectLeftBottom.X, rectLeftBottom.Y);
+        }
+
+        /// <summary>
+        /// Check if the circle has intersection with the rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
+        /// <param name="circleCenterX"> Center point: X coordinate </param>
+        /// <param name="circleCenterY"> Center point: Y coordinate </param>
+        /// <param name="radius"> Radius </param>
+        public static bool HasCircleIntersection(Point rectLeftTop, Point rectRightTop, Point rectRightBottom, Point rectLeftBottom, double circleCenterX, double circleCenterY, double radius)
+        {
+            return HasCircleIntersection(circleCenterX, circleCenterY, radius, rectLeftTop.X, rectLeftTop.Y, rectRightTop.X, rectRightTop.Y, rectRightBottom.X, rectRightBottom.Y, rectLeftBottom.X, rectLeftBottom.Y);
+        }
+
+        /// <summary>
+        /// Check if the circle has intersection with the rectangle
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightTopX"> Rectangle right top: X coordinate </param>
+        /// <param name="rectRightTopY"> Rectangle right top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="rectLeftBottomX"> Rectangle left bottom: X coordinate </param>
+        /// <param name="rectLeftBottomY"> Rectangle left bottom: Y coordinate </param>
+        /// <param name="circleCenterX"> Center point: X coordinate </param>
+        /// <param name="circleCenterY"> Center point: Y coordinate </param>
+        /// <param name="radius"> Radius </param>
+        public static bool HasCircleIntersection(double rectLeftTopX, double rectLeftTopY, double rectRightTopX, double rectRightTopY,
+                                                 double rectRightBottomX, double rectRightBottomY, double rectLeftBottomX, double rectLeftBottomY,
+                                                 double circleCenterX, double circleCenterY, double radius)
+        {
+            return CircleGeo.HasRectIntersection(circleCenterX, circleCenterY, radius, rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY);
+        }
+
+        /// <summary>
+        /// Find intersection between the segment and the axis-oriented rectangle
+        /// </summary>
+        /// <param name="rect"> Rectangle </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
+        public static bool HasSegmentIntersection(RectangleF rect, PointF segmentStart, PointF segmentEnd)
+        {
+            return SegmentGeo.HasRectIntersection(segmentStart, segmentEnd, rect);
+        }
+
+        /// <summary>
+        /// Find intersection between the segment and the rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top point </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
+        public static bool HasSegmentIntersection(PointF rectLeftTop, PointF rectRightBottom, PointF segmentStart, PointF segmentEnd)
+        {
+            return SegmentGeo.HasRectIntersection(segmentStart, segmentEnd, rectLeftTop, rectRightBottom);
+        }
+
+        /// <summary>
+        /// Find intersection between the segment and the axis-oriented rectangle
+        /// </summary>
+        /// <param name="rect"> Rectangle </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
+        public static bool HasSegmentIntersection(Rectangle rect, Point segmentStart, Point segmentEnd)
+        {
+            return SegmentGeo.HasRectIntersection(segmentStart, segmentEnd, rect);
+        }
+
+        /// <summary>
+        /// Find intersection between the segment and the rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top point </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
+        public static bool HasSegmentIntersection(Point rectLeftTop, Point rectRightBottom, Point segmentStart, Point segmentEnd)
+        {
+            return SegmentGeo.HasRectIntersection(segmentStart, segmentEnd, rectLeftTop, rectRightBottom);
+        }
+
+        /// <summary>
+        /// Find intersection between the segment and the rectangle
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top point </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="intersection1"> Intersection point 1 </param>
+        /// <param name="intersection2"> Intersection point 2 </param>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
+        public static bool FindSegmentIntersection(PointF rectLeftTop, PointF rectRightBottom, PointF segmentStart, PointF segmentEnd, out PointF intersection1, out PointF intersection2)
+        {
+            intersection1 = intersection2 = PointF.Empty;
+            var hasIntersection = FindRectIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y,
+                                              out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
+
+            if (hasIntersection)
+            {
+                intersection1 = new PointF((float)intersection1X, (float)intersection1Y);
+                intersection2 = new PointF((float)intersection2X, (float)intersection2Y);
+            }
+
+            return hasIntersection;
+        }
+
+        /// <summary>
+        /// Find intersection between the segment and the axis-oriented rectangle
+        /// </summary>
+        /// <param name="rect"> Rectangle </param>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
+        /// <param name="intersection1"> Intersection point 1 </param>
+        /// <param name="intersection2"> Intersection point 2 </param>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
+        public static bool FindSegmentIntersection(RectangleF rect, PointF segmentStart, PointF segmentEnd, out PointF intersection1, out PointF intersection2)
+        {
+            return SegmentGeo.FindRectIntersection(segmentStart, segmentEnd, rect, out intersection1, out intersection2);
+        }
+
+        /// <summary>
+        /// Find intersection between the segment and the axis-oriented rectangle
+        /// </summary>
+        /// <param name="rect"> Rectangle </param>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
+        /// <param name="intersection1"> Intersection point 1 </param>
+        /// <param name="intersection2"> Intersection point 2 </param>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
+        public static bool FindSegmentIntersection(Rectangle rect, Point segmentStart, Point segmentEnd, out Point intersection1, out Point intersection2)
+        {
+            return SegmentGeo.FindRectIntersection(segmentStart, segmentEnd, rect, out intersection1, out intersection2);
+        }
+
+        /// <summary>
+        /// Find intersection between the segment and the rectangle
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="segmentStartX"> Line point 1: X coordinate </param>
+        /// <param name="segmentStartY"> Line point 1: Y coordinate </param>
+        /// <param name="segmentEndX"> Line point 2: X coordinate </param>
+        /// <param name="segmentEndY"> Line point 2: Y coordinate </param>
+        /// <param name="intersection1X"> Intersection point 1: X coordinate </param>
+        /// <param name="intersection1Y"> Intersection point 1: Y coordinate </param>
+        /// <param name="intersection2X"> Intersection point 2: X coordinate </param>
+        /// <param name="intersection2Y"> Intersection point 2: Y coordinate </param>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
+        public static bool FindSegmentIntersection(double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY,
+                                                out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y)
+        {
+            return SegmentGeo.FindRectIntersection(segmentStartX, segmentStartY, segmentEndX, segmentEndY, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY,
+                                                   out intersection1X, out intersection1Y, out intersection2X, out intersection2Y);
+        }
+
+        /// <summary>
+        /// Get a rectangle with one side equal to segment, another side equal to length
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="rectangleSideLength"> Another side length </param>
+        /// <returns> Rectangle </returns>
+        public static IList<PointF> CreateFromSegment(PointF segmentStart, PointF segmentEnd, float rectangleSideLength)
+        {
+            return SegmentGeo.GetRectangle(segmentStart, segmentEnd, rectangleSideLength);
         }
     }
 }

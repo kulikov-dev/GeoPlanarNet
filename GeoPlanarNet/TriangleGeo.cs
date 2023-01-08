@@ -554,5 +554,184 @@ namespace GeoPlanarNet
             centerX = (apex1X + apex2X + apex3X) / 3d;
             centerY = (apex1Y + apex2Y + apex3Y) / 3d;
         }
+
+        /// <summary>
+        /// Get shortest distance from the circle to the triangle
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="circleCenter"> Center point </param>
+        /// <param name="circleRadius"> Radius </param>
+        /// <returns> Distance from the circle to the triangle</returns>
+        public static double DistanceToCircle(PointF apex1, PointF apex2, PointF apex3, PointF circleCenter, float circleRadius)
+        {
+            return DistanceToCircle(circleCenter.X, circleCenter.Y, circleRadius, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the circle to the triangle
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="circleCenter"> Center point </param>
+        /// <param name="circleRadius"> Radius </param>
+        /// <returns> Distance from the circle to the triangle </returns>
+        public static double DistanceToCircle(Point apex1, Point apex2, Point apex3, Point circleCenter, float circleRadius)
+        {
+            return DistanceToCircle(circleCenter.X, circleCenter.Y, circleRadius, apex1.X, apex1.Y, apex2.X, apex2.Y, apex3.X, apex3.Y);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the circle to the triangle
+        /// </summary>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <param name="circleCenterX"> Center point: X coordinate </param>
+        /// <param name="circleCenterY"> Center point: Y coordinate </param>
+        /// <param name="radius"> Radius </param>
+        /// <returns> Distance from the circle to the triangle </returns>
+        public static double DistanceToCircle(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, double circleCenterX, double circleCenterY, double radius)
+        {
+            return CircleGeo.DistanceToTriangle(circleCenterX, circleCenterY, radius, apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y);
+        }
+
+        /// <summary>
+        /// Find intersection between the segment and the triangle
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
+        /// <returns> True if the segment and the triangle has intersection </returns>
+        public static bool HasSegmentIntersection(PointF apex1, PointF apex2, PointF apex3, PointF segmentStart, PointF segmentEnd)
+        {
+            return SegmentGeo.HasTriangleIntersection(segmentStart, segmentEnd, apex1, apex2, apex3);
+        }
+
+        /// <summary>
+        /// Find intersection between the segment and the triangle
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
+        /// <returns> True if the segment and the triangle has intersection </returns>
+        public static bool HasSegmentIntersection(PointF apex1, PointF apex2, PointF apex3, Point segmentStart, Point segmentEnd)
+        {
+            return SegmentGeo.HasTriangleIntersection(segmentStart, segmentEnd, apex1, apex2, apex3);
+        }
+
+        /// <summary>
+        /// Find intersection between the segment and the triangle
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
+        /// <param name="intersection1"> Intersection point 1 </param>
+        /// <param name="intersection2"> Intersection point 2 </param>
+        /// <returns> True if the segment and the triangle has intersection </returns>
+        public static bool FindSegmentIntersection(PointF apex1, PointF apex2, PointF apex3, PointF segmentStart, PointF segmentEnd, out PointF intersection1, out PointF intersection2)
+        {
+            return SegmentGeo.FindTriangleIntersection(segmentStart, segmentEnd, apex1, apex2, apex3, out intersection1, out intersection2);
+        }
+
+        /// <summary>
+        /// Find intersection between the segment and the triangle
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
+        /// <param name="intersection1"> Intersection point 1 </param>
+        /// <param name="intersection2"> Intersection point 2 </param>
+        /// <returns> True if the segment and the triangle has intersection </returns>
+        public static bool FindSegmentIntersection(PointF apex1, PointF apex2, PointF apex3, Point segmentStart, Point segmentEnd, out Point intersection1, out Point intersection2)
+        {
+            return SegmentGeo.FindTriangleIntersection(segmentStart, segmentEnd, apex1, apex2, apex3, out intersection1, out intersection2);
+        }
+
+        /// <summary>
+        /// Find intersection between the segment and the triangle
+        /// </summary>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <param name="segmentStartX"> Line point 1: X coordinate </param>
+        /// <param name="segmentStartY"> Line point 1: Y coordinate </param>
+        /// <param name="segmentEndX"> Line point 2: X coordinate </param>
+        /// <param name="segmentEndY"> Line point 2: Y coordinate </param>
+        /// <param name="intersection1X"> Intersection point 1: X coordinate </param>
+        /// <param name="intersection1Y"> Intersection point 1: Y coordinate </param>
+        /// <param name="intersection2X"> Intersection point 2: X coordinate </param>
+        /// <param name="intersection2Y"> Intersection point 2: Y coordinate </param>
+        /// <returns> True if the segment and the triangle has intersection </returns>
+        public static bool FindSegmentIntersection(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY,
+                                                out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y)
+        {
+            return SegmentGeo.FindTriangleIntersection(segmentStartX, segmentStartY, segmentEndX, segmentEndY, apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y,
+                                                       out intersection1X, out intersection1Y, out intersection2X, out intersection2Y);
+        }
+
+        /// <summary>
+        /// Get the segment location relative to the triangle
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Relative location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationSegment(PointF apex1, PointF apex2, PointF apex3, PointF linePoint1, PointF linePoint2)
+        {
+            return SegmentGeo.GetRelativeLocationTriangle(linePoint1, linePoint2, apex1, apex2, apex3);
+        }
+
+        /// <summary>
+        /// Get the segment location relative to the triangle
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> Relative location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationSegment(PointF apex1, PointF apex2, PointF apex3, Point linePoint1, Point linePoint2)
+        {
+            return SegmentGeo.GetRelativeLocationTriangle(linePoint1, linePoint2, apex1, apex2, apex3);
+        }
+
+        /// <summary>
+        /// Get the segment location relative to the triangle
+        /// </summary>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <param name="linePoint1X"> Line point 1: X </param>
+        /// <param name="linePoint1Y"> Line point 1: Y </param>
+        /// <param name="linePoint2X"> Line point 2: X </param>
+        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <returns> Point location </returns>
+        /// <remarks> Return 'inside' if has two intersections </remarks>
+        public static PointAgainstFigureLocation GetRelativeLocationSegment(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
+        {
+            return SegmentGeo.GetRelativeLocationTriangle(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y);
+        }
     }
 }

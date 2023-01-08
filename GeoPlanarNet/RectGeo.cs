@@ -175,7 +175,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get the center point of the rectangle
+        /// Get points of the rectangle base on diagonal 0-2 points
         /// </summary>
         /// <param name="rectLeftTop"> Rectangle left top </param>
         /// <param name="rectRightBottom"> Rectangle right bottom </param>
@@ -190,7 +190,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get the center point of the rectangle
+        /// Get points of the rectangle base on diagonal 0-2 points
         /// </summary>
         /// <param name="rectLeftTop"> Rectangle left top </param>
         /// <param name="rectRightBottom"> Rectangle right bottom </param>
@@ -205,7 +205,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get point of the rectangle base on diagonal 0-2 points.
+        /// Get points of the rectangle base on diagonal 0-2 points
         /// </summary>
         /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
         /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>

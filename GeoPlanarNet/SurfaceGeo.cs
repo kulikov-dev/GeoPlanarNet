@@ -9,11 +9,11 @@ namespace GeoPlanarNet
     public static class SurfaceGeo
     {
         /// <summary>
-        /// Get the surface square
+        /// Get the surface area
         /// </summary>
         /// <param name="surface"> Surface </param>
-        /// <returns> Square </returns>
-        public static float Square(PointF[] surface)
+        /// <returns> Area </returns>
+        public static float Area(PointF[] surface)
         {
             var sum = 0f;
 
@@ -26,11 +26,11 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get the surface square
+        /// Get the surface area
         /// </summary>
         /// <param name="surface"> Surface </param>
-        /// <returns> Square </returns>
-        public static double Square(Point[] surface)
+        /// <returns> Area </returns>
+        public static double Area(Point[] surface)
         {
             double sum = 0;
 

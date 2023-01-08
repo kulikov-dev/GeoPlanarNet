@@ -436,12 +436,12 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and rectangle
+        /// Find intersection between the segment and the rectangle
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
         /// <param name="rect"> Rectangle </param>
-        /// <returns> True if line and rectangle has intersection </returns>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
         public static bool HasRectIntersection(PointF segmentStart, PointF segmentEnd, RectangleF rect)
         {
             return FindRectIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
@@ -449,13 +449,13 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and rectangle
+        /// Find intersection between the segment and the rectangle
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
         /// <param name="rectLeftTop"> Rectangle left top point </param>
         /// <param name="rectRightBottom"> Rectangle right bottom point </param>
-        /// <returns> True if line and rectangle has intersection </returns>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
         public static bool HasRectIntersection(PointF segmentStart, PointF segmentEnd, PointF rectLeftTop, PointF rectRightBottom)
         {
             return FindRectIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y,
@@ -463,12 +463,12 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and rectangle
+        /// Find intersection between the segment and the rectangle
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
         /// <param name="rect"> Rectangle </param>
-        /// <returns> True if line and rectangle has intersection </returns>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
         public static bool HasRectIntersection(Point segmentStart, Point segmentEnd, Rectangle rect)
         {
             return FindRectIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height,
@@ -476,13 +476,13 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and rectangle
+        /// Find intersection between the segment and the rectangle
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
         /// <param name="rectLeftTop"> Rectangle left top point </param>
         /// <param name="rectRightBottom"> Rectangle right bottom point </param>
-        /// <returns> True if line and rectangle has intersection </returns>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
         public static bool HasRectIntersection(Point segmentStart, Point segmentEnd, Point rectLeftTop, Point rectRightBottom)
         {
             return FindRectIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y,
@@ -490,7 +490,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and rectangle
+        /// Find intersection between the segment and the rectangle
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
@@ -498,7 +498,7 @@ namespace GeoPlanarNet
         /// <param name="rectRightBottom"> Rectangle right bottom point </param>
         /// <param name="intersection1"> Intersection point 1 </param>
         /// <param name="intersection2"> Intersection point 2 </param>
-        /// <returns> True if line and rectangle has intersection </returns>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
         public static bool FindRectIntersection(PointF segmentStart, PointF segmentEnd, PointF rectLeftTop, PointF rectRightBottom, out PointF intersection1, out PointF intersection2)
         {
             intersection1 = intersection2 = PointF.Empty;
@@ -515,14 +515,14 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and rectangle
+        /// Find intersection between the segment and the rectangle
         /// </summary>
         /// <param name="segmentStart"> Line point 1 </param>
         /// <param name="segmentEnd"> Line point 2 </param>
         /// <param name="rect"> Rectangle </param>
         /// <param name="intersection1"> Intersection point 1 </param>
         /// <param name="intersection2"> Intersection point 2 </param>
-        /// <returns> True if line and rectangle has intersection </returns>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
         public static bool FindRectIntersection(PointF segmentStart, PointF segmentEnd, RectangleF rect, out PointF intersection1, out PointF intersection2)
         {
             intersection1 = intersection2 = PointF.Empty;
@@ -539,14 +539,14 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and rectangle
+        /// Find intersection between the segment and the rectangle
         /// </summary>
         /// <param name="segmentStart"> Line point 1 </param>
         /// <param name="segmentEnd"> Line point 2 </param>
         /// <param name="rect"> Rectangle </param>
         /// <param name="intersection1"> Intersection point 1 </param>
         /// <param name="intersection2"> Intersection point 2 </param>
-        /// <returns> True if line and rectangle has intersection </returns>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
         public static bool FindRectIntersection(Point segmentStart, Point segmentEnd, Rectangle rect, out Point intersection1, out Point intersection2)
         {
             intersection1 = intersection2 = Point.Empty;
@@ -563,7 +563,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find intersection between line and rectangle
+        /// Find intersection between the segment and the rectangle
         /// </summary>
         /// <param name="segmentStartX"> Line point 1: X coordinate </param>
         /// <param name="segmentStartY"> Line point 1: Y coordinate </param>
@@ -577,7 +577,7 @@ namespace GeoPlanarNet
         /// <param name="intersection1Y"> Intersection point 1: Y coordinate </param>
         /// <param name="intersection2X"> Intersection point 2: X coordinate </param>
         /// <param name="intersection2Y"> Intersection point 2: Y coordinate </param>
-        /// <returns> True if line and rectangle has intersection </returns>
+        /// <returns> True if the segment and the rectangle has intersection </returns>
         public static bool FindRectIntersection(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY,
                                                 out double intersection1X, out double intersection1Y, out double intersection2X, out double intersection2Y)
         {

@@ -513,7 +513,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get average center of the rectangle
+        /// Get average center of the triangle
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
@@ -526,7 +526,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get average center of the rectangle
+        /// Get average center of the triangle
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
@@ -539,7 +539,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get average center of the rectangle
+        /// Get average center of the triangle
         /// </summary>
         /// <param name="apex1X"> Apex 1: X coordinate </param>
         /// <param name="apex1Y"> Apex 1: Y coordinate </param>

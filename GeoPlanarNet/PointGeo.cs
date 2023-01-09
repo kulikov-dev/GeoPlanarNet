@@ -1877,141 +1877,7 @@ namespace GeoPlanarNet
 
         #endregion
 
-        /// <summary>
-        /// Rotate point around the center
-        /// </summary>
-        /// <param name="point"> Source point </param>
-        /// <param name="center"> Center point </param>
-        /// <param name="angleRadian"> Angle in radians </param>
-        /// <returns> Rotated point </returns>
-        public static PointF Rotate(this PointF point, PointF center, double angleRadian)
-        {
-            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out var rotatedPointX, out var rotatedPointY);
-            return new PointF((float)rotatedPointX, (float)rotatedPointY);
-        }
-
-        /// <summary>
-        /// Rotate point around the center
-        /// </summary>
-        /// <param name="point"> Source point </param>
-        /// <param name="center"> Center point </param>
-        /// <param name="angleRadian"> Angle in radians </param>
-        /// <returns> Rotated point </returns>
-        public static Point Rotate(this Point point, Point center, double angleRadian)
-        {
-            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out var rotatedPointX, out var rotatedPointY);
-            return new Point((int)rotatedPointX, (int)rotatedPointY);
-        }
-
-        /// <summary>
-        /// Rotate point around the center
-        /// </summary>
-        /// <param name="pointX">Point: X coordinate </param>
-        /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="centerX"> Center point: X coordinate </param>
-        /// <param name="centerY"> Center point: Y coordinate </param>
-        /// <param name="angleRadian"> Angle in radians </param>
-        /// <param name="rotatedPointX"> Rotated point: X coordinate </param>
-        /// <param name="rotatedPointY"> Rotated point: Y coordinate </param>
-        public static void Rotate(double pointX, double pointY, double centerX, double centerY, double angleRadian, out double rotatedPointX, out double rotatedPointY)
-        {
-            var diffX = pointX - centerX;
-            var diffY = pointY - centerY;
-
-            rotatedPointX = centerX + diffX * Math.Cos(angleRadian) - diffY * Math.Sin(angleRadian);
-            rotatedPointY = centerY + diffX * Math.Sin(angleRadian) + diffY * Math.Cos(angleRadian);
-        }
-
-        /// <summary>
-        /// Calc vector product between point and segment
-        /// </summary>
-        /// <param name="point"> Point </param>
-        /// <param name="segmentStart"> Segment start point </param>
-        /// <param name="segmentEnd"> Segment end point </param>
-        /// <returns> Vector product </returns>
-        public static float GetVectorProduct(PointF point, PointF segmentStart, PointF segmentEnd)
-        {
-            return GetVectorProduct(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
-        }
-
-        /// <summary>
-        /// Calc vector product between point and segment
-        /// </summary>
-        /// <param name="point"> Point </param>
-        /// <param name="segmentStart"> Segment start point </param>
-        /// <param name="segmentEnd"> Segment end point </param>
-        /// <returns> Vector product </returns>
-        public static float GetVectorProduct(Point point, Point segmentStart, Point segmentEnd)
-        {
-            return GetVectorProduct(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
-        }
-
-        /// <summary>
-        /// Calc vector product between point and segment
-        /// </summary>
-        /// <param name="pointX"> Point: X coordinate </param>
-        /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
-        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
-        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
-        /// <returns> Vector product </returns>
-        public static float GetVectorProduct(float pointX, float pointY, float segmentStartX, float segmentStartY, float segmentEndX, float segmentEndY)
-        {
-            return (segmentEndY - segmentStartY) * (pointX - segmentStartX) - (segmentEndX - segmentStartX) * (pointY - segmentStartY);
-        }
-
-        /// <summary>
-        /// Calc vector product between point and segment
-        /// </summary>
-        /// <param name="pointX"> Point: X coordinate </param>
-        /// <param name="pointY"> Point: Y coordinate </param>
-        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
-        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
-        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
-        /// <returns> Vector product </returns>
-        public static double GetVectorProduct(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
-        {
-            return (segmentEndY - segmentStartY) * (pointX - segmentStartX) - (segmentEndX - segmentStartX) * (pointY - segmentStartY);
-        }
-
-        /// <summary>
-        /// Check if two points are equal
-        /// </summary>
-        /// <param name="point1"> Point 1 </param>
-        /// <param name="point2"> Point 2 </param>
-        /// <param name="eps"> Epsilon </param>
-        /// <returns> True, if equals </returns>
-        public static bool Equals(this PointF point1, PointF point2)
-        {
-            return DistanceTo(point1, point2) <= GeoPlanarNet.Epsilon;
-        }
-
-        /// <summary>
-        /// Check if two points are equal
-        /// </summary>
-        /// <param name="point1"> Point 1 </param>
-        /// <param name="point2"> Point 2 </param>
-        /// <param name="eps"> Epsilon </param>
-        /// <returns> True, if equals </returns>
-        public static bool Equals(this Point point1, Point point2)
-        {
-            return DistanceTo(point1, point2) <= GeoPlanarNet.Epsilon;
-        }
-
-        /// <summary>
-        /// Check if two points are equal
-        /// </summary>
-        /// <param name="point1X"> Point 1: X coordinate </param>
-        /// <param name="point1Y"> Point 1: Y coordinate </param>
-        /// <param name="point2X"> Point 2: X coordinate </param>
-        /// <param name="point2Y"> Point 2: Y coordinate </param>
-        /// <returns> True, if equals </returns>
-        public static bool Equals(double point1X, double point1Y, double point2X, double point2Y)
-        {
-            return DistanceTo(point1X, point1Y, point2X, point2Y) <= GeoPlanarNet.Epsilon;
-        }
+        #region Projection
 
         /// <summary>
         /// Get projection from the point to a line
@@ -2226,6 +2092,45 @@ namespace GeoPlanarNet
             projectionPointY = segmentStartPointY + u * dY;
         }
 
+        #endregion
+
+        /// <summary>
+        /// Check if two points are equal
+        /// </summary>
+        /// <param name="point1"> Point 1 </param>
+        /// <param name="point2"> Point 2 </param>
+        /// <param name="eps"> Epsilon </param>
+        /// <returns> True, if equals </returns>
+        public static bool Equals(this PointF point1, PointF point2)
+        {
+            return DistanceTo(point1, point2) <= GeoPlanarNet.Epsilon;
+        }
+
+        /// <summary>
+        /// Check if two points are equal
+        /// </summary>
+        /// <param name="point1"> Point 1 </param>
+        /// <param name="point2"> Point 2 </param>
+        /// <param name="eps"> Epsilon </param>
+        /// <returns> True, if equals </returns>
+        public static bool Equals(this Point point1, Point point2)
+        {
+            return DistanceTo(point1, point2) <= GeoPlanarNet.Epsilon;
+        }
+
+        /// <summary>
+        /// Check if two points are equal
+        /// </summary>
+        /// <param name="point1X"> Point 1: X coordinate </param>
+        /// <param name="point1Y"> Point 1: Y coordinate </param>
+        /// <param name="point2X"> Point 2: X coordinate </param>
+        /// <param name="point2Y"> Point 2: Y coordinate </param>
+        /// <returns> True, if equals </returns>
+        public static bool Equals(double point1X, double point1Y, double point2X, double point2Y)
+        {
+            return DistanceTo(point1X, point1Y, point2X, point2Y) <= GeoPlanarNet.Epsilon;
+        }
+
         /// <summary>
         /// Check if three points are collinear
         /// </summary>
@@ -2263,6 +2168,127 @@ namespace GeoPlanarNet
         public static bool IsCollinear(double point1X, double point1Y, double point2X, double point2Y, double point3X, double point3Y)
         {
             return ((point3Y - point2Y) * (point2X - point1X)).AboutEquals((point2Y - point1Y) * (point3X - point2X));
+        }
+
+        /// <summary>
+        /// Rotate point around the center
+        /// </summary>
+        /// <param name="point"> Source point </param>
+        /// <param name="center"> Center point </param>
+        /// <param name="angleRadian"> Angle in radians </param>
+        /// <returns> Rotated point </returns>
+        public static PointF Rotate(this PointF point, PointF center, double angleRadian)
+        {
+            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out var rotatedPointX, out var rotatedPointY);
+            return new PointF((float)rotatedPointX, (float)rotatedPointY);
+        }
+
+        /// <summary>
+        /// Rotate point around the center
+        /// </summary>
+        /// <param name="point"> Source point </param>
+        /// <param name="center"> Center point </param>
+        /// <param name="angleRadian"> Angle in radians </param>
+        /// <returns> Rotated point </returns>
+        public static Point Rotate(this Point point, Point center, double angleRadian)
+        {
+            Rotate(point.X, point.Y, center.X, center.Y, angleRadian, out var rotatedPointX, out var rotatedPointY);
+            return new Point((int)rotatedPointX, (int)rotatedPointY);
+        }
+
+        /// <summary>
+        /// Rotate point around the center
+        /// </summary>
+        /// <param name="pointX">Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="centerX"> Center point: X coordinate </param>
+        /// <param name="centerY"> Center point: Y coordinate </param>
+        /// <param name="angleRadian"> Angle in radians </param>
+        /// <param name="rotatedPointX"> Rotated point: X coordinate </param>
+        /// <param name="rotatedPointY"> Rotated point: Y coordinate </param>
+        public static void Rotate(double pointX, double pointY, double centerX, double centerY, double angleRadian, out double rotatedPointX, out double rotatedPointY)
+        {
+            var diffX = pointX - centerX;
+            var diffY = pointY - centerY;
+
+            rotatedPointX = centerX + diffX * Math.Cos(angleRadian) - diffY * Math.Sin(angleRadian);
+            rotatedPointY = centerY + diffX * Math.Sin(angleRadian) + diffY * Math.Cos(angleRadian);
+        }
+
+        /// <summary>
+        /// Calc vector product between point and segment
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> Vector product </returns>
+        public static float GetVectorProduct(PointF point, PointF segmentStart, PointF segmentEnd)
+        {
+            return GetVectorProduct(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Calc vector product between point and segment
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> Vector product </returns>
+        public static float GetVectorProduct(Point point, Point segmentStart, Point segmentEnd)
+        {
+            return GetVectorProduct(point.X, point.Y, segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Calc vector product between point and segment
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> Vector product </returns>
+        public static float GetVectorProduct(float pointX, float pointY, float segmentStartX, float segmentStartY, float segmentEndX, float segmentEndY)
+        {
+            return (segmentEndY - segmentStartY) * (pointX - segmentStartX) - (segmentEndX - segmentStartX) * (pointY - segmentStartY);
+        }
+
+        /// <summary>
+        /// Calc vector product between point and segment
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> Vector product </returns>
+        public static double GetVectorProduct(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        {
+            return (segmentEndY - segmentStartY) * (pointX - segmentStartX) - (segmentEndX - segmentStartX) * (pointY - segmentStartY);
+        }
+
+        /// <summary>
+        /// Get axis-degree between two points
+        /// </summary>
+        /// <param name="point1"> Point 1 </param>
+        /// <param name="point2"> Point 2 </param>
+        /// <returns> Angle (degrees) </returns>
+        public static double GetAngle(this PointF point1, PointF point2)
+        {
+            return GetAngle(point1.X, point1.Y, point2.X, point2.Y);
+        }
+
+        /// <summary>
+        /// Get axis-degree between two points
+        /// </summary>
+        /// <param name="point1"> Point 1 </param>
+        /// <param name="point2"> Point 2 </param>
+        /// <returns> Angle (degrees) </returns>
+        public static double GetAngle(this Point point1, Point point2)
+        {
+            return GetAngle(point1.X, point1.Y, point2.X, point2.Y);
         }
 
         /// <summary>

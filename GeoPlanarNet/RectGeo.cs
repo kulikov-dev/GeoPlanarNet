@@ -15,9 +15,9 @@ namespace GeoPlanarNet
         /// <param name="rectLeftTop"> Rectangle left top </param>
         /// <param name="rectRightBottom"> Rectangle right bottom </param>
         /// <returns> Area of the rectangle </returns>
-        public static double Area(PointF rectLeftTop, PointF rectRightBottom)
+        public static double GetArea(PointF rectLeftTop, PointF rectRightBottom)
         {
-            return Area(rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y);
+            return GetArea(rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y);
         }
 
         /// <summary>
@@ -26,9 +26,9 @@ namespace GeoPlanarNet
         /// <param name="rectLeftTop"> Rectangle left top </param>
         /// <param name="rectRightBottom"> Rectangle right bottom </param>
         /// <returns> Area of the rectangle </returns>
-        public static double Area(Point rectLeftTop, Point rectRightBottom)
+        public static double GetArea(Point rectLeftTop, Point rectRightBottom)
         {
-            return Area(rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y);
+            return GetArea(rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace GeoPlanarNet
         /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
         /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
         /// <returns> Area of the rectangle </returns>
-        public static double Area(double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY)
+        public static double GetArea(double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY)
         {
             var width = rectRightBottomX - rectLeftTopX;
             var height = rectRightBottomY - rectLeftTopY;
@@ -500,17 +500,7 @@ namespace GeoPlanarNet
         /// <returns> True if the segment and the rectangle has intersection </returns>
         public static bool FindSegmentIntersection(PointF rectLeftTop, PointF rectRightBottom, PointF segmentStart, PointF segmentEnd, out PointF intersection1, out PointF intersection2)
         {
-            intersection1 = intersection2 = PointF.Empty;
-            var hasIntersection = FindRectIntersection(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, rectLeftTop.X, rectLeftTop.Y, rectRightBottom.X, rectRightBottom.Y,
-                                              out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
-
-            if (hasIntersection)
-            {
-                intersection1 = new PointF((float)intersection1X, (float)intersection1Y);
-                intersection2 = new PointF((float)intersection2X, (float)intersection2Y);
-            }
-
-            return hasIntersection;
+            return SegmentGeo.FindRectIntersection(segmentStart, segmentEnd, rectLeftTop, rectRightBottom, out intersection1, out intersection2);
         }
 
         /// <summary>

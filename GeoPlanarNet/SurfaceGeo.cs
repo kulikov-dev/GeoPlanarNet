@@ -14,7 +14,7 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="surface"> Surface </param>
         /// <returns> Area </returns>
-        public static float Area(PointF[] surface)
+        public static float GetArea(PointF[] surface)
         {
             var sum = 0f;
 
@@ -31,7 +31,7 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="surface"> Surface </param>
         /// <returns> Area </returns>
-        public static double Area(Point[] surface)
+        public static double GetArea(Point[] surface)
         {
             double sum = 0;
 

@@ -10,304 +10,56 @@ namespace GeoPlanarNet
     /// </summary>
     public static class SegmentGeo
     {
+        #region Intersection
+
         /// <summary>
-        /// Get segment length
+        /// Check if a curve line and a segment has intersection
         /// </summary>
-        /// <param name="segmentStart"> Start segment point </param>
-        /// <param name="segmentEnd"> End segment point </param>
-        /// <returns> Segment length </returns>
-        public static double Length(PointF segmentStart, PointF segmentEnd)
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="curve"> Curve </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool HasIntersection(PointF segmentStartPoint, PointF segmentEndPoint, PointF[] curve)
         {
-            return Length(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+            return CurveLineGeo.HasIntersection(curve, segmentStartPoint, segmentEndPoint);
         }
 
         /// <summary>
-        /// Get segment length
+        /// Check if a curve line and a segment has intersection
         /// </summary>
-        /// <param name="segmentStart"> Start segment point </param>
-        /// <param name="segmentEnd"> End segment point </param>
-        /// <returns> Segment length </returns>
-        public static double Length(Point segmentStart, Point segmentEnd)
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="curve"> Curve </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool HasIntersection(Point segmentStartPoint, Point segmentEndPoint, Point[] curve)
         {
-            return Length(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+            return CurveLineGeo.HasIntersection(curve, segmentStartPoint, segmentEndPoint);
         }
 
         /// <summary>
-        /// Get segment length
+        /// Check if a curve line and a segment has intersection
         /// </summary>
-        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: X coordinate </param>
-        /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
-        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
-        /// <returns> Segment length </returns>
-        public static double Length(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="curve"> Curve </param>
+        /// <param name="intersectionPoint"> Intersection point </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool FindIntersection(PointF segmentStartPoint, PointF segmentEndPoint, PointF[] curve, out PointF intersectionPoint)
         {
-            return PointGeo.DistanceTo(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+            return CurveLineGeo.FindIntersection(curve, segmentStartPoint, segmentEndPoint, out intersectionPoint);
         }
 
         /// <summary>
-        /// Get segment squared length
+        /// Check if a curve line and a segment has intersection
         /// </summary>
-        /// <param name="segmentStart"> Start segment point </param>
-        /// <param name="segmentEnd"> End segment point </param>
-        /// <returns> Segment length </returns>
-        public static double LengthSqr(PointF segmentStart, PointF segmentEnd)
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="curve"> Curve </param>
+        /// <param name="intersectionPoint"> Intersection point </param>
+        /// <returns> True, if segments have intersection </returns>
+        public static bool FindIntersection(Point segmentStartPoint, Point segmentEndPoint, Point[] curve, out Point intersectionPoint)
         {
-            return LengthSqr(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
-        }
-
-        /// <summary>
-        /// Get segment squared length
-        /// </summary>
-        /// <param name="segmentStart"> Start segment point </param>
-        /// <param name="segmentEnd"> End segment point </param>
-        /// <returns> Segment length </returns>
-        public static double LengthSqr(Point segmentStart, Point segmentEnd)
-        {
-            return LengthSqr(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
-        }
-
-        /// <summary>
-        /// Get segment squared length
-        /// </summary>
-        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: X coordinate </param>
-        /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
-        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
-        /// <returns> Segment length </returns>
-        public static double LengthSqr(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
-        {
-            return PointGeo.DistanceToSqr(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
-        }
-
-        /// <summary>
-        /// Check if the segment belongs to the line
-        /// </summary>
-        /// <param name="segmentStart"> Start segment point </param>
-        /// <param name="segmentEnd"> End segment point </param>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
-        /// <returns> True, if the segment belongs to the line </returns>
-        public static bool BelongsToLine(PointF segmentStart, PointF segmentEnd, PointF linePoint1, PointF linePoint2)
-        {
-            return BelongsToLine(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
-        }
-
-        /// <summary>
-        /// Check if the segment belongs to the line
-        /// </summary>
-        /// <param name="segmentStart"> Start segment point </param>
-        /// <param name="segmentEnd"> End segment point </param>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
-        /// <returns> True, if the segment belongs to the line </returns>
-        public static bool BelongsToLine(Point segmentStart, Point segmentEnd, Point linePoint1, Point linePoint2)
-        {
-            return BelongsToLine(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
-        }
-
-        /// <summary>
-        /// Check if the segment belongs to the line
-        /// </summary>
-        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: X coordinate </param>
-        /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
-        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
-        /// <param name="linePoint1X"> Segment start point: X coordinate </param>
-        /// <param name="linePoint1Y"> Segment start point: Y coordinate </param>
-        /// <param name="linePoint2X"> Segment end point: X coordinate </param>
-        /// <param name="linePoint2Y"> Segment end point: Y coordinate </param>
-        /// <returns> True, if the segment belongs to the line </returns>
-        public static bool BelongsToLine(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
-        {
-            return PointGeo.BelongsToLine(segmentStartX, segmentStartY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y) &&
-                   PointGeo.BelongsToLine(segmentEndX, segmentEndY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y);
-        }
-
-        /// <summary>
-        /// Get a segment tilt angle relative to the X axis
-        /// </summary>
-        /// <param name="segmentStart"> Segment start point </param>
-        /// <param name="segmentEnd"> Segment end point </param>
-        /// <returns> Angle (radians) </returns>
-        public static double GetXAngleRadians(this PointF segmentStart, PointF segmentEnd)
-        {
-            return GetXAngleRadians(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
-        }
-
-        /// <summary>
-        /// Get a segment tilt angle relative to the X axis
-        /// </summary>
-        /// <param name="segmentStart"> Segment start point </param>
-        /// <param name="segmentEnd"> Segment end point </param>
-        /// <returns> Angle (radians) </returns>
-        public static double GetXAngleRadians(this Point segmentStart, PointF segmentEnd)
-        {
-            return GetXAngleRadians(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
-        }
-
-        /// <summary>
-        /// Get a segment tilt angle relative to the X axis
-        /// </summary>
-        /// <param name="segmentStartX"> Start point: X coordinate </param>
-        /// <param name="segmentStartY"> Start point: Y coordinate </param>
-        /// <param name="segmentEndX"> End point: X coordinate </param>
-        /// <param name="segmentEndY"> End point: Y coordinate </param>
-        /// <returns> Angle (radians) </returns>
-        public static double GetXAngleRadians(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
-        {
-            var diffX = segmentEndX - segmentStartX;
-            var diffY = segmentEndY - segmentStartY;
-
-            if (diffX.AboutZero())
-            {
-                return diffY > 0 ? Math.PI / 2 : 3 * GeoPlanarNet.RightAngle;
-            }
-
-            var angle = Math.Atan2(diffY, diffX);
-
-            return angle < 0 ? angle + 2 * Math.PI : angle;
-        }
-
-        /// <summary>
-        /// Get angle in radians between two segments
-        /// </summary>
-        /// <param name="segment1Start"> Start point of 1 segment </param>
-        /// <param name="segment1End"> End point of 1 segment </param>
-        /// <param name="segment2Start"> Start point of 2 segment </param>
-        /// <param name="segment2End"> End point of 2 segment </param>
-        /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(PointF segment1Start, PointF segment1End, PointF segment2Start, PointF segment2End)
-        {
-            return GetAngleRadians(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y);
-        }
-
-        /// <summary>
-        /// Get angle in radians between two segments
-        /// </summary>
-        /// <param name="segment1Start"> Start point of 1 segment </param>
-        /// <param name="segment1End"> End point of 1 segment </param>
-        /// <param name="segment2Start"> Start point of 2 segment </param>
-        /// <param name="segment2End"> End point of 2 segment </param>
-        /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(Point segment1Start, Point segment1End, Point segment2Start, Point segment2End)
-        {
-            return GetAngleRadians(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y);
-        }
-
-        /// <summary>
-        /// Get angle in radians between two segments
-        /// </summary>
-        /// <param name="segment1StartX"> Start point of 1 segment: X coordinate </param>
-        /// <param name="segment1StartY"> Start point of 1 segment: X coordinate </param>
-        /// <param name="segment1EndX"> Start point of 1 segment: X coordinate </param>
-        /// <param name="segment1EndY"> Start point of 1 segment: X coordinate </param>
-        /// <param name="segment2StartX"> Start point of 1 segment: X coordinate </param>
-        /// <param name="segment2StartY"> Start point of 1 segment: X coordinate </param>
-        /// <param name="segment2EndX"> Start point of 1 segment: X coordinate </param>
-        /// <param name="segment2EndY"> Start point of 1 segment: X coordinate </param>
-        /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY,
-                                                 double segment2StartX, double segment2StartY, double segment2EndX, double segment2EndY)
-        {
-            var diff1X = segment1EndX - segment1StartX;
-            var diff1Y = segment1EndY - segment1StartY;
-            var diff2X = segment2EndX - segment2StartX;
-            var diff2Y = segment2EndY - segment2StartY;
-
-            var angle = (diff1X * diff2X + diff1Y * diff2Y) / (Math.Sqrt(diff1X * diff1X + diff1Y * diff1Y) * Math.Sqrt(diff2X * diff2X + diff2Y * diff2Y));
-
-            return Math.Acos(Math.Round(angle, 3));
-        }
-
-        /// <summary>
-        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
-        /// </summary>
-        /// <param name="commonPoint"> Common point </param>
-        /// <param name="segment1Start"> Start point of a segment 1 </param>
-        /// <param name="segment2Start"> Start point of a segment 2 </param>
-        /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(PointF commonPoint, PointF segment1Start, PointF segment2Start)
-        {
-            return GetAngleRadians(commonPoint.X, commonPoint.Y, segment1Start.X, segment1Start.Y, segment2Start.X, segment2Start.Y);
-        }
-
-        /// <summary>
-        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
-        /// </summary>
-        /// <param name="commonPoint"> Common point </param>
-        /// <param name="segment1Start"> Start point of a segment 1 </param>
-        /// <param name="segment2Start"> Start point of a segment 2 </param>
-        /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(Point commonPoint, Point segment1Start, Point segment2Start)
-        {
-            return GetAngleRadians(commonPoint.X, commonPoint.Y, segment1Start.X, segment1Start.Y, segment2Start.X, segment2Start.Y);
-        }
-
-        /// <summary>
-        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
-        /// </summary>
-        /// <param name="commonPointX"> Common point: X coordinate </param>
-        /// <param name="commonPointY"> Common point: Y coordinate </param>
-        /// <param name="segment1StartX"> Start point of 1 segment: X coordinate </param>
-        /// <param name="segment1StartY"> Start point of 1 segment: Y coordinate </param>
-        /// <param name="segment2StartX"> Start point of 2 segment: X coordinate </param>
-        /// <param name="segment2StartY"> Start point of 2 segment: Y coordinate </param>
-        /// <returns> Angle (radians) </returns>
-        public static double GetAngleRadians(double commonPointX, double commonPointY, double segment1StartX, double segment1StartY, double segment2StartX, double segment2StartY)
-        {
-            var numerator = (segment1StartX - commonPointX) * (segment2StartX - commonPointX) + (segment1StartY - commonPointY) * (segment2StartY - commonPointY);
-            var denominator = PointGeo.DistanceTo(segment1StartX, segment1StartY, commonPointX, commonPointY) * PointGeo.DistanceTo(segment2StartX, segment2StartY, commonPointX, commonPointY);
-
-            return Math.Acos(numerator / denominator);
-        }
-
-        /// <summary>
-        /// Check if a segment lays between start angle and end angle (angles from the start point)
-        /// </summary>
-        /// <param name="segmentStart"> Segment start point </param>
-        /// <param name="segmentEnd"> Segment end point </param>
-        /// <param name="sectorStartAngleRad"> Start angle (radians) </param>
-        /// <param name="sectorEndAngleRad"> Start angle (radians) </param>
-        /// <returns> True, if the segment lays between angles </returns>
-        public static bool IsBetweenAngles(PointF segmentStart, PointF segmentEnd, float sectorStartAngleRad, float sectorEndAngleRad)
-        {
-            return IsBetweenAngles(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, sectorStartAngleRad, sectorEndAngleRad);
-        }
-
-        /// <summary>
-        /// Check if a segment lays between start angle and end angle (angles from the start point)
-        /// </summary>
-        /// <param name="segmentStart"> Segment start point </param>
-        /// <param name="segmentEnd"> Segment end point </param>
-        /// <param name="sectorStartAngleRad"> Start angle (radians) </param>
-        /// <param name="sectorEndAngleRad"> Start angle (radians) </param>
-        /// <returns> True, if the segment lays between angles </returns>
-        public static bool IsBetweenAngles(Point segmentStart, Point segmentEnd, double sectorStartAngleRad, double sectorEndAngleRad)
-        {
-            return IsBetweenAngles(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, sectorStartAngleRad, sectorEndAngleRad);
-        }
-
-        /// <summary>
-        /// Check if a segment lays between start angle and end angle (angles from the start point)
-        /// </summary>
-        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: X coordinate </param>
-        /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
-        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
-        /// <param name="sectorStartAngleRad"> Start angle (radians) </param>
-        /// <param name="sectorEndAngleRad"> Start angle (radians) </param>
-        /// <returns> True, if the segment lays between angles </returns>
-        public static bool IsBetweenAngles(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double sectorStartAngleRad, double sectorEndAngleRad)
-        {
-            var ang = Math.Atan2(segmentEndY - segmentStartY, segmentEndX - segmentStartX);
-
-            if (ang < 0)
-            {
-                ang += Math.PI * 2;
-            }
-
-            return ang >= sectorStartAngleRad && ang <= sectorEndAngleRad;
+            return CurveLineGeo.FindIntersection(curve, segmentStartPoint, segmentEndPoint, out intersectionPoint);
         }
 
         /// <summary>
@@ -812,6 +564,393 @@ namespace GeoPlanarNet
             return hasIntersection;
         }
 
+        #endregion
+
+        #region DistanceTo
+
+        /// <summary>
+        /// Get shortest distance from point to the segment
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance from point to segment </returns>
+        public static double DistanceToPoint(PointF segmentStart, PointF segmentEnd, PointF point)
+        {
+            return point.DistanceToSegment(segmentStart, segmentEnd);
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the segment
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance from point to segment </returns>
+        public static double DistanceToPoint(Point segmentStart, Point segmentEnd, Point point)
+        {
+            return point.DistanceToSegment(segmentStart, segmentEnd);
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the segment
+        /// </summary>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <returns> Distance from a point to the segment </returns>
+        public static double DistanceToPoint(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double pointX, double pointY)
+        {
+            return PointGeo.DistanceToSegment(pointX, pointY, segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the segment to the circle
+        /// </summary>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <returns> Distance between the segment and the circle </returns>
+        public static double DistanceToCircle(PointF segmentStart, PointF segmentEnd, PointF circleCenter, float circleRadius)
+        {
+            return DistanceToCircle(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, circleCenter.X, circleCenter.Y, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the segment to the circle
+        /// </summary>
+        /// <param name="segmentStart"> Line point 1 </param>
+        /// <param name="segmentEnd"> Line point 2 </param>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <returns> Distance between the segment and the circle </returns>
+        public static double DistanceToCircle(Point segmentStart, Point segmentEnd, Point circleCenter, int circleRadius)
+        {
+            return DistanceToCircle(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, circleCenter.X, circleCenter.Y, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the segment to the circle
+        /// </summary>
+        /// <param name="segmentStartX"> Segment, start point: coordinate X </param>
+        /// <param name="segmentStartY"> Segment, start point: coordinate Y </param>
+        /// <param name="segmentEndX"> Segment, end point: coordinate X </param>
+        /// <param name="segmentEndY"> Segment, end point: coordinate Y </param>
+        /// <param name="circleCenterX"> Circle center point: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <returns> Distance between the segment and the circle </returns>
+        public static double DistanceToCircle(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double circleCenterX, double circleCenterY, double radius)
+        {
+            return PointGeo.DistanceToSegment(circleCenterX, circleCenterY, segmentStartX, segmentStartY, segmentEndX, segmentEndY) - radius;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Get segment length
+        /// </summary>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
+        /// <returns> Segment length </returns>
+        public static double Length(PointF segmentStart, PointF segmentEnd)
+        {
+            return Length(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Get segment length
+        /// </summary>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
+        /// <returns> Segment length </returns>
+        public static double Length(Point segmentStart, Point segmentEnd)
+        {
+            return Length(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Get segment length
+        /// </summary>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: X coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> Segment length </returns>
+        public static double Length(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        {
+            return PointGeo.DistanceTo(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+        }
+
+        /// <summary>
+        /// Get segment squared length
+        /// </summary>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
+        /// <returns> Segment length </returns>
+        public static double LengthSqr(PointF segmentStart, PointF segmentEnd)
+        {
+            return LengthSqr(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Get segment squared length
+        /// </summary>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
+        /// <returns> Segment length </returns>
+        public static double LengthSqr(Point segmentStart, Point segmentEnd)
+        {
+            return LengthSqr(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Get segment squared length
+        /// </summary>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: X coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <returns> Segment length </returns>
+        public static double LengthSqr(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        {
+            return PointGeo.DistanceToSqr(segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+        }
+
+        /// <summary>
+        /// Check if the segment belongs to the line
+        /// </summary>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> True, if the segment belongs to the line </returns>
+        public static bool BelongsToLine(PointF segmentStart, PointF segmentEnd, PointF linePoint1, PointF linePoint2)
+        {
+            return BelongsToLine(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
+        }
+
+        /// <summary>
+        /// Check if the segment belongs to the line
+        /// </summary>
+        /// <param name="segmentStart"> Start segment point </param>
+        /// <param name="segmentEnd"> End segment point </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <returns> True, if the segment belongs to the line </returns>
+        public static bool BelongsToLine(Point segmentStart, Point segmentEnd, Point linePoint1, Point linePoint2)
+        {
+            return BelongsToLine(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
+        }
+
+        /// <summary>
+        /// Check if the segment belongs to the line
+        /// </summary>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: X coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <param name="linePoint1X"> Segment start point: X coordinate </param>
+        /// <param name="linePoint1Y"> Segment start point: Y coordinate </param>
+        /// <param name="linePoint2X"> Segment end point: X coordinate </param>
+        /// <param name="linePoint2Y"> Segment end point: Y coordinate </param>
+        /// <returns> True, if the segment belongs to the line </returns>
+        public static bool BelongsToLine(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
+        {
+            return PointGeo.BelongsToLine(segmentStartX, segmentStartY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y) &&
+                   PointGeo.BelongsToLine(segmentEndX, segmentEndY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y);
+        }
+
+        /// <summary>
+        /// Get a segment tilt angle relative to the X axis
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> Angle (radians) </returns>
+        public static double GetXAngleRadians(this PointF segmentStart, PointF segmentEnd)
+        {
+            return GetXAngleRadians(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Get a segment tilt angle relative to the X axis
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> Angle (radians) </returns>
+        public static double GetXAngleRadians(this Point segmentStart, PointF segmentEnd)
+        {
+            return GetXAngleRadians(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y);
+        }
+
+        /// <summary>
+        /// Get a segment tilt angle relative to the X axis
+        /// </summary>
+        /// <param name="segmentStartX"> Start point: X coordinate </param>
+        /// <param name="segmentStartY"> Start point: Y coordinate </param>
+        /// <param name="segmentEndX"> End point: X coordinate </param>
+        /// <param name="segmentEndY"> End point: Y coordinate </param>
+        /// <returns> Angle (radians) </returns>
+        public static double GetXAngleRadians(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        {
+            var diffX = segmentEndX - segmentStartX;
+            var diffY = segmentEndY - segmentStartY;
+
+            if (diffX.AboutZero())
+            {
+                return diffY > 0 ? Math.PI / 2 : 3 * GeoPlanarNet.RightAngle;
+            }
+
+            var angle = Math.Atan2(diffY, diffX);
+
+            return angle < 0 ? angle + 2 * Math.PI : angle;
+        }
+
+        /// <summary>
+        /// Get angle in radians between two segments
+        /// </summary>
+        /// <param name="segment1Start"> Start point of 1 segment </param>
+        /// <param name="segment1End"> End point of 1 segment </param>
+        /// <param name="segment2Start"> Start point of 2 segment </param>
+        /// <param name="segment2End"> End point of 2 segment </param>
+        /// <returns> Angle (radians) </returns>
+        public static double GetAngleRadians(PointF segment1Start, PointF segment1End, PointF segment2Start, PointF segment2End)
+        {
+            return GetAngleRadians(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y);
+        }
+
+        /// <summary>
+        /// Get angle in radians between two segments
+        /// </summary>
+        /// <param name="segment1Start"> Start point of 1 segment </param>
+        /// <param name="segment1End"> End point of 1 segment </param>
+        /// <param name="segment2Start"> Start point of 2 segment </param>
+        /// <param name="segment2End"> End point of 2 segment </param>
+        /// <returns> Angle (radians) </returns>
+        public static double GetAngleRadians(Point segment1Start, Point segment1End, Point segment2Start, Point segment2End)
+        {
+            return GetAngleRadians(segment1Start.X, segment1Start.Y, segment1End.X, segment1End.Y, segment2Start.X, segment2Start.Y, segment2End.X, segment2End.Y);
+        }
+
+        /// <summary>
+        /// Get angle in radians between two segments
+        /// </summary>
+        /// <param name="segment1StartX"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment1StartY"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment1EndX"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment1EndY"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment2StartX"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment2StartY"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment2EndX"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment2EndY"> Start point of 1 segment: X coordinate </param>
+        /// <returns> Angle (radians) </returns>
+        public static double GetAngleRadians(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY,
+                                                 double segment2StartX, double segment2StartY, double segment2EndX, double segment2EndY)
+        {
+            var diff1X = segment1EndX - segment1StartX;
+            var diff1Y = segment1EndY - segment1StartY;
+            var diff2X = segment2EndX - segment2StartX;
+            var diff2Y = segment2EndY - segment2StartY;
+
+            var angle = (diff1X * diff2X + diff1Y * diff2Y) / (Math.Sqrt(diff1X * diff1X + diff1Y * diff1Y) * Math.Sqrt(diff2X * diff2X + diff2Y * diff2Y));
+
+            return Math.Acos(Math.Round(angle, 3));
+        }
+
+        /// <summary>
+        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
+        /// </summary>
+        /// <param name="commonPoint"> Common point </param>
+        /// <param name="segment1Start"> Start point of a segment 1 </param>
+        /// <param name="segment2Start"> Start point of a segment 2 </param>
+        /// <returns> Angle (radians) </returns>
+        public static double GetAngleRadians(PointF commonPoint, PointF segment1Start, PointF segment2Start)
+        {
+            return GetAngleRadians(commonPoint.X, commonPoint.Y, segment1Start.X, segment1Start.Y, segment2Start.X, segment2Start.Y);
+        }
+
+        /// <summary>
+        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
+        /// </summary>
+        /// <param name="commonPoint"> Common point </param>
+        /// <param name="segment1Start"> Start point of a segment 1 </param>
+        /// <param name="segment2Start"> Start point of a segment 2 </param>
+        /// <returns> Angle (radians) </returns>
+        public static double GetAngleRadians(Point commonPoint, Point segment1Start, Point segment2Start)
+        {
+            return GetAngleRadians(commonPoint.X, commonPoint.Y, segment1Start.X, segment1Start.Y, segment2Start.X, segment2Start.Y);
+        }
+
+        /// <summary>
+        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
+        /// </summary>
+        /// <param name="commonPointX"> Common point: X coordinate </param>
+        /// <param name="commonPointY"> Common point: Y coordinate </param>
+        /// <param name="segment1StartX"> Start point of 1 segment: X coordinate </param>
+        /// <param name="segment1StartY"> Start point of 1 segment: Y coordinate </param>
+        /// <param name="segment2StartX"> Start point of 2 segment: X coordinate </param>
+        /// <param name="segment2StartY"> Start point of 2 segment: Y coordinate </param>
+        /// <returns> Angle (radians) </returns>
+        public static double GetAngleRadians(double commonPointX, double commonPointY, double segment1StartX, double segment1StartY, double segment2StartX, double segment2StartY)
+        {
+            var numerator = (segment1StartX - commonPointX) * (segment2StartX - commonPointX) + (segment1StartY - commonPointY) * (segment2StartY - commonPointY);
+            var denominator = PointGeo.DistanceTo(segment1StartX, segment1StartY, commonPointX, commonPointY) * PointGeo.DistanceTo(segment2StartX, segment2StartY, commonPointX, commonPointY);
+
+            return Math.Acos(numerator / denominator);
+        }
+
+        /// <summary>
+        /// Check if a segment lays between start angle and end angle (angles from the start point)
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="sectorStartAngleRad"> Start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Start angle (radians) </param>
+        /// <returns> True, if the segment lays between angles </returns>
+        public static bool IsBetweenAngles(PointF segmentStart, PointF segmentEnd, float sectorStartAngleRad, float sectorEndAngleRad)
+        {
+            return IsBetweenAngles(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, sectorStartAngleRad, sectorEndAngleRad);
+        }
+
+        /// <summary>
+        /// Check if a segment lays between start angle and end angle (angles from the start point)
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="sectorStartAngleRad"> Start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Start angle (radians) </param>
+        /// <returns> True, if the segment lays between angles </returns>
+        public static bool IsBetweenAngles(Point segmentStart, Point segmentEnd, double sectorStartAngleRad, double sectorEndAngleRad)
+        {
+            return IsBetweenAngles(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, sectorStartAngleRad, sectorEndAngleRad);
+        }
+
+        /// <summary>
+        /// Check if a segment lays between start angle and end angle (angles from the start point)
+        /// </summary>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: X coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <param name="sectorStartAngleRad"> Start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Start angle (radians) </param>
+        /// <returns> True, if the segment lays between angles </returns>
+        public static bool IsBetweenAngles(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double sectorStartAngleRad, double sectorEndAngleRad)
+        {
+            var ang = Math.Atan2(segmentEndY - segmentStartY, segmentEndX - segmentStartX);
+
+            if (ang < 0)
+            {
+                ang += Math.PI * 2;
+            }
+
+            return ang >= sectorStartAngleRad && ang <= sectorEndAngleRad;
+        }
+
         /// <summary>
         /// Get a point away from a segment start point on a specified distance
         /// </summary>
@@ -1167,48 +1306,6 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get shortest distance from the segment to the circle
-        /// </summary>
-        /// <param name="segmentStart"> Line point 1 </param>
-        /// <param name="segmentEnd"> Line point 2 </param>
-        /// <param name="circleCenter"> Circle center point </param>
-        /// <param name="circleRadius"> Circle radius </param>
-        /// <returns> Distance between the segment and the circle </returns>
-        public static double DistanceToCircle(PointF segmentStart, PointF segmentEnd, PointF circleCenter, float circleRadius)
-        {
-            return DistanceToCircle(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, circleCenter.X, circleCenter.Y, circleRadius);
-        }
-
-        /// <summary>
-        /// Get shortest distance from the segment to the circle
-        /// </summary>
-        /// <param name="segmentStart"> Line point 1 </param>
-        /// <param name="segmentEnd"> Line point 2 </param>
-        /// <param name="circleCenter"> Circle center point </param>
-        /// <param name="circleRadius"> Circle radius </param>
-        /// <returns> Distance between the segment and the circle </returns>
-        public static double DistanceToCircle(Point segmentStart, Point segmentEnd, Point circleCenter, int circleRadius)
-        {
-            return DistanceToCircle(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, circleCenter.X, circleCenter.Y, circleRadius);
-        }
-
-        /// <summary>
-        /// Get shortest distance from the segment to the circle
-        /// </summary>
-        /// <param name="segmentStartX"> Segment, start point: coordinate X </param>
-        /// <param name="segmentStartY"> Segment, start point: coordinate Y </param>
-        /// <param name="segmentEndX"> Segment, end point: coordinate X </param>
-        /// <param name="segmentEndY"> Segment, end point: coordinate Y </param>
-        /// <param name="circleCenterX"> Circle center point: X coordinate </param>
-        /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
-        /// <param name="radius"> Circle radius </param>
-        /// <returns> Distance between the segment and the circle </returns>
-        public static double DistanceToCircle(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double circleCenterX, double circleCenterY, double radius)
-        {
-            return PointGeo.DistanceToSegment(circleCenterX, circleCenterY, segmentStartX, segmentStartY, segmentEndX, segmentEndY) - radius;
-        }
-
-        /// <summary>
         /// Check if two segments are parallel
         /// </summary>
         /// <param name="segment1Start"> Segment 1, point 1 </param>
@@ -1315,56 +1412,6 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a curve line and a segment has intersection
-        /// </summary>
-        /// <param name="segmentStartPoint"> Segment start point </param>
-        /// <param name="segmentEndPoint"> Segment end point </param>
-        /// <param name="curve"> Curve </param>
-        /// <returns> True, if segments have intersection </returns>
-        public static bool HasIntersection(PointF segmentStartPoint, PointF segmentEndPoint, PointF[] curve)
-        {
-            return CurveLineGeo.HasIntersection(curve, segmentStartPoint, segmentEndPoint);
-        }
-
-        /// <summary>
-        /// Check if a curve line and a segment has intersection
-        /// </summary>
-        /// <param name="segmentStartPoint"> Segment start point </param>
-        /// <param name="segmentEndPoint"> Segment end point </param>
-        /// <param name="curve"> Curve </param>
-        /// <returns> True, if segments have intersection </returns>
-        public static bool HasIntersection(Point segmentStartPoint, Point segmentEndPoint, Point[] curve)
-        {
-            return CurveLineGeo.HasIntersection(curve, segmentStartPoint, segmentEndPoint);
-        }
-
-        /// <summary>
-        /// Check if a curve line and a segment has intersection
-        /// </summary>
-        /// <param name="segmentStartPoint"> Segment start point </param>
-        /// <param name="segmentEndPoint"> Segment end point </param>
-        /// <param name="curve"> Curve </param>
-        /// <param name="intersectionPoint"> Intersection point </param>
-        /// <returns> True, if segments have intersection </returns>
-        public static bool FindIntersection(PointF segmentStartPoint, PointF segmentEndPoint, PointF[] curve, out PointF intersectionPoint)
-        {
-            return CurveLineGeo.FindIntersection(curve, segmentStartPoint, segmentEndPoint, out intersectionPoint);
-        }
-
-        /// <summary>
-        /// Check if a curve line and a segment has intersection
-        /// </summary>
-        /// <param name="segmentStartPoint"> Segment start point </param>
-        /// <param name="segmentEndPoint"> Segment end point </param>
-        /// <param name="curve"> Curve </param>
-        /// <param name="intersectionPoint"> Intersection point </param>
-        /// <returns> True, if segments have intersection </returns>
-        public static bool FindIntersection(Point segmentStartPoint, Point segmentEndPoint, Point[] curve, out Point intersectionPoint)
-        {
-            return CurveLineGeo.FindIntersection(curve, segmentStartPoint, segmentEndPoint, out intersectionPoint);
-        }
-
-        /// <summary>
         /// Cut the line to the segment by X bounds
         /// </summary>
         /// <param name="xBoundsMin"> Bounds X: min value </param>
@@ -1412,45 +1459,6 @@ namespace GeoPlanarNet
                                         out double segmentStartX, out double segmentStartY, out double segmentEndX, out double segmentEndY)
         {
             return LineGeo.CutByXBounds(xBoundsMin, xBoundsMax, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out segmentStartX, out segmentStartY, out segmentEndX, out segmentEndY);
-        }
-
-        /// <summary>
-        /// Get shortest distance from point to the segment
-        /// </summary>
-        /// <param name="segmentStart"> Segment start point </param>
-        /// <param name="segmentEnd"> Segment end point </param>
-        /// <param name="point"> Point </param>
-        /// <returns> Distance from point to segment </returns>
-        public static double DistanceToPoint(PointF segmentStart, PointF segmentEnd, PointF point)
-        {
-            return point.DistanceToSegment(segmentStart, segmentEnd);
-        }
-
-        /// <summary>
-        /// Get shortest distance from point to the segment
-        /// </summary>
-        /// <param name="segmentStart"> Segment start point </param>
-        /// <param name="segmentEnd"> Segment end point </param>
-        /// <param name="point"> Point </param>
-        /// <returns> Distance from point to segment </returns>
-        public static double DistanceToPoint(Point segmentStart, Point segmentEnd, Point point)
-        {
-            return point.DistanceToSegment(segmentStart, segmentEnd);
-        }
-
-        /// <summary>
-        /// Get shortest distance from point to the segment
-        /// </summary>
-        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
-        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
-        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
-        /// <param name="pointX"> Point: X coordinate </param>
-        /// <param name="pointY"> Point: Y coordinate </param>
-        /// <returns> Distance from a point to the segment </returns>
-        public static double DistanceToPoint(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double pointX, double pointY)
-        {
-            return PointGeo.DistanceToSegment(pointX, pointY, segmentStartX, segmentStartY, segmentEndX, segmentEndY);
         }
 
         /// <summary>

@@ -9,6 +9,93 @@ namespace GeoPlanarNet
     /// </summary>
     public static class LineGeo
     {
+        #region DistanceTo
+
+        /// <summary>
+        /// Get shortest distance from the line to the circle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <returns> Distance between the line and the circle </returns>
+        public static double DistanceToCircle(PointF linePoint1, PointF linePoint2, PointF circleCenter, float circleRadius)
+        {
+            return DistanceToCircle(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenter.X, circleCenter.Y, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the line to the circle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <returns> Distance between the line and the circle </returns>
+        public static double DistanceToCircle(Point linePoint1, Point linePoint2, Point circleCenter, int circleRadius)
+        {
+            return DistanceToCircle(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenter.X, circleCenter.Y, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the line to the circle
+        /// </summary>
+        /// <param name="linePoint1X"> Line point 1: X </param>
+        /// <param name="linePoint1Y"> Line point 1: Y </param>
+        /// <param name="linePoint2X"> Line point 2: X </param>
+        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <param name="circleCenterX"> Circle center point: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <returns> Distance between the line and the circle </returns>
+        public static double DistanceToCircle(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double circleCenterX, double circleCenterY, double radius)
+        {
+            return PointGeo.DistanceToLine(circleCenterX, circleCenterY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y) - radius;
+        }
+
+        /// <summary>
+        /// Get shortest distance to the point
+        /// </summary>
+        /// <param name="linePoint1"> Line first point </param>
+        /// <param name="linePoint2"> Line second point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance from a point to the line </returns>
+        public static double DistanceToPoint(PointF linePoint1, PointF linePoint2, PointF point)
+        {
+            return point.DistanceToLine(linePoint1, linePoint2);
+        }
+
+        /// <summary>
+        /// Get shortest distance to the point
+        /// </summary>
+        /// <param name="linePoint1"> Line first point </param>
+        /// <param name="linePoint2"> Line second point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance from a point to the line </returns>
+        public static double DistanceToPoint(Point linePoint1, Point linePoint2, Point point)
+        {
+            return point.DistanceToLine(linePoint1, linePoint2);
+        }
+
+        /// <summary>
+        /// Get shortest distance to the point
+        /// </summary>
+        /// <param name="linePoint1X">Line first point: X coordinate</param>
+        /// <param name="linePoint1Y">Line first point: X coordinate</param>
+        /// <param name="linePoint2X">Line second point: X coordinate</param>
+        /// <param name="linePoint2Y">Line second point: X coordinate</param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <returns> Distance from a point to the line </returns>
+        public static double DistanceToPoint(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double pointX, double pointY)
+        {
+            return PointGeo.DistanceToLine(pointX, pointY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y);
+        }
+
+        #endregion
+
+        #region Intersection
+
         /// <summary>
         /// Check if two lines have intersection
         /// </summary>
@@ -142,143 +229,6 @@ namespace GeoPlanarNet
             var koefIv = (lengthX2 * (line1Y1 - line2Y1) - lengthY2 * (line1X1 - line2X1)) / div;
             intesectionX = line1X1 + koefIv * (line1X2 - line1X1);
             intersectionY = line1Y1 + koefIv * (line1Y2 - line1Y1);
-
-            return true;
-        }
-
-        /// <summary>
-        /// Get koefficients of line linear function K and B
-        /// </summary>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
-        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
-        /// <param name="yIntersection"> Y value if x = 0 </param>
-        internal static void FindSlopeKoef(PointF linePoint1, PointF linePoint2, out float slopeKoef, out float yIntersection)
-        {
-            FindSlopeKoef(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out var slopeKoefD, out var yIntersectionD);
-
-            slopeKoef = (float)slopeKoefD;
-            yIntersection = (float)yIntersectionD;
-        }
-
-        /// <summary>
-        /// Get koefficients of line linear function K and B
-        /// </summary>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
-        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
-        /// <param name="yIntersection"> Y value if x = 0 </param>
-        internal static void FindSlopeKoef(Point linePoint1, Point linePoint2, out double slopeKoef, out double yIntersection)
-        {
-            FindSlopeKoef(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out slopeKoef, out yIntersection);
-        }
-
-        /// <summary>
-        /// Get coefficients of line linear function K and B
-        /// </summary>
-        /// <param name="linePoint1X"> Line point 1: X </param>
-        /// <param name="linePoint1Y"> Line point 1: Y </param>
-        /// <param name="linePoint2X"> Line point 2: X </param>
-        /// <param name="linePoint2Y"> Line point 2: Y </param>
-        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
-        /// <param name="yIntersection"> Y value if x = 0 </param>
-        internal static void FindSlopeKoef(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double slopeKoef, out double yIntersection)
-        {
-            slopeKoef = (linePoint1Y - linePoint2Y) / (linePoint1X - linePoint2X);
-            yIntersection = double.IsInfinity(slopeKoef) ? linePoint2X : linePoint2Y - linePoint2X * slopeKoef;
-        }
-
-        /// <summary>
-        /// Cut the line to the segment by X bounds
-        /// </summary>
-        /// <param name="xBoundsMin"> Bounds X: min value </param>
-        /// <param name="xBoundsMax"> Bounds X: max value </param>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
-        /// <param name="segmentStart"> Segment start point </param>
-        /// <param name="segmentEnd"> Segment end point </param>
-        /// <returns> True, if success </returns>
-        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, PointF linePoint1, PointF linePoint2, out PointF segmentStart, out PointF segmentEnd)
-        {
-            var result = CutByXBounds(xBoundsMin, xBoundsMax, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y,
-                                      out var segmentStartX, out var segmentStartY, out var segmentEndX, out var segmentEndY);
-            segmentStart = new PointF((float)segmentStartX, (float)segmentStartY);
-            segmentEnd = new PointF((float)segmentEndX, (float)segmentEndY);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Cut the line to the segment by X bounds
-        /// </summary>
-        /// <param name="xBoundsMin"> Bounds X: min value </param>
-        /// <param name="xBoundsMax"> Bounds X: max value </param>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
-        /// <param name="segmentStart"> Segment start point </param>
-        /// <param name="segmentEnd"> Segment end point </param>
-        /// <returns> True, if success </returns>
-        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, Point linePoint1, Point linePoint2, out Point segmentStart, out Point segmentEnd)
-        {
-            var result = CutByXBounds(xBoundsMin, xBoundsMax, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y,
-                                      out var segmentStartX, out var segmentStartY, out var segmentEndX, out var segmentEndY);
-            segmentStart = new Point((int)segmentStartX, (int)segmentStartY);
-            segmentEnd = new Point((int)segmentEndX, (int)segmentEndY);
-
-            return result;
-        }
-
-        /// <summary>
-        /// Cut the line to the segment by X bounds
-        /// </summary>
-        /// <param name="xBoundsMin"> Bounds X: min value </param>
-        /// <param name="xBoundsMax"> Bounds X: max value </param>
-        /// <param name="linePoint1X"> Line point 1: X </param>
-        /// <param name="linePoint1Y"> Line point 1: Y </param>
-        /// <param name="linePoint2X"> Line point 2: X </param>
-        /// <param name="linePoint2Y"> Line point 2: Y </param>
-        /// <param name="segmentStartX"> Segment start point: X </param>
-        /// <param name="segmentStartY"> Segment start point: Y </param>
-        /// <param name="segmentEndX"> Segment end point: X </param>
-        /// <param name="segmentEndY"> Segment end point: Y </param>
-        /// <returns> True, if success </returns>
-        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y,
-                                        out double segmentStartX, out double segmentStartY, out double segmentEndX, out double segmentEndY)
-        {
-            segmentStartX = segmentStartY = segmentEndX = segmentEndY = double.NaN;
-
-            if (Math.Min(linePoint1X, linePoint2X) > xBoundsMax || Math.Max(linePoint1X, linePoint2X) < xBoundsMin)
-            {
-                return false;
-            }
-
-            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, xBoundsMin, Math.Min(linePoint1Y, linePoint2Y) - 1, xBoundsMin, Math.Max(linePoint1Y, linePoint2Y) + 1, out var x, out var y))
-            {
-                if (linePoint1X <= xBoundsMin)
-                {
-                    segmentStartX = x;
-                    segmentStartY = y;
-                }
-                else
-                {
-                    segmentEndX = x;
-                    segmentEndY = y;
-                }
-            }
-
-            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, xBoundsMax, Math.Min(linePoint1Y, linePoint2Y) - 1, xBoundsMax, Math.Max(linePoint1Y, linePoint2Y) + 1, out x, out y))
-            {
-                if (linePoint1X >= xBoundsMax)
-                {
-                    segmentStartX = x;
-                    segmentStartY = y;
-                }
-                else
-                {
-                    segmentEndX = x;
-                    segmentEndY = y;
-                }
-            }
 
             return true;
         }
@@ -432,105 +382,7 @@ namespace GeoPlanarNet
             return true;
         }
 
-        /// <summary>
-        /// Get the line location relative to the circle
-        /// </summary>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
-        /// <param name="circleCenterPoint"> Circle center point </param>
-        /// <param name="circleRadius"> Circle radius</param>
-        /// <returns> Relative location </returns>
-        public static PointAgainstFigureLocation GetRelativeLocationCircle(PointF linePoint1, PointF linePoint2, PointF circleCenterPoint, float circleRadius)
-        {
-            return GetRelativeLocationCircle(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenterPoint.X, circleCenterPoint.Y, circleRadius);
-        }
-
-        /// <summary>
-        /// Get the line location relative to the circle
-        /// </summary>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
-        /// <param name="circleCenterPoint"> Circle center point </param>
-        /// <param name="circleRadius"> Circle radius</param>
-        /// <returns> Relative location </returns>
-        public static PointAgainstFigureLocation GetRelativeLocationCircle(Point linePoint1, Point linePoint2, Point circleCenterPoint, int circleRadius)
-        {
-            return GetRelativeLocationCircle(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenterPoint.X, circleCenterPoint.Y, circleRadius);
-        }
-
-        /// <summary>
-        /// Get the line location relative to the circle
-        /// </summary>
-        /// <param name="linePoint1X"> Line point 1: X </param>
-        /// <param name="linePoint1Y"> Line point 1: Y </param>
-        /// <param name="linePoint2X"> Line point 2: X </param>
-        /// <param name="linePoint2Y"> Line point 2: Y </param>
-        /// <param name="circleCenterPointX"> Circle center point: X Coordinate </param>
-        /// <param name="circleCenterPointY"> Circle center point: Y Coordinate </param>
-        /// <param name="circleCenterRadius"> Circle cente radius </param>
-        /// <returns> Point location </returns>
-        /// <remarks> Return 'inside' if has two intersections </remarks>
-        public static PointAgainstFigureLocation GetRelativeLocationCircle(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double circleCenterPointX, double circleCenterPointY, double circleCenterRadius)
-        {
-            FindCircleIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, circleCenterPointX, circleCenterPointY, circleCenterRadius, out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
-
-            var hasIntersection1 = !double.IsNaN(intersection1X) && !double.IsNaN(intersection1Y);
-            var hasIntersection2 = !double.IsNaN(intersection2X) && !double.IsNaN(intersection2Y);
-
-            if (hasIntersection1 && hasIntersection2)
-            {
-                return PointAgainstFigureLocation.Inside;
-            }
-
-            if (hasIntersection1)
-            {
-                return PointAgainstFigureLocation.OnTheEdge;
-            }
-
-            return PointAgainstFigureLocation.Outside;
-        }
-
-        /// <summary>
-        /// Get shortest distance from the line to the circle
-        /// </summary>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
-        /// <param name="circleCenter"> Circle center point </param>
-        /// <param name="circleRadius"> Circle radius </param>
-        /// <returns> Distance between the line and the circle </returns>
-        public static double DistanceToCircle(PointF linePoint1, PointF linePoint2, PointF circleCenter, float circleRadius)
-        {
-            return DistanceToCircle(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenter.X, circleCenter.Y, circleRadius);
-        }
-
-        /// <summary>
-        /// Get shortest distance from the line to the circle
-        /// </summary>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
-        /// <param name="circleCenter"> Circle center point </param>
-        /// <param name="circleRadius"> Circle radius </param>
-        /// <returns> Distance between the line and the circle </returns>
-        public static double DistanceToCircle(Point linePoint1, Point linePoint2, Point circleCenter, int circleRadius)
-        {
-            return DistanceToCircle(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenter.X, circleCenter.Y, circleRadius);
-        }
-
-        /// <summary>
-        /// Get shortest distance from the line to the circle
-        /// </summary>
-        /// <param name="linePoint1X"> Line point 1: X </param>
-        /// <param name="linePoint1Y"> Line point 1: Y </param>
-        /// <param name="linePoint2X"> Line point 2: X </param>
-        /// <param name="linePoint2Y"> Line point 2: Y </param>
-        /// <param name="circleCenterX"> Circle center point: X coordinate </param>
-        /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
-        /// <param name="radius"> Circle radius </param>
-        /// <returns> Distance between the line and the circle </returns>
-        public static double DistanceToCircle(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double circleCenterX, double circleCenterY, double radius)
-        {
-            return PointGeo.DistanceToLine(circleCenterX, circleCenterY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y) - radius;
-        }
+        #endregion
 
         /// <summary>
         /// Check if two lines are parallel
@@ -625,42 +477,239 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get shortest distance to the point
+        /// Check if the line contains the point
         /// </summary>
-        /// <param name="linePoint1"> Line first point </param>
-        /// <param name="linePoint2"> Line second point </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
         /// <param name="point"> Point </param>
-        /// <returns> Distance from a point to the line </returns>
-        public static double DistanceToPoint(PointF linePoint1, PointF linePoint2, PointF point)
+        /// <returns> True, if the line contains the point </returns>
+        public static bool Contains(PointF linePoint1, PointF linePoint2, PointF point)
         {
-            return point.DistanceToLine(linePoint1, linePoint2);
+            return point.BelongsToLine(linePoint1, linePoint2);
         }
 
         /// <summary>
-        /// Get shortest distance to the point
+        /// Check if the line contains the point
         /// </summary>
-        /// <param name="linePoint1"> Line first point </param>
-        /// <param name="linePoint2"> Line second point </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
         /// <param name="point"> Point </param>
-        /// <returns> Distance from a point to the line </returns>
-        public static double DistanceToPoint(Point linePoint1, Point linePoint2, Point point)
+        /// <returns> True, if the line contains the point </returns>
+        public static bool Contains(Point linePoint1, Point linePoint2, Point point)
         {
-            return point.DistanceToLine(linePoint1, linePoint2);
+            return point.BelongsToLine(linePoint1, linePoint2);
         }
 
         /// <summary>
-        /// Get shortest distance to the point
+        /// Check if the line contains the point
         /// </summary>
-        /// <param name="linePoint1X">Line first point: X coordinate</param>
-        /// <param name="linePoint1Y">Line first point: X coordinate</param>
-        /// <param name="linePoint2X">Line second point: X coordinate</param>
-        /// <param name="linePoint2Y">Line second point: X coordinate</param>
+        /// <param name="linePoint1X"> Segment start point: X coordinate </param>
+        /// <param name="linePoint1Y"> Segment start point: Y coordinate </param>
+        /// <param name="linePoint2X"> Segment end point: X coordinate </param>
+        /// <param name="linePoint2Y"> Segment end point: Y coordinate </param>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
-        /// <returns> Distance from a point to the line </returns>
-        public static double DistanceToPoint(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double pointX, double pointY)
+        /// <returns> True, if the line contains the point </returns>
+        public static bool Contains(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double pointX, double pointY)
         {
-            return PointGeo.DistanceToLine(pointX, pointY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y);
+            FindSlopeKoef(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out var slopeKoef, out var yIntersection);
+
+            return pointY.AboutEquals(slopeKoef * pointX + yIntersection);
+        }
+
+        /// <summary>
+        /// Get koefficients of line linear function K and B
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
+        /// <param name="yIntersection"> Y value if x = 0 </param>
+        internal static void FindSlopeKoef(PointF linePoint1, PointF linePoint2, out float slopeKoef, out float yIntersection)
+        {
+            FindSlopeKoef(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out var slopeKoefD, out var yIntersectionD);
+
+            slopeKoef = (float)slopeKoefD;
+            yIntersection = (float)yIntersectionD;
+        }
+
+        /// <summary>
+        /// Get koefficients of line linear function K and B
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
+        /// <param name="yIntersection"> Y value if x = 0 </param>
+        internal static void FindSlopeKoef(Point linePoint1, Point linePoint2, out double slopeKoef, out double yIntersection)
+        {
+            FindSlopeKoef(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, out slopeKoef, out yIntersection);
+        }
+
+        /// <summary>
+        /// Get coefficients of line linear function K and B
+        /// </summary>
+        /// <param name="linePoint1X"> Line point 1: X </param>
+        /// <param name="linePoint1Y"> Line point 1: Y </param>
+        /// <param name="linePoint2X"> Line point 2: X </param>
+        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
+        /// <param name="yIntersection"> Y value if x = 0 </param>
+        internal static void FindSlopeKoef(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, out double slopeKoef, out double yIntersection)
+        {
+            slopeKoef = (linePoint1Y - linePoint2Y) / (linePoint1X - linePoint2X);
+            yIntersection = double.IsInfinity(slopeKoef) ? linePoint2X : linePoint2Y - linePoint2X * slopeKoef;
+        }
+
+        /// <summary>
+        /// Cut the line to the segment by X bounds
+        /// </summary>
+        /// <param name="xBoundsMin"> Bounds X: min value </param>
+        /// <param name="xBoundsMax"> Bounds X: max value </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> True, if success </returns>
+        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, PointF linePoint1, PointF linePoint2, out PointF segmentStart, out PointF segmentEnd)
+        {
+            var result = CutByXBounds(xBoundsMin, xBoundsMax, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y,
+                                      out var segmentStartX, out var segmentStartY, out var segmentEndX, out var segmentEndY);
+            segmentStart = new PointF((float)segmentStartX, (float)segmentStartY);
+            segmentEnd = new PointF((float)segmentEndX, (float)segmentEndY);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Cut the line to the segment by X bounds
+        /// </summary>
+        /// <param name="xBoundsMin"> Bounds X: min value </param>
+        /// <param name="xBoundsMax"> Bounds X: max value </param>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <returns> True, if success </returns>
+        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, Point linePoint1, Point linePoint2, out Point segmentStart, out Point segmentEnd)
+        {
+            var result = CutByXBounds(xBoundsMin, xBoundsMax, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y,
+                                      out var segmentStartX, out var segmentStartY, out var segmentEndX, out var segmentEndY);
+            segmentStart = new Point((int)segmentStartX, (int)segmentStartY);
+            segmentEnd = new Point((int)segmentEndX, (int)segmentEndY);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Cut the line to the segment by X bounds
+        /// </summary>
+        /// <param name="xBoundsMin"> Bounds X: min value </param>
+        /// <param name="xBoundsMax"> Bounds X: max value </param>
+        /// <param name="linePoint1X"> Line point 1: X </param>
+        /// <param name="linePoint1Y"> Line point 1: Y </param>
+        /// <param name="linePoint2X"> Line point 2: X </param>
+        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <param name="segmentStartX"> Segment start point: X </param>
+        /// <param name="segmentStartY"> Segment start point: Y </param>
+        /// <param name="segmentEndX"> Segment end point: X </param>
+        /// <param name="segmentEndY"> Segment end point: Y </param>
+        /// <returns> True, if success </returns>
+        public static bool CutByXBounds(double xBoundsMin, double xBoundsMax, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y,
+                                        out double segmentStartX, out double segmentStartY, out double segmentEndX, out double segmentEndY)
+        {
+            segmentStartX = segmentStartY = segmentEndX = segmentEndY = double.NaN;
+
+            if (Math.Min(linePoint1X, linePoint2X) > xBoundsMax || Math.Max(linePoint1X, linePoint2X) < xBoundsMin)
+            {
+                return false;
+            }
+
+            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, xBoundsMin, Math.Min(linePoint1Y, linePoint2Y) - 1, xBoundsMin, Math.Max(linePoint1Y, linePoint2Y) + 1, out var x, out var y))
+            {
+                if (linePoint1X <= xBoundsMin)
+                {
+                    segmentStartX = x;
+                    segmentStartY = y;
+                }
+                else
+                {
+                    segmentEndX = x;
+                    segmentEndY = y;
+                }
+            }
+
+            if (SegmentGeo.FindIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, xBoundsMax, Math.Min(linePoint1Y, linePoint2Y) - 1, xBoundsMax, Math.Max(linePoint1Y, linePoint2Y) + 1, out x, out y))
+            {
+                if (linePoint1X >= xBoundsMax)
+                {
+                    segmentStartX = x;
+                    segmentStartY = y;
+                }
+                else
+                {
+                    segmentEndX = x;
+                    segmentEndY = y;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Get the line location relative to the circle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="circleCenterPoint"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius</param>
+        /// <returns> Relative location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationCircle(PointF linePoint1, PointF linePoint2, PointF circleCenterPoint, float circleRadius)
+        {
+            return GetRelativeLocationCircle(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenterPoint.X, circleCenterPoint.Y, circleRadius);
+        }
+
+        /// <summary>
+        /// Get the line location relative to the circle
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="circleCenterPoint"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius</param>
+        /// <returns> Relative location </returns>
+        public static PointAgainstFigureLocation GetRelativeLocationCircle(Point linePoint1, Point linePoint2, Point circleCenterPoint, int circleRadius)
+        {
+            return GetRelativeLocationCircle(linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y, circleCenterPoint.X, circleCenterPoint.Y, circleRadius);
+        }
+
+        /// <summary>
+        /// Get the line location relative to the circle
+        /// </summary>
+        /// <param name="linePoint1X"> Line point 1: X </param>
+        /// <param name="linePoint1Y"> Line point 1: Y </param>
+        /// <param name="linePoint2X"> Line point 2: X </param>
+        /// <param name="linePoint2Y"> Line point 2: Y </param>
+        /// <param name="circleCenterPointX"> Circle center point: X Coordinate </param>
+        /// <param name="circleCenterPointY"> Circle center point: Y Coordinate </param>
+        /// <param name="circleCenterRadius"> Circle cente radius </param>
+        /// <returns> Point location </returns>
+        /// <remarks> Return 'inside' if has two intersections </remarks>
+        public static PointAgainstFigureLocation GetRelativeLocationCircle(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double circleCenterPointX, double circleCenterPointY, double circleCenterRadius)
+        {
+            FindCircleIntersection(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, circleCenterPointX, circleCenterPointY, circleCenterRadius, out var intersection1X, out var intersection1Y, out var intersection2X, out var intersection2Y);
+
+            var hasIntersection1 = !double.IsNaN(intersection1X) && !double.IsNaN(intersection1Y);
+            var hasIntersection2 = !double.IsNaN(intersection2X) && !double.IsNaN(intersection2Y);
+
+            if (hasIntersection1 && hasIntersection2)
+            {
+                return PointAgainstFigureLocation.Inside;
+            }
+
+            if (hasIntersection1)
+            {
+                return PointAgainstFigureLocation.OnTheEdge;
+            }
+
+            return PointAgainstFigureLocation.Outside;
         }
 
         /// <summary>
@@ -725,47 +774,6 @@ namespace GeoPlanarNet
         public static Point GetPointProjection(Point point, int slopeKoef, int yZeroValue)
         {
             return point.GetProjectionToLine(slopeKoef, yZeroValue);
-        }
-
-        /// <summary>
-        /// Check if the line contains the point
-        /// </summary>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
-        /// <param name="point"> Point </param>
-        /// <returns> True, if the line contains the point </returns>
-        public static bool Contains(PointF linePoint1, PointF linePoint2, PointF point)
-        {
-            return point.BelongsToLine(linePoint1, linePoint2);
-        }
-
-        /// <summary>
-        /// Check if the line contains the point
-        /// </summary>
-        /// <param name="linePoint1"> Line point 1 </param>
-        /// <param name="linePoint2"> Line point 2 </param>
-        /// <param name="point"> Point </param>
-        /// <returns> True, if the line contains the point </returns>
-        public static bool Contains(Point linePoint1, Point linePoint2, Point point)
-        {
-             return point.BelongsToLine(linePoint1, linePoint2);
-        }
-
-        /// <summary>
-        /// Check if the line contains the point
-        /// </summary>
-        /// <param name="linePoint1X"> Segment start point: X coordinate </param>
-        /// <param name="linePoint1Y"> Segment start point: Y coordinate </param>
-        /// <param name="linePoint2X"> Segment end point: X coordinate </param>
-        /// <param name="linePoint2Y"> Segment end point: Y coordinate </param>
-        /// <param name="pointX"> Point: X coordinate </param>
-        /// <param name="pointY"> Point: Y coordinate </param>
-        /// <returns> True, if the line contains the point </returns>
-        public static bool Contains(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double pointX, double pointY)
-        {
-            FindSlopeKoef(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out var slopeKoef, out var yIntersection);
-
-            return pointY.AboutEquals(slopeKoef * pointX + yIntersection);
         }
     }
 }

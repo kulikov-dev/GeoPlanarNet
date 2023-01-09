@@ -662,5 +662,110 @@ namespace GeoPlanarNet
         {
             return PointGeo.DistanceToLine(pointX, pointY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y);
         }
+
+        /// <summary>
+        /// Get projection from the point to a line
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Projection point </returns>
+        public static PointF GetPointProjection(PointF linePoint1, PointF linePoint2, PointF point)
+        {
+            return point.GetProjectionToLine(linePoint1, linePoint2);
+        }
+
+        /// <summary>
+        /// Get projection from the point to a line
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Projection point </returns>
+        public static Point GetPointProjection(Point linePoint1, Point linePoint2, Point point)
+        {
+            return point.GetProjectionToLine(linePoint1, linePoint2);
+        }
+
+        /// <summary>
+        /// Get projection from the point to a line
+        /// </summary>
+        /// <param name="linePoint1X"> Line point 1: X coordinate </param>
+        /// <param name="linePoint1Y"> Line point 1: Y coordinate </param>
+        /// <param name="linePoint2X"> Line point 2: X coordinate </param>
+        /// <param name="linePoint2Y"> Line point 2: Y coordinate </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="projectionPointX"> Projection point: X coordinate </param>
+        /// <param name="projectionPointY"> Projection point: Y coordinate </param>
+        public static void GetPointProjection(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double pointX, double pointY,out double projectionPointX, out double projectionPointY)
+        {
+            PointGeo.GetProjectionToLine(pointX, pointY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out projectionPointX, out projectionPointY);
+        }
+
+        /// <summary>
+        /// Get projection from the point to a line
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
+        /// <param name="yZeroValue"> Y value if x = 0 </param>
+        /// <returns> Projection point </returns>
+        public static PointF GetPointProjection(PointF point, float slopeKoef, float yZeroValue)
+        {
+            return point.GetProjectionToLine(slopeKoef, yZeroValue);
+        }
+
+        /// <summary>
+        /// Get projection from the point to a line
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
+        /// <param name="yZeroValue"> Y value if x = 0 </param>
+        /// <returns> Projection point </returns>
+        public static Point GetPointProjection(Point point, int slopeKoef, int yZeroValue)
+        {
+            return point.GetProjectionToLine(slopeKoef, yZeroValue);
+        }
+
+        /// <summary>
+        /// Check if the line contains the point
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the line contains the point </returns>
+        public static bool Contains(PointF linePoint1, PointF linePoint2, PointF point)
+        {
+            return point.BelongsToLine(linePoint1, linePoint2);
+        }
+
+        /// <summary>
+        /// Check if the line contains the point
+        /// </summary>
+        /// <param name="linePoint1"> Line point 1 </param>
+        /// <param name="linePoint2"> Line point 2 </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the line contains the point </returns>
+        public static bool Contains(Point linePoint1, Point linePoint2, Point point)
+        {
+             return point.BelongsToLine(linePoint1, linePoint2);
+        }
+
+        /// <summary>
+        /// Check if the line contains the point
+        /// </summary>
+        /// <param name="linePoint1X"> Segment start point: X coordinate </param>
+        /// <param name="linePoint1Y"> Segment start point: Y coordinate </param>
+        /// <param name="linePoint2X"> Segment end point: X coordinate </param>
+        /// <param name="linePoint2Y"> Segment end point: Y coordinate </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <returns> True, if the line contains the point </returns>
+        public static bool Contains(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double pointX, double pointY)
+        {
+            FindSlopeKoef(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out var slopeKoef, out var yIntersection);
+
+            return pointY.AboutEquals(slopeKoef * pointX + yIntersection);
+        }
     }
 }

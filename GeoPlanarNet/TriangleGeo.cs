@@ -733,5 +733,91 @@ namespace GeoPlanarNet
         {
             return SegmentGeo.GetRelativeLocationTriangle(linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y);
         }
+
+        /// <summary>
+        /// Get shortest distnace from the point to the triangle
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance from the point to the triangle</returns>
+        public static double DistanceToPoint(PointF apex1, PointF apex2, PointF apex3, PointF point)
+        {
+            return point.DistanceToTriangle(apex1, apex2, apex3);
+        }
+
+        /// <summary>
+        /// Get shortest distnace from the point to the triangle
+        /// </summary>
+        /// <param name="apex1"> Apex 1 </param>
+        /// <param name="apex2"> Apex 2 </param>
+        /// <param name="apex3"> Apex 3 </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance from the point to the triangle </returns>
+        public static double DistanceToPoint(Point apex1, Point apex2, Point apex3, Point point)
+        {
+            return point.DistanceToTriangle(apex1, apex2, apex3);
+        }
+
+        /// <summary>
+        /// Get shortest distnace from the point to the triangle
+        /// </summary>
+        /// <param name="apex1X"> Apex 1: X coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y coordinate </param>
+        /// <param name="apex2X"> Apex 2: X coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y coordinate </param>
+        /// <param name="apex3X"> Apex 3: X coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y coordinate </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <returns> Distance from the point to the triangle </returns>
+        public static double DistanceToPoint(double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y, double pointX, double pointY)
+        {
+            return PointGeo.DistanceToTriangle(pointX, pointY, apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y);
+        }
+
+        /// <summary>
+        /// Check if the triangle contains the point
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="apex1"> Triangle apex 1 </param>
+        /// <param name="apex2"> Triangle apex 2 </param>
+        /// <param name="apex3"> Triangle apex 3 </param>
+        /// <returns> True, if the triangle contains the point </returns>
+        public static bool Contains(this PointF point, PointF apex1, PointF apex2, PointF apex3)
+        {
+            return point.BelongsToTriangle(apex1, apex2, apex3);
+        }
+
+        /// <summary>
+        /// Check if the triangle contains the point
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="apex1"> Triangle apex 1 </param>
+        /// <param name="apex2"> Triangle apex 2 </param>
+        /// <param name="apex3"> Triangle apex 3 </param>
+        /// <returns> True, if the triangle contains the point </returns>
+        public static bool Contains(this Point point, Point apex1, Point apex2, Point apex3)
+        {
+            return point.BelongsToTriangle(apex1, apex2, apex3);
+        }
+
+        /// <summary>
+        /// Check if the triangle contains the point
+        /// </summary>
+        /// <param name="pointX"> Point: X Coordinate </param>
+        /// <param name="pointY"> Point: Y Coordinate </param>
+        /// <param name="apex1X"> Apex 1: X Coordinate </param>
+        /// <param name="apex1Y"> Apex 1: Y Coordinate </param>
+        /// <param name="apex2X"> Apex 2: X Coordinate </param>
+        /// <param name="apex2Y"> Apex 2: Y Coordinate </param>
+        /// <param name="apex3X"> Apex 3: X Coordinate </param>
+        /// <param name="apex3Y"> Apex 3: Y Coordinate </param>
+        /// <returns> True, if the triangle contains the point </returns>
+        public static bool Contains(double pointX, double pointY, double apex1X, double apex1Y, double apex2X, double apex2Y, double apex3X, double apex3Y)
+        {
+            return PointGeo.BelongsToTriangle(pointX, pointY, apex1X, apex1Y, apex2X, apex2Y, apex3X, apex3Y);
+        }
     }
 }

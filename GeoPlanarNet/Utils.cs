@@ -33,7 +33,7 @@ namespace GeoPlanarNet
         /// <param name="dot"> Dot </param>
         /// <param name="intervalStart"> Left point of the interval </param>
         /// <param name="intervalEnd"> Right point of the interval </param>
-        /// <returns> Flag if dot between interval </returns>
+        /// <returns> True, if dot between interval </returns>
         public static bool CheckDotBetweenInterval(double dot, double intervalStart, double intervalEnd)
         {
             if (intervalStart < intervalEnd)

@@ -575,5 +575,231 @@ namespace GeoPlanarNet
         {
             return SegmentGeo.GetRectangle(segmentStart, segmentEnd, rectangleSideLength);
         }
+
+        /// <summary>
+        /// Get shortest distance from point to the axis-oriented rectangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <returns> Distance from the point to the rectangle </returns>
+        public static double DistanceToPoint(this PointF point, RectangleF rect)
+        {
+            return point.DistanceToRect(rect);
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the axis-oriented rectangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rect"> Rectangle </param>
+        /// <returns> Distance from the point to the rectangle </returns>
+        public static double DistanceToPoint(this Point point, Rectangle rect)
+        {
+            return point.DistanceToRect(rect);
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the rectangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <returns> Distance from the point to the rectangle </returns>
+        public static double DistanceToPoint(this PointF point, float rectLeftTopX, float rectLeftTopY, float rectRightBottomX, float rectRightBottomY)
+        {
+            return point.DistanceToRect(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY);
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the rectangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <returns> Distance from the point to the rectangle </returns>
+        public static double DistanceToPoint(this Point point, int rectLeftTopX, int rectLeftTopY, int rectRightBottomX, int rectRightBottomY)
+        {
+            return point.DistanceToRect(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY);
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the rectangle
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <returns> Distance from the point to the rectangle </returns>
+        public static double DistanceToPoint(double pointX, double pointY, double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY)
+        {
+            return PointGeo.DistanceToRect(pointX, pointY, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY);
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the rectangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
+        /// <returns> Distance from the point to the rectangle </returns>
+        public static double DistanceToPoint(this PointF point, PointF rectLeftTop, PointF rectRightTop, PointF rectRightBottom, PointF rectLeftBottom)
+        {
+            return point.DistanceToRect(rectLeftTop, rectRightTop, rectRightBottom, rectLeftBottom);
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the rectangle
+        /// </summary>
+        /// <param name="point"> Point </param>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
+        /// <returns> Distance from the point to the rectangle </returns>
+        public static double DistanceToPoint(this Point point, Point rectLeftTop, Point rectRightTop, Point rectRightBottom, Point rectLeftBottom)
+        {
+            return point.DistanceToRect(rectLeftTop, rectRightTop, rectRightBottom, rectLeftBottom);
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the rectangle
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightTopX"> Rectangle right top: X coordinate </param>
+        /// <param name="rectRightTopY"> Rectangle right top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="rectLeftBottomX"> Rectangle left bottom: X coordinate </param>
+        /// <param name="rectLeftBottomY"> Rectangle left bottom: Y coordinate </param>
+        /// <returns> Distance from the point to the rectangle </returns>
+        public static double DistanceToPoint(double pointX, double pointY, double rectLeftTopX, double rectLeftTopY, double rectRightTopX, double rectRightTopY,
+                                        double rectRightBottomX, double rectRightBottomY, double rectLeftBottomX, double rectLeftBottomY)
+        {
+            return PointGeo.DistanceToRect(pointX, pointY, rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY);
+        }
+
+        /// <summary>
+        /// Check if the axis-oriented rectangle contains the point
+        /// </summary>
+        /// <param name="rect"> Rectangle </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the axis-oriented rectangle contains the point </returns>
+        public static bool Contains(RectangleF rect, PointF point)
+        {
+            return point.BelongsToRect(rect);
+        }
+
+        /// <summary>
+        /// Check if the axis-oriented rectangle contains the point
+        /// </summary>
+        /// <param name="rect"> Rectangle </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the axis-oriented rectangle contains the point </returns>
+        public static bool Contains(Rectangle rect, Point point)
+        {
+            return point.BelongsToRect(rect);
+        }
+
+        /// <summary>
+        /// Check if the rectangle contains the point
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the rectangle contains the point </returns>
+        public static bool Contains(float rectLeftTopX, float rectLeftTopY, float rectRightBottomX, float rectRightBottomY, PointF point)
+        {
+            return point.BelongsToRect(rectLeftTopX,rectLeftTopY, rectRightBottomX, rectRightBottomY);
+        }
+
+        /// <summary>
+        /// Check if the rectangle contains the point
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the rectangle contains the point </returns>
+        public static bool Contains(int rectLeftTopX, int rectLeftTopY, int rectRightBottomX, int rectRightBottomY, Point point)
+        {
+            return point.BelongsToRect(rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY);
+        }
+
+        /// <summary>
+        /// Check if the rectangle contains the point
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <returns> True, if the rectangle contains the point </returns>
+        public static bool Contains(double rectLeftTopX, double rectLeftTopY, double rectRightBottomX, double rectRightBottomY, double pointX, double pointY)
+        {
+            return PointGeo.BelongsToRect(pointX, pointY, rectLeftTopX, rectLeftTopY, rectRightBottomX, rectRightBottomY);
+        }
+
+        /// <summary>
+        /// Check if the rectangle contains the point
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the rectangle contains the point </returns>
+        public static bool Contains(PointF rectLeftTop, PointF rectRightTop, PointF rectRightBottom, PointF rectLeftBottom, PointF point)
+        {
+            return point.BelongsToRect(rectLeftTop, rectRightTop, rectRightBottom, rectLeftBottom);
+        }
+
+        /// <summary>
+        /// Check if the rectangle contains the point
+        /// </summary>
+        /// <param name="rectLeftTop"> Rectangle left top </param>
+        /// <param name="rectRightTop"> Rectangle right top </param>
+        /// <param name="rectRightBottom"> Rectangle right bottom </param>
+        /// <param name="rectLeftBottom"> Rectangle left bottom </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the rectangle contains the point </returns>
+        public static bool Contains(Point rectLeftTop, Point rectRightTop, Point rectRightBottom, Point rectLeftBottom, Point point)
+        {
+            return point.BelongsToRect(rectLeftTop, rectRightTop, rectRightBottom, rectLeftBottom);
+        }
+
+        /// <summary>
+        /// Check if the rectangle contains the point
+        /// </summary>
+        /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
+        /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
+        /// <param name="rectRightTopX"> Rectangle right top: X coordinate </param>
+        /// <param name="rectRightTopY"> Rectangle right top: Y coordinate </param>
+        /// <param name="rectRightBottomX"> Rectangle right bottom: X coordinate </param>
+        /// <param name="rectRightBottomY"> Rectangle right bottom: Y coordinate </param>
+        /// <param name="rectLeftBottomX"> Rectangle left bottom: X coordinate </param>
+        /// <param name="rectLeftBottomY"> Rectangle left bottom: Y coordinate </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <returns> True, if the rectangle contains the point </returns>
+        public static bool Contains(double rectLeftTopX, double rectLeftTopY, double rectRightTopX, double rectRightTopY,
+                                    double rectRightBottomX, double rectRightBottomY, double rectLeftBottomX, double rectLeftBottomY, double pointX, double pointY)
+        {
+            return PointGeo.BelongsToRect(pointX, pointY, rectLeftTopX, rectLeftTopY, rectRightTopX, rectRightTopY, rectRightBottomX, rectRightBottomY, rectLeftBottomX, rectLeftBottomY);
+        }
     }
 }

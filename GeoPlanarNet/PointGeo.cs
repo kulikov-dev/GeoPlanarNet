@@ -161,7 +161,7 @@ namespace GeoPlanarNet
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
         /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
         /// <param name="segmentEndX"> Segment end point: X coordinate </param>
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <returns> Distance from a point to the segment </returns>
@@ -463,7 +463,7 @@ namespace GeoPlanarNet
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
         /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
         /// <param name="segmentEndX"> Segment end point: X coordinate </param>
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <returns> True, if the point belongs to the segment </returns>
@@ -502,7 +502,7 @@ namespace GeoPlanarNet
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
         /// <param name="linePoint1X"> Segment start point: X coordinate </param>
-        /// <param name="linePoint1Y"> Segment start point: Y coodinate </param>
+        /// <param name="linePoint1Y"> Segment start point: Y coordinate </param>
         /// <param name="linePoint2X"> Segment end point: X coordinate </param>
         /// <param name="linePoint2Y"> Segment end point: Y coordinate </param>
         /// <returns> True, if the point belongs to the line </returns>
@@ -519,7 +519,7 @@ namespace GeoPlanarNet
         /// <param name="point"> Point </param>
         /// <param name="circleCenter"> Circle center </param>
         /// <param name="radius"> Circle radius </param>
-        /// <returns> True, if the point belongs to the cirle </returns>
+        /// <returns> True, if the point belongs to the circle </returns>
         public static bool BelongsToCircle(this PointF point, PointF circleCenter, float radius)
         {
             return BelongsToCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius);
@@ -531,7 +531,7 @@ namespace GeoPlanarNet
         /// <param name="point"> Point </param>
         /// <param name="circleCenter"> Circle center </param>
         /// <param name="radius"> Circle radius </param>
-        /// <returns> True, if the point belongs to the cirle </returns>
+        /// <returns> True, if the point belongs to the circle </returns>
         public static bool BelongsToCircle(this Point point, Point circleCenter, double radius)
         {
             return BelongsToCircle(point.X, point.Y, circleCenter.X, circleCenter.Y, radius);
@@ -546,7 +546,7 @@ namespace GeoPlanarNet
         /// <param name="circleCenterX"> Circle center: X coordinate </param>
         /// <param name="circleCenterY"> Circle center: X coordinate </param>
         /// <param name="radius"> Circle radius </param>
-        /// <returns> True, if the point belongs to the cirle </returns>
+        /// <returns> True, if the point belongs to the circle </returns>
         public static bool BelongsToCircle(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius)
         {
             return GetRelativeLocationCircle(pointX, pointY, circleCenterX, circleCenterY, radius) != PointAgainstFigureLocation.Outside;
@@ -560,7 +560,7 @@ namespace GeoPlanarNet
         /// <param name="radius"> Circle radius </param>
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
-        /// <returns> True, if the point belongs to the cirle sector </returns>
+        /// <returns> True, if the point belongs to the circle sector </returns>
         public static bool BelongsToCircleSector(this PointF point, PointF circleCenter, float radius, float sectorStartAngleRad, float sectorEndAngleRad)
         {
             return BelongsToCircleSector(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, sectorStartAngleRad, sectorEndAngleRad);
@@ -574,7 +574,7 @@ namespace GeoPlanarNet
         /// <param name="radius"> Circle radius </param>
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
-        /// <returns> True, if the point belongs to the cirle sector </returns>
+        /// <returns> True, if the point belongs to the circle sector </returns>
         public static bool BelongsToCircleSector(this Point point, Point circleCenter, int radius, int sectorStartAngleRad, int sectorEndAngleRad)
         {
             return BelongsToCircleSector(point.X, point.Y, circleCenter.X, circleCenter.Y, radius, sectorStartAngleRad, sectorEndAngleRad);
@@ -590,7 +590,7 @@ namespace GeoPlanarNet
         /// <param name="radius"> Circle radius </param>
         /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
         /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
-        /// <returns> True, if the point belongs to the cirle sector </returns>
+        /// <returns> True, if the point belongs to the circle sector </returns>
         public static bool BelongsToCircleSector(double pointX, double pointY, double circleCenterX, double circleCenterY, double radius, double sectorStartAngleRad, double sectorEndAngleRad)
         {
             return BelongsToCircle(pointX, pointY, circleCenterX, circleCenterY, radius) && SegmentGeo.IsBetweenAngles(pointX, pointY, circleCenterX, circleCenterY, sectorStartAngleRad, sectorEndAngleRad);
@@ -848,24 +848,23 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to an area
+        /// Check if a point belongs to the surface
         /// </summary>
         /// <param name="point"> Point </param>
-        /// <param name="area"> Area </param>
-        /// <param name="epsilon"> Accuracy </param>
-        /// <returns> True, if the point belongs to the area </returns>
-        public static bool BelongsToSurface(this PointF point, IList<PointF> area)
+        /// <param name="surface"> Surface </param>
+        /// <returns> True, if the point belongs to the surface </returns>
+        public static bool BelongsToSurface(this PointF point, IList<PointF> surface)
         {
-            var pointsInAreaCount = area.Count - 1;
+            var pointsInAreaCount = surface.Count - 1;
 
             if (pointsInAreaCount < 1)
             {
                 return false;
             }
 
-            for (var i = 1; i < area.Count; ++i)
+            for (var i = 1; i < surface.Count; ++i)
             {
-                if (DistanceToSegment(point.X, point.Y, area[i - 1].X, area[i - 1].Y, area[i].X, area[i].Y) <= GeoPlanarNet.Epsilon)
+                if (DistanceToSegment(point.X, point.Y, surface[i - 1].X, surface[i - 1].Y, surface[i].X, surface[i].Y) <= GeoPlanarNet.Epsilon)
                 {
                     return true;
                 }
@@ -873,12 +872,12 @@ namespace GeoPlanarNet
 
             var firstIndex = 0;
 
-            while (firstIndex < area.Count && area[firstIndex].Y.AboutEquals(point.Y))
+            while (firstIndex < surface.Count && surface[firstIndex].Y.AboutEquals(point.Y))
             {
                 firstIndex++;
             }
 
-            if (firstIndex == area.Count)
+            if (firstIndex == surface.Count)
             {
                 return false;
             }
@@ -890,13 +889,13 @@ namespace GeoPlanarNet
 
             do
             {
-                var yDiff = (area[firstIndex].Y - point.Y) * (area[secondIndex].Y - point.Y);
+                var yDiff = (surface[firstIndex].Y - point.Y) * (surface[secondIndex].Y - point.Y);
                 iterations++;
 
                 float xDiff;
                 if (yDiff < 0)
                 {
-                    xDiff = area[firstIndex].X + (area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y);
+                    xDiff = surface[firstIndex].X + (surface[secondIndex].X - surface[firstIndex].X) * (point.Y - surface[firstIndex].Y) / (surface[secondIndex].Y - surface[firstIndex].Y);
 
                     if (xDiff < point.X)
                     {
@@ -914,26 +913,26 @@ namespace GeoPlanarNet
                 {
                     if (yDiff.AboutZero())
                     {
-                        var firstYDiff = area[firstIndex].Y - point.Y;
-                        while (area[secondIndex].Y.AboutEquals(point.Y))
+                        var firstYDiff = surface[firstIndex].Y - point.Y;
+                        while (surface[secondIndex].Y.AboutEquals(point.Y))
                         {
                             firstIndex = secondIndex;
                             secondIndex = (secondIndex + 1) % pointsInAreaCount;
 
-                            if (area[firstIndex].Y.AboutEquals(point.Y) && area[secondIndex].Y.AboutEquals(point.Y))
+                            if (surface[firstIndex].Y.AboutEquals(point.Y) && surface[secondIndex].Y.AboutEquals(point.Y))
                             {
-                                if ((area[firstIndex].X - point.X) * (area[secondIndex].X - point.X) <= 0)
+                                if ((surface[firstIndex].X - point.X) * (surface[secondIndex].X - point.X) <= 0)
                                 {
                                     return true;
                                 }
                             }
                         }
 
-                        yDiff = firstYDiff * (area[secondIndex].Y - point.Y);
+                        yDiff = firstYDiff * (surface[secondIndex].Y - point.Y);
 
                         if (yDiff < 0)
                         {
-                            xDiff = area[firstIndex].X + (area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y);
+                            xDiff = surface[firstIndex].X + (surface[secondIndex].X - surface[firstIndex].X) * (point.Y - surface[firstIndex].Y) / (surface[secondIndex].Y - surface[firstIndex].Y);
 
                             if (xDiff < point.X)
                             {
@@ -959,24 +958,23 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to an area
+        /// Check if a point belongs to the surface
         /// </summary>
         /// <param name="point"> Point </param>
-        /// <param name="area"> Area </param>
-        /// <param name="epsilon"> Accuracy </param>
-        /// <returns> True, if the point belongs to the area </returns>
-        public static bool BelongsToSurface(this Point point, IList<Point> area)
+        /// <param name="surface"> Surface </param>
+        /// <returns> True, if the point belongs to the surface </returns>
+        public static bool BelongsToSurface(this Point point, IList<Point> surface)
         {
-            var pointsInAreaCount = area.Count - 1;
+            var pointsInAreaCount = surface.Count - 1;
 
             if (pointsInAreaCount < 1)
             {
                 return false;
             }
 
-            for (var i = 1; i < area.Count; ++i)
+            for (var i = 1; i < surface.Count; ++i)
             {
-                if (DistanceToSegment(point.X, point.Y, area[i - 1].X, area[i - 1].Y, area[i].X, area[i].Y) <= GeoPlanarNet.Epsilon)
+                if (DistanceToSegment(point.X, point.Y, surface[i - 1].X, surface[i - 1].Y, surface[i].X, surface[i].Y) <= GeoPlanarNet.Epsilon)
                 {
                     return true;
                 }
@@ -984,12 +982,12 @@ namespace GeoPlanarNet
 
             var firstIndex = 0;
 
-            while (firstIndex < area.Count && area[firstIndex].Y == point.Y)
+            while (firstIndex < surface.Count && surface[firstIndex].Y == point.Y)
             {
                 firstIndex++;
             }
 
-            if (firstIndex == area.Count)
+            if (firstIndex == surface.Count)
             {
                 return false;
             }
@@ -1001,13 +999,13 @@ namespace GeoPlanarNet
 
             do
             {
-                var yDiff = (area[firstIndex].Y - point.Y) * (area[secondIndex].Y - point.Y);
+                var yDiff = (surface[firstIndex].Y - point.Y) * (surface[secondIndex].Y - point.Y);
                 iterations++;
 
                 int xDiff;
                 if (yDiff < 0)
                 {
-                    xDiff = area[firstIndex].X + (area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y);
+                    xDiff = surface[firstIndex].X + (surface[secondIndex].X - surface[firstIndex].X) * (point.Y - surface[firstIndex].Y) / (surface[secondIndex].Y - surface[firstIndex].Y);
 
                     if (xDiff < point.X)
                     {
@@ -1025,26 +1023,26 @@ namespace GeoPlanarNet
                 {
                     if (yDiff == 0)
                     {
-                        var firstYDiff = area[firstIndex].Y - point.Y;
-                        while (area[secondIndex].Y == point.Y)
+                        var firstYDiff = surface[firstIndex].Y - point.Y;
+                        while (surface[secondIndex].Y == point.Y)
                         {
                             firstIndex = secondIndex;
                             secondIndex = (secondIndex + 1) % pointsInAreaCount;
 
-                            if (area[firstIndex].Y == point.Y && area[secondIndex].Y == point.Y)
+                            if (surface[firstIndex].Y == point.Y && surface[secondIndex].Y == point.Y)
                             {
-                                if ((area[firstIndex].X - point.X) * (area[secondIndex].X - point.X) <= 0)
+                                if ((surface[firstIndex].X - point.X) * (surface[secondIndex].X - point.X) <= 0)
                                 {
                                     return true;
                                 }
                             }
                         }
 
-                        yDiff = firstYDiff * (area[secondIndex].Y - point.Y);
+                        yDiff = firstYDiff * (surface[secondIndex].Y - point.Y);
 
                         if (yDiff < 0)
                         {
-                            xDiff = area[firstIndex].X + (area[secondIndex].X - area[firstIndex].X) * (point.Y - area[firstIndex].Y) / (area[secondIndex].Y - area[firstIndex].Y);
+                            xDiff = surface[firstIndex].X + (surface[secondIndex].X - surface[firstIndex].X) * (point.Y - surface[firstIndex].Y) / (surface[secondIndex].Y - surface[firstIndex].Y);
 
                             if (xDiff < point.X)
                             {
@@ -1492,7 +1490,7 @@ namespace GeoPlanarNet
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
         /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
         /// <param name="segmentEndX"> Segment end point: X coordinate </param>
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <returns> Point relative location </returns>
@@ -1544,7 +1542,7 @@ namespace GeoPlanarNet
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
         /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
         /// <param name="segmentEndX"> Segment end point: X coordinate </param>
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <returns> Point relative location </returns>
@@ -1913,7 +1911,8 @@ namespace GeoPlanarNet
         /// <param name="centerX"> Center point: X coordinate </param>
         /// <param name="centerY"> Center point: Y coordinate </param>
         /// <param name="angleRadian"> Angle in radians </param>
-        /// <returns> Rotated point </returns>
+        /// <param name="rotatedPointX"> Rotated point: X coordinate </param>
+        /// <param name="rotatedPointY"> Rotated point: Y coordinate </param>
         public static void Rotate(double pointX, double pointY, double centerX, double centerY, double angleRadian, out double rotatedPointX, out double rotatedPointY)
         {
             var diffX = pointX - centerX;
@@ -1953,7 +1952,7 @@ namespace GeoPlanarNet
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
         /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
         /// <param name="segmentEndX"> Segment end point: X coordinate </param>
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <returns> Vector product </returns>
@@ -1968,7 +1967,7 @@ namespace GeoPlanarNet
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
         /// <param name="segmentStartX"> Segment start point: X coordinate </param>
-        /// <param name="segmentStartY"> Segment start point: Y coodinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
         /// <param name="segmentEndX"> Segment end point: X coordinate </param>
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <returns> Vector product </returns>
@@ -2015,7 +2014,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection point to a line
+        /// Get projection from the point to a line
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="linePoint1"> Line point 1 </param>
@@ -2028,7 +2027,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection point to a line
+        /// Get projection from the point to a line
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="linePoint1"> Line point 1 </param>
@@ -2041,7 +2040,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection point to a line
+        /// Get projection from the point to a line
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -2078,7 +2077,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection point to a line
+        /// Get projection from the point to a line
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
@@ -2106,7 +2105,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection point to a line
+        /// Get projection from the point to a line
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>

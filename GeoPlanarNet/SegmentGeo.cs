@@ -1413,5 +1413,163 @@ namespace GeoPlanarNet
         {
             return LineGeo.CutByXBounds(xBoundsMin, xBoundsMax, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y, out segmentStartX, out segmentStartY, out segmentEndX, out segmentEndY);
         }
+
+        /// <summary>
+        /// Get shortest distance from point to the segment
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance from point to segment </returns>
+        public static double DistanceToPoint(PointF segmentStart, PointF segmentEnd, PointF point)
+        {
+            return point.DistanceToSegment(segmentStart, segmentEnd);
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the segment
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance from point to segment </returns>
+        public static double DistanceToPoint(Point segmentStart, Point segmentEnd, Point point)
+        {
+            return point.DistanceToSegment(segmentStart, segmentEnd);
+        }
+
+        /// <summary>
+        /// Get shortest distance from point to the segment
+        /// </summary>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <returns> Distance from a point to the segment </returns>
+        public static double DistanceToPoint(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double pointX, double pointY)
+        {
+            return PointGeo.DistanceToSegment(pointX, pointY, segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+        }
+
+        /// <summary>
+        /// Check if a point has projection to a segment
+        /// </summary>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if has intersection with the segment </returns>
+        public static bool HasPointProjection(PointF segmentStartPoint, PointF segmentEndPoint, PointF point)
+        {
+            return point.HasProjectionToSegment(segmentStartPoint, segmentEndPoint);
+        }
+
+        /// <summary>
+        /// Check if a point has projection to a segment
+        /// </summary>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if has intersection with the segment </returns>
+        public static bool HasPointProjection(Point segmentStartPoint, Point segmentEndPoint, Point point)
+        {
+            return point.HasProjectionToSegment(segmentStartPoint, segmentEndPoint);
+        }
+
+        /// <summary>
+        /// Check if a point has projection to a segment
+        /// </summary>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="segmentStartPointX"> Start segment point: X coordinate </param>
+        /// <param name="segmentStartPointY"> Start segment point: Y coordinate </param>
+        /// <param name="segmentEndPointX"> End segment point: X coordinate </param>
+        /// <param name="segmentEndPointY"> End segment point: Y coordinate </param>
+        /// <returns> True, if has intersection with the segment </returns>
+        public static bool HasPointProjection(double segmentStartPointX, double segmentStartPointY, double segmentEndPointX, double segmentEndPointY, double pointX, double pointY)
+        {
+            return PointGeo.HasProjectionToSegment(pointX, pointY, segmentStartPointX, segmentStartPointY, segmentEndPointX, segmentEndPointY);
+        }
+
+        /// <summary>
+        /// Get projection point to the segment
+        /// </summary>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Projection point </returns>
+        public static PointF GetPointProjection(PointF segmentStartPoint, PointF segmentEndPoint, PointF point)
+        {
+            return point.GetProjectionToSegment(segmentStartPoint, segmentEndPoint);
+        }
+
+        /// <summary>
+        /// Get projection point to the segment
+        /// </summary>
+        /// <param name="segmentStartPoint"> Segment start point </param>
+        /// <param name="segmentEndPoint"> Segment end point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Projection point </returns>
+        public static Point GetPointProjection(Point segmentStartPoint, Point segmentEndPoint, Point point)
+        {
+            return point.GetProjectionToSegment(segmentStartPoint, segmentEndPoint);
+        }
+
+        /// <summary>
+        /// Get projection point to the segment
+        /// </summary>
+        /// <param name="segmentStartPointX"> Start segment point: X coordinate </param>
+        /// <param name="segmentStartPointY"> Start segment point: Y coordinate </param>
+        /// <param name="segmentEndPointX"> End segment point: X coordinate </param>
+        /// <param name="segmentEndPointY"> End segment point: Y coordinate </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <param name="projectionPointX"> Projection point: X coordinate </param>
+        /// <param name="projectionPointY"> Projection point: Y coordinate </param>
+        public static void GetPointProjection(double segmentStartPointX, double segmentStartPointY, double segmentEndPointX, double segmentEndPointY, double pointX, double pointY,
+                                                  out double projectionPointX, out double projectionPointY)
+        {
+            PointGeo.GetProjectionToSegment(pointX, pointY, segmentStartPointX, segmentStartPointY, segmentEndPointX, segmentEndPointY, out projectionPointX, out projectionPointY);
+        }
+
+        /// <summary>
+        /// Check if the segment contains the point
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the segment contains the point </returns>
+        public static bool Contains(PointF segmentStart, PointF segmentEnd, PointF point)
+        {
+            return point.BelongsToSegment(segmentStart, segmentEnd);
+        }
+
+        /// <summary>
+        /// Check if the segment contains the point
+        /// </summary>
+        /// <param name="segmentStart"> Segment start point </param>
+        /// <param name="segmentEnd"> Segment end point </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the segment contains the point </returns>
+        public static bool Contains(Point segmentStart, Point segmentEnd, Point point)
+        {
+            return point.BelongsToSegment(segmentStart, segmentEnd);
+        }
+
+        /// <summary>
+        /// Check if the segment contains the point
+        /// </summary>
+        /// <param name="segmentStartX"> Segment start point: X coordinate </param>
+        /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
+        /// <param name="segmentEndX"> Segment end point: X coordinate </param>
+        /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <returns> True, if the segment contains the point </returns>
+        public static bool Contains(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double pointX, double pointY)
+        {
+            return PointGeo.BelongsToSegment(pointX, pointY, segmentStartX, segmentStartY, segmentEndX, segmentEndY);
+        }
     }
 }

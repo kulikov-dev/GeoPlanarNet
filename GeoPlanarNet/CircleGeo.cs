@@ -90,8 +90,8 @@ namespace GeoPlanarNet
         /// <param name="circleCenterX"> Center point: X coordinate </param>
         /// <param name="circleCenterY"> Center point: Y coordinate </param>
         /// <param name="radius"> Radius </param>
-        /// <param name="leftTopX"> Rectangle left top point: X coodinate </param>
-        /// <param name="leftTopY"> Rectangle left top point: Y coodinate </param>
+        /// <param name="leftTopX"> Rectangle left top point: X coordinate </param>
+        /// <param name="leftTopY"> Rectangle left top point: Y coordinate </param>
         /// <param name="width"> Rectangle width </param>
         /// <param name="height"> Rectangle height </param>
         public static void GetAABB(double circleCenterX, double circleCenterY, double radius, out double leftTopX, out double leftTopY, out double width, out double height)
@@ -616,6 +616,127 @@ namespace GeoPlanarNet
         public static double DistanceToSegment(double circleCenterX, double circleCenterY, double radius, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
             return SegmentGeo.DistanceToCircle(segmentStartX, segmentStartY, segmentEndX, segmentEndY, circleCenterX, circleCenterY, radius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the point to the circle
+        /// </summary>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance between the point and the circle </returns>
+        public static double DistanceToCircle(PointF circleCenter, float circleRadius, PointF point)
+        {
+            return point.DistanceToCircle(circleCenter, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the point to the circle
+        /// </summary>
+        /// <param name="circleCenter"> Circle center point </param>
+        /// <param name="circleRadius"> Circle radius </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance between the point and the circle </returns>
+        public static double DistanceToCircle(Point circleCenter, int circleRadius, Point point)
+        {
+            return point.DistanceToCircle(circleCenter, circleRadius);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the point to the circle
+        /// </summary>
+        /// <param name="circleCenterX"> Circle center point: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center point: Y coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <returns> Distance between the point and the circle </returns>
+        public static double DistanceToCircle(double circleCenterY, double radius, double pointX, double pointY, double circleCenterX)
+        {
+            return PointGeo.DistanceToCircle(pointX, pointY, circleCenterX, circleCenterY, radius);
+        }
+
+        /// <summary>
+        /// Check if the circle contains the point
+        /// </summary>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the circle contains the point </returns>
+        public static bool Contains(PointF circleCenter, float radius, PointF point)
+        {
+            return point.BelongsToCircle(circleCenter, radius);
+        }
+
+        /// <summary>
+        /// Check if the circle contains the point
+        /// </summary>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the circle contains the point </returns>
+        public static bool Contains(Point circleCenter, double radius, Point point)
+        {
+            return point.BelongsToCircle(circleCenter, radius);
+
+        }
+
+        /// <summary>
+        /// Check if the circle contains the point
+        /// </summary>
+        /// <param name="circleCenterX"> Circle center: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center: X coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <returns> True, if the circle contains the point </returns>
+        public static bool Contains(double circleCenterX, double circleCenterY, double radius, double pointX, double pointY)
+        {
+            return PointGeo.BelongsToCircle(pointX, pointY, circleCenterX, circleCenterY, radius);
+        }
+
+        /// <summary>
+        /// Check if the circle sector contains the point
+        /// </summary>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the circle sector contains the point </returns>
+        public static bool Contains(PointF circleCenter, float radius, float sectorStartAngleRad, float sectorEndAngleRad, PointF point)
+        {
+            return point.BelongsToCircleSector(circleCenter, radius, sectorStartAngleRad, sectorEndAngleRad);
+        }
+
+        /// <summary>
+        /// Check if the circle sector contains the point
+        /// </summary>
+        /// <param name="circleCenter"> Circle center </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the circle sector contains the point </returns>
+        public static bool Contains(Point circleCenter, int radius, int sectorStartAngleRad, int sectorEndAngleRad, Point point)
+        {
+            return point.BelongsToCircleSector(circleCenter, radius, sectorStartAngleRad, sectorEndAngleRad);
+        }
+
+        /// <summary>
+        /// Check if the circle sector contains the point
+        /// </summary>
+        /// <param name="circleCenterX"> Circle center: X coordinate </param>
+        /// <param name="circleCenterY"> Circle center: X coordinate </param>
+        /// <param name="radius"> Circle radius </param>
+        /// <param name="sectorStartAngleRad"> Circle sector start angle (radians) </param>
+        /// <param name="sectorEndAngleRad"> Circle sector end angle (radians) </param>
+        /// <param name="pointX"> Point: X coordinate </param>
+        /// <param name="pointY"> Point: Y coordinate </param>
+        /// <returns> True, if the circle sector contains the point </returns>
+        public static bool Contains(double circleCenterX, double circleCenterY, double radius, double sectorStartAngleRad, double sectorEndAngleRad, double pointX, double pointY)
+        {
+            return PointGeo.BelongsToCircleSector(pointX, pointY, circleCenterX, circleCenterY, radius, sectorStartAngleRad, sectorEndAngleRad);
         }
     }
 }

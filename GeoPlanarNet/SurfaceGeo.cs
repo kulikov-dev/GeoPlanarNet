@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace GeoPlanarNet
@@ -334,6 +335,50 @@ namespace GeoPlanarNet
             }
 
             return new Rectangle(xMin, yMin, xMax - xMin, yMax - yMin);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the surface to the point
+        /// </summary>
+        /// <param name="surface"> Surface </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance to the point </returns>
+        public static double DistanceToPoint(PointF[] surface, PointF point)
+        {
+            return point.DistanceToSurface(surface);
+        }
+
+        /// <summary>
+        /// Get shortest distance from the surface to the point
+        /// </summary>
+        /// <param name="surface"> Surface </param>
+        /// <param name="point"> Point </param>
+        /// <returns> Distance to the point </returns>
+        public static double DistanceToPoint(Point[] surface, Point point)
+        {
+            return point.DistanceToSurface(surface);
+        }
+
+        /// <summary>
+        /// Check if the surface contains the point
+        /// </summary>
+        /// <param name="surface"> Surface </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the surface contains the point </returns>
+        public static bool Contains(IList<PointF> surface, PointF point)
+        {
+            return point.BelongsToSurface(surface);
+        }
+
+        /// <summary>
+        /// Check if the surface contains the point
+        /// </summary>
+        /// <param name="surface"> Surface </param>
+        /// <param name="point"> Point </param>
+        /// <returns> True, if the surface contains the point </returns>
+        public static bool Contains(IList<Point> surface, Point point)
+        {
+           return point.BelongsToSurface(surface);
         }
     }
 }

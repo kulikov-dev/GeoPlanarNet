@@ -176,7 +176,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get points of the rectangle base on diagonal 0-2 points
+        /// Get points of the rectangle based on diagonal 0-2 points
         /// </summary>
         /// <param name="rectLeftTop"> Rectangle left top </param>
         /// <param name="rectRightBottom"> Rectangle right bottom </param>
@@ -191,7 +191,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get points of the rectangle base on diagonal 0-2 points
+        /// Get points of the rectangle based on diagonal 0-2 points
         /// </summary>
         /// <param name="rectLeftTop"> Rectangle left top </param>
         /// <param name="rectRightBottom"> Rectangle right bottom </param>
@@ -206,7 +206,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get points of the rectangle base on diagonal 0-2 points
+        /// Get points of the rectangle based on diagonal 0-2 points
         /// </summary>
         /// <param name="rectLeftTopX"> Rectangle left top: X coordinate </param>
         /// <param name="rectLeftTopY"> Rectangle left top: Y coordinate </param>
@@ -555,7 +555,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a rectangle with one side equal to segment, another side equal to length
+        /// Get the rectangle with one side equal to segment, another side equal to length
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>

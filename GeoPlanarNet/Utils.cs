@@ -28,7 +28,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a dot located between an interval
+        /// Check if the dot located between an interval
         /// </summary>
         /// <param name="dot"> Dot </param>
         /// <param name="intervalStart"> Left point of the interval </param>

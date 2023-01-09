@@ -13,51 +13,51 @@ namespace GeoPlanarNet
         #region Intersection
 
         /// <summary>
-        /// Check if a curve line and a segment has intersection
+        /// Check if the curve line and the segment has intersection
         /// </summary>
         /// <param name="segmentStartPoint"> Segment start point </param>
         /// <param name="segmentEndPoint"> Segment end point </param>
         /// <param name="curve"> Curve </param>
         /// <returns> True, if segments have intersection </returns>
-        public static bool HasIntersection(PointF segmentStartPoint, PointF segmentEndPoint, PointF[] curve)
+        public static bool HasSurfaceIntersection(PointF segmentStartPoint, PointF segmentEndPoint, PointF[] curve)
         {
             return CurveLineGeo.HasIntersection(curve, segmentStartPoint, segmentEndPoint);
         }
 
         /// <summary>
-        /// Check if a curve line and a segment has intersection
+        /// Check if the curve line and the segment has intersection
         /// </summary>
         /// <param name="segmentStartPoint"> Segment start point </param>
         /// <param name="segmentEndPoint"> Segment end point </param>
         /// <param name="curve"> Curve </param>
         /// <returns> True, if segments have intersection </returns>
-        public static bool HasIntersection(Point segmentStartPoint, Point segmentEndPoint, Point[] curve)
+        public static bool HasSurfaceIntersection(Point segmentStartPoint, Point segmentEndPoint, Point[] curve)
         {
             return CurveLineGeo.HasIntersection(curve, segmentStartPoint, segmentEndPoint);
         }
 
         /// <summary>
-        /// Check if a curve line and a segment has intersection
+        /// Find the intersection point between the segment and the surface
         /// </summary>
         /// <param name="segmentStartPoint"> Segment start point </param>
         /// <param name="segmentEndPoint"> Segment end point </param>
         /// <param name="curve"> Curve </param>
         /// <param name="intersectionPoint"> Intersection point </param>
         /// <returns> True, if segments have intersection </returns>
-        public static bool FindIntersection(PointF segmentStartPoint, PointF segmentEndPoint, PointF[] curve, out PointF intersectionPoint)
+        public static bool FindSurfaceIntersection(PointF segmentStartPoint, PointF segmentEndPoint, PointF[] curve, out PointF intersectionPoint)
         {
             return CurveLineGeo.FindIntersection(curve, segmentStartPoint, segmentEndPoint, out intersectionPoint);
         }
 
         /// <summary>
-        /// Check if a curve line and a segment has intersection
+        /// Find the intersection point between the segment and the surface
         /// </summary>
         /// <param name="segmentStartPoint"> Segment start point </param>
         /// <param name="segmentEndPoint"> Segment end point </param>
         /// <param name="curve"> Curve </param>
         /// <param name="intersectionPoint"> Intersection point </param>
         /// <returns> True, if segments have intersection </returns>
-        public static bool FindIntersection(Point segmentStartPoint, Point segmentEndPoint, Point[] curve, out Point intersectionPoint)
+        public static bool FindSurfaceIntersection(Point segmentStartPoint, Point segmentEndPoint, Point[] curve, out Point intersectionPoint)
         {
             return CurveLineGeo.FindIntersection(curve, segmentStartPoint, segmentEndPoint, out intersectionPoint);
         }
@@ -89,7 +89,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if two segments have intersection
+        /// Find the intersection point between two segments
         /// </summary>
         /// <param name="segment1Start"> Segment 1, point 1 </param>
         /// <param name="segment1End"> Segment 1, point 2 </param>
@@ -106,7 +106,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if two segments have intersection
+        /// Find the intersection point between two segments
         /// </summary>
         /// <param name="segment1Start"> Segment 1, point 1 </param>
         /// <param name="segment1End"> Segment 1, point 2 </param>
@@ -123,7 +123,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if two segments have intersection
+        /// Find the intersection point between two segments
         /// </summary>
         /// <param name="segment1StartX"> Segment 1, start point: coordinate X </param>
         /// <param name="segment1StartY"> Segment 1, start point: coordinate Y </param>
@@ -601,7 +601,7 @@ namespace GeoPlanarNet
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
-        /// <returns> Distance from a point to the segment </returns>
+        /// <returns> Distance from the point to the segment </returns>
         public static double DistanceToPoint(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double pointX, double pointY)
         {
             return PointGeo.DistanceToSegment(pointX, pointY, segmentStartX, segmentStartY, segmentEndX, segmentEndY);
@@ -766,7 +766,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a segment tilt angle relative to the X axis
+        /// Get the segment tilt angle relative to the X axis
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
@@ -777,7 +777,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a segment tilt angle relative to the X axis
+        /// Get the segment tilt angle relative to the X axis
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
@@ -788,7 +788,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a segment tilt angle relative to the X axis
+        /// Get the segment tilt angle relative to the X axis
         /// </summary>
         /// <param name="segmentStartX"> Start point: X coordinate </param>
         /// <param name="segmentStartY"> Start point: Y coordinate </param>
@@ -811,7 +811,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get angle in radians between two segments
+        /// Get angle between two segments
         /// </summary>
         /// <param name="segment1Start"> Start point of 1 segment </param>
         /// <param name="segment1End"> End point of 1 segment </param>
@@ -862,11 +862,11 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
+        /// Get angle in radians between two segments with the common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
         /// </summary>
         /// <param name="commonPoint"> Common point </param>
-        /// <param name="segment1Start"> Start point of a segment 1 </param>
-        /// <param name="segment2Start"> Start point of a segment 2 </param>
+        /// <param name="segment1Start"> Start point of the segment 1 </param>
+        /// <param name="segment2Start"> Start point of the segment 2 </param>
         /// <returns> Angle (radians) </returns>
         public static double GetAngleRadians(PointF commonPoint, PointF segment1Start, PointF segment2Start)
         {
@@ -874,11 +874,11 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
+        /// Get angle in radians between two segments with the common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
         /// </summary>
         /// <param name="commonPoint"> Common point </param>
-        /// <param name="segment1Start"> Start point of a segment 1 </param>
-        /// <param name="segment2Start"> Start point of a segment 2 </param>
+        /// <param name="segment1Start"> Start point of the segment 1 </param>
+        /// <param name="segment2Start"> Start point of the segment 2 </param>
         /// <returns> Angle (radians) </returns>
         public static double GetAngleRadians(Point commonPoint, Point segment1Start, Point segment2Start)
         {
@@ -886,7 +886,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get angle in radians between two segments with a common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
+        /// Get angle in radians between two segments with the common point: (commonPoint, startPoint1) and (commonPoint, startPoint2)
         /// </summary>
         /// <param name="commonPointX"> Common point: X coordinate </param>
         /// <param name="commonPointY"> Common point: Y coordinate </param>
@@ -904,7 +904,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a segment lays between start angle and end angle (angles from the start point)
+        /// Check if the segment lays between start angle and end angle (angles from the start point)
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
@@ -917,7 +917,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a segment lays between start angle and end angle (angles from the start point)
+        /// Check if the segment lays between start angle and end angle (angles from the start point)
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
@@ -930,7 +930,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a segment lays between start angle and end angle (angles from the start point)
+        /// Check if the segment lays between start angle and end angle (angles from the start point)
         /// </summary>
         /// <param name="segmentStartX"> Segment start point: X coordinate </param>
         /// <param name="segmentStartY"> Segment start point: X coordinate </param>
@@ -952,12 +952,12 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a point away from a segment start point on a specified distance
+        /// Get the point away from the segment start point on the specified distance
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
-        /// <param name="distance"> Distance from start point to a new point </param>
-        /// <returns> New point awaw from a segment start </returns>
+        /// <param name="distance"> Distance from start point to the new point </param>
+        /// <returns> New point away from the segment start </returns>
         public static PointF GetPointAwayFromStart(PointF segmentStart, PointF segmentEnd, double distance)
         {
             GetPointAwayFromStart(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out var newPointX, out var newPointY);
@@ -965,12 +965,12 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a point away from a segment start point on a specified distance
+        /// Get the point away from the segment start point on the specified distance
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
-        /// <param name="distance"> Distance from start point to a new point </param>
-        /// <returns> New point awaw from a segment start </returns>
+        /// <param name="distance"> Distance from start point to the new point </param>
+        /// <returns> New point away from the segment start </returns>
         public static Point GetPointAwayFromStart(Point segmentStart, Point segmentEnd, int distance)
         {
             GetPointAwayFromStart(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out var newPointX, out var newPointY);
@@ -978,13 +978,13 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a point away from a segment start point on a specified distance
+        /// Get the point away from the segment start point on the specified distance
         /// </summary>
         /// <param name="segment1StartX"> Segment, start point: coordinate X </param>
         /// <param name="segment1StartY"> Segment, start point: coordinate Y </param>
         /// <param name="segment1EndX"> Segment, end point: coordinate X </param>
         /// <param name="segment1EndY"> Segment, end point: coordinate Y </param>
-        /// <param name="distance"> Distance from start point to a new point </param>
+        /// <param name="distance"> Distance from start point to the new point </param>
         /// <param name="newPointX"> New point: coordinate X </param>
         /// <param name="newPointY"> New point: coordinate Y </param>
         public static void GetPointAwayFromStart(double segment1StartX, double segment1StartY, double segment1EndX, double segment1EndY, double distance, out double newPointX, out double newPointY)
@@ -1016,12 +1016,12 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a point away from a segment end point on a specified distance
+        /// Get the point away from the segment end point on the specified distance
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
-        /// <param name="distance"> Distance from end point to a new point </param>
-        /// <returns> New point awaw from a segment end </returns>
+        /// <param name="distance"> Distance from end point to the new point </param>
+        /// <returns> New point away from the segment end </returns>
         public static PointF GetPointAwayFromEnd(PointF segmentStart, PointF segmentEnd, double distance)
         {
             GetPointAwayFromEnd(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out var newPointX, out var newPointY);
@@ -1029,12 +1029,12 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a point away from a segment end point on a specified distance
+        /// Get the point away from the segment end point on the specified distance
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
-        /// <param name="distance"> Distance from end point to a new point </param>
-        /// <returns> New point awaw from a segment end </returns>
+        /// <param name="distance"> Distance from end point to the new point </param>
+        /// <returns> New point away from the segment end </returns>
         public static Point GetPointAwayFromEnd(Point segmentStart, Point segmentEnd, int distance)
         {
             GetPointAwayFromEnd(segmentStart.X, segmentStart.Y, segmentEnd.X, segmentEnd.Y, distance, out var newPointX, out var newPointY);
@@ -1042,13 +1042,13 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a point away from a segment end point on a specified distance
+        /// Get the point away from the segment end point on the specified distance
         /// </summary>
         /// <param name="segmentStartX"> Segment, start point: coordinate X </param>
         /// <param name="segmentStartY"> Segment, start point: coordinate Y </param>
         /// <param name="segmentEndX"> Segment, end point: coordinate X </param>
         /// <param name="segmentEndY"> Segment, end point: coordinate Y </param>
-        /// <param name="distance"> Distance from end point to a new point </param>
+        /// <param name="distance"> Distance from end point to the new point </param>
         /// <param name="newPointX"> New point: coordinate X </param>
         /// <param name="newPointY"> New point: coordinate Y </param>
         public static void GetPointAwayFromEnd(double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY, double distance, out double newPointX, out double newPointY)
@@ -1080,7 +1080,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Split a segment to small parts by a segments length
+        /// Split the segment to small parts by the segments length
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
@@ -1202,7 +1202,7 @@ namespace GeoPlanarNet
         {
             if (segmentStart.X > segmentEnd.X)
             {
-                throw new ArgumentException("Segment start point must be less than a segment end point");
+                throw new ArgumentException("Segment start point must be less than the segment end point");
             }
 
             var points = new List<PointF> { segmentStart };
@@ -1237,7 +1237,7 @@ namespace GeoPlanarNet
         {
             if (segmentStart.X > segmentEnd.X)
             {
-                throw new ArgumentException("Segment start point must be less than a segment end point");
+                throw new ArgumentException("Segment start point must be less than the segment end point");
             }
 
             var points = new List<Point> { segmentStart };
@@ -1261,7 +1261,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a rectangle with one side equal to segment, another side equal to length
+        /// Get the rectangle with one side equal to segment, another side equal to length
         /// </summary>
         /// <param name="segmentStart"> Segment start point </param>
         /// <param name="segmentEnd"> Segment end point </param>
@@ -1462,7 +1462,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point has projection to a segment
+        /// Check if the point has projection to the segment
         /// </summary>
         /// <param name="segmentStartPoint"> Segment start point </param>
         /// <param name="segmentEndPoint"> Segment end point </param>
@@ -1474,7 +1474,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point has projection to a segment
+        /// Check if the point has projection to the segment
         /// </summary>
         /// <param name="segmentStartPoint"> Segment start point </param>
         /// <param name="segmentEndPoint"> Segment end point </param>
@@ -1486,7 +1486,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point has projection to a segment
+        /// Check if the point has projection to the segment
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>

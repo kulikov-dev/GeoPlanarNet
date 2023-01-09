@@ -59,7 +59,7 @@ namespace GeoPlanarNet
         /// <param name="linePoint1"> Line first point </param>
         /// <param name="linePoint2"> Line second point </param>
         /// <param name="point"> Point </param>
-        /// <returns> Distance from a point to the line </returns>
+        /// <returns> Distance from the point to the line </returns>
         public static double DistanceToPoint(PointF linePoint1, PointF linePoint2, PointF point)
         {
             return point.DistanceToLine(linePoint1, linePoint2);
@@ -71,7 +71,7 @@ namespace GeoPlanarNet
         /// <param name="linePoint1"> Line first point </param>
         /// <param name="linePoint2"> Line second point </param>
         /// <param name="point"> Point </param>
-        /// <returns> Distance from a point to the line </returns>
+        /// <returns> Distance from the point to the line </returns>
         public static double DistanceToPoint(Point linePoint1, Point linePoint2, Point point)
         {
             return point.DistanceToLine(linePoint1, linePoint2);
@@ -86,7 +86,7 @@ namespace GeoPlanarNet
         /// <param name="linePoint2Y">Line second point: X coordinate</param>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
-        /// <returns> Distance from a point to the line </returns>
+        /// <returns> Distance from the point to the line </returns>
         public static double DistanceToPoint(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double pointX, double pointY)
         {
             return PointGeo.DistanceToLine(pointX, pointY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y);
@@ -123,7 +123,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if two lines have intersection
+        /// Find the intersection point between two lines
         /// </summary>
         /// <param name="line1Point1"> Line 1, point 1 </param>
         /// <param name="line1Point2"> Line 1, point 2 </param>
@@ -140,7 +140,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if two lines have intersection
+        /// Find the intersection point between two lines
         /// </summary>
         /// <param name="line1Point1"> Line 1, point 1 </param>
         /// <param name="line1Point2"> Line 1, point 2 </param>
@@ -157,7 +157,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if two lines have intersection
+        /// Find the intersection point between two lines
         /// </summary>
         /// <param name="line1X1"> Line 1, point 1: coordinate X </param>
         /// <param name="line1Y1"> Line 1, point 1: coordinate Y </param>
@@ -441,7 +441,7 @@ namespace GeoPlanarNet
         /// <param name="segmentStart"> Start segment point </param>
         /// <param name="segmentEnd"> End segment point </param>
         /// <returns> True, if the line contains the segment </returns>
-        public static bool Contains(PointF linePoint1, PointF linePoint2, PointF segmentStart, PointF segmentEnd)
+        public static bool ContainsSegment(PointF linePoint1, PointF linePoint2, PointF segmentStart, PointF segmentEnd)
         {
             return SegmentGeo.BelongsToLine(segmentStart, segmentEnd, linePoint1, linePoint2);
         }
@@ -454,7 +454,7 @@ namespace GeoPlanarNet
         /// <param name="segmentStart"> Start segment point </param>
         /// <param name="segmentEnd"> End segment point </param>
         /// <returns> True, if the line contains the segment </returns>
-        public static bool Contains(Point linePoint1, Point linePoint2, Point segmentStart, Point segmentEnd)
+        public static bool ContainsSegment(Point linePoint1, Point linePoint2, Point segmentStart, Point segmentEnd)
         {
             return SegmentGeo.BelongsToLine(segmentStart, segmentEnd, linePoint1, linePoint2);
         }
@@ -471,7 +471,7 @@ namespace GeoPlanarNet
         /// <param name="segmentEndX"> Segment end point: Y coordinate </param>
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
         /// <returns> True, if the line contains the segment </returns>
-        public static bool Contains(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
+        public static bool ContainsSegment(double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
             return SegmentGeo.BelongsToLine(segmentStartX, segmentStartY, segmentEndX, segmentEndY, linePoint1X, linePoint1Y, linePoint2X, linePoint2Y);
         }
@@ -518,7 +518,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get koefficients of line linear function K and B
+        /// Get coefficients of line linear function K and B
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
@@ -533,7 +533,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get koefficients of line linear function K and B
+        /// Get coefficients of line linear function K and B
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
@@ -713,7 +713,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection from the point to a line
+        /// Get projection from the point to the line
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
@@ -725,7 +725,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection from the point to a line
+        /// Get projection from the point to the line
         /// </summary>
         /// <param name="linePoint1"> Line point 1 </param>
         /// <param name="linePoint2"> Line point 2 </param>
@@ -737,7 +737,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection from the point to a line
+        /// Get projection from the point to the line
         /// </summary>
         /// <param name="linePoint1X"> Line point 1: X coordinate </param>
         /// <param name="linePoint1Y"> Line point 1: Y coordinate </param>
@@ -753,7 +753,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection from the point to a line
+        /// Get projection from the point to the line
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
@@ -765,7 +765,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection from the point to a line
+        /// Get projection from the point to the line
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>

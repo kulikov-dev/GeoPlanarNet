@@ -91,7 +91,7 @@ namespace GeoPlanarNet
         /// <param name="point"> Point </param>
         /// <param name="linePoint1"> Line first point </param>
         /// <param name="linePoint2"> Line second point </param>
-        /// <returns> Distance from a point to the line </returns>
+        /// <returns> Distance from the point to the line </returns>
         public static double DistanceToLine(this PointF point, PointF linePoint1, PointF linePoint2)
         {
             return DistanceToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
@@ -103,7 +103,7 @@ namespace GeoPlanarNet
         /// <param name="point"> Point </param>
         /// <param name="linePoint1"> Line first point </param>
         /// <param name="linePoint2"> Line second point </param>
-        /// <returns> Distance from a point to the line </returns>
+        /// <returns> Distance from the point to the line </returns>
         public static double DistanceToLine(this Point point, Point linePoint1, Point linePoint2)
         {
             return DistanceToLine(point.X, point.Y, linePoint1.X, linePoint1.Y, linePoint2.X, linePoint2.Y);
@@ -118,7 +118,7 @@ namespace GeoPlanarNet
         /// <param name="linePoint1Y">Line first point: X coordinate</param>
         /// <param name="linePoint2X">Line second point: X coordinate</param>
         /// <param name="linePoint2Y">Line second point: X coordinate</param>
-        /// <returns> Distance from a point to the line </returns>
+        /// <returns> Distance from the point to the line </returns>
         public static double DistanceToLine(double pointX, double pointY, double linePoint1X, double linePoint1Y, double linePoint2X, double linePoint2Y)
         {
             var distX = linePoint2X - linePoint1X;
@@ -164,7 +164,7 @@ namespace GeoPlanarNet
         /// <param name="segmentStartY"> Segment start point: Y coordinate </param>
         /// <param name="segmentEndX"> Segment end point: X coordinate </param>
         /// <param name="segmentEndY"> Segment end point: Y coordinate </param>
-        /// <returns> Distance from a point to the segment </returns>
+        /// <returns> Distance from the point to the segment </returns>
         public static double DistanceToSegment(double pointX, double pointY, double segmentStartX, double segmentStartY, double segmentEndX, double segmentEndY)
         {
             if ((segmentStartX - segmentEndX) * (pointX - segmentEndX) + (segmentStartY - segmentEndY) * (pointY - segmentEndY) <= 0)
@@ -341,7 +341,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get shortest distnace from the point to the triangle
+        /// Get shortest distance from the point to the triangle
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="apex1"> Apex 1 </param>
@@ -354,7 +354,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get shortest distnace from the point to the triangle
+        /// Get shortest distance from the point to the triangle
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="apex1"> Apex 1 </param>
@@ -367,7 +367,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get shortest distnace from the point to the triangle
+        /// Get shortest distance from the point to the triangle
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -434,7 +434,7 @@ namespace GeoPlanarNet
         #region BelongsTo
 
         /// <summary>
-        /// Check if a point belongs to a segment
+        /// Check if the point belongs to the segment
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="segmentStart"> Segment start point </param>
@@ -446,7 +446,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to a segment
+        /// Check if the point belongs to the segment
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="segmentStart"> Segment start point </param>
@@ -458,7 +458,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to a segment
+        /// Check if the point belongs to the segment
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -514,7 +514,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to a circle
+        /// Check if the point belongs to the circle
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="circleCenter"> Circle center </param>
@@ -526,7 +526,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to a circle
+        /// Check if the point belongs to the circle
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="circleCenter"> Circle center </param>
@@ -539,7 +539,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to a circle
+        /// Check if the point belongs to the circle
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -553,7 +553,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belong to a specific circle sector
+        /// Check if the point belong to the specific circle sector
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="circleCenter"> Circle center </param>
@@ -567,7 +567,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belong to a specific circle sector
+        /// Check if the point belong to the specific circle sector
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="circleCenter"> Circle center </param>
@@ -581,7 +581,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belong to a specific circle sector
+        /// Check if the point belong to the specific circle sector
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -597,7 +597,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to an axis-parallel ellipse
+        /// Check if the point belongs to an axis-parallel ellipse
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
@@ -610,7 +610,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to an axis-parallel ellipse
+        /// Check if the point belongs to an axis-parallel ellipse
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
@@ -623,7 +623,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to an axis-parallel ellipse
+        /// Check if the point belongs to an axis-parallel ellipse
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -638,7 +638,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belong to a specific axis-parallel ellipse sector
+        /// Check if the point belong to the specific axis-parallel ellipse sector
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
@@ -653,7 +653,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belong to a specific axis-parallel ellipse sector
+        /// Check if the point belong to the specific axis-parallel ellipse sector
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="ellipseCenter"> Ellipse center </param>
@@ -668,7 +668,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belong to a specific axis-parallel ellipse sector
+        /// Check if the point belong to the specific axis-parallel ellipse sector
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -685,7 +685,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to a triangle
+        /// Check if the point belongs to the triangle
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="apex1"> Triangle apex 1 </param>
@@ -698,7 +698,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to a triangle
+        /// Check if the point belongs to the triangle
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="apex1"> Triangle apex 1 </param>
@@ -711,7 +711,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to a triangle
+        /// Check if the point belongs to the triangle
         /// </summary>
         /// <param name="pointX"> Point: X Coordinate </param>
         /// <param name="pointY"> Point: Y Coordinate </param>
@@ -848,7 +848,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to the surface
+        /// Check if the point belongs to the surface
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="surface"> Surface </param>
@@ -958,7 +958,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to the surface
+        /// Check if the point belongs to the surface
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="surface"> Surface </param>
@@ -1459,7 +1459,7 @@ namespace GeoPlanarNet
         #region GetLocation
 
         /// <summary>
-        /// Get a point location relative to a segment
+        /// Get the point location relative to the segment
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="segmentStart"> Segment start point </param>
@@ -1472,7 +1472,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a point location relative to a segment
+        /// Get the point location relative to the segment
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="segmentStart"> Segment start point </param>
@@ -1485,7 +1485,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a point location relative to a segment
+        /// Get the point location relative to the segment
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -1513,7 +1513,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a point location relative to a segment
+        /// Get the point location relative to the segment
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="segmentStart"> Segment start point </param>
@@ -1525,7 +1525,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a point location relative to a segment
+        /// Get the point location relative to the segment
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="segmentStart"> Segment start point </param>
@@ -1537,7 +1537,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a point location relative to a segment
+        /// Get the point location relative to the segment
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -1719,7 +1719,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point belongs to an axis-parallel ellipse
+        /// Check if the point belongs to an axis-parallel ellipse
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -1880,7 +1880,7 @@ namespace GeoPlanarNet
         #region Projection
 
         /// <summary>
-        /// Get projection from the point to a line
+        /// Get projection from the point to the line
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="linePoint1"> Line point 1 </param>
@@ -1893,7 +1893,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection from the point to a line
+        /// Get projection from the point to the line
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="linePoint1"> Line point 1 </param>
@@ -1906,7 +1906,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection from the point to a line
+        /// Get projection from the point to the line
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -1943,7 +1943,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection from the point to a line
+        /// Get projection from the point to the line
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
@@ -1971,7 +1971,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get projection from the point to a line
+        /// Get projection from the point to the line
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="slopeKoef"> Angle of inclination θ by the tangent function </param>
@@ -1999,7 +1999,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point has projection to a segment
+        /// Check if the point has projection to the segment
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="segmentStartPoint"> Segment start point </param>
@@ -2011,7 +2011,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point has projection to a segment
+        /// Check if the point has projection to the segment
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="segmentStartPoint"> Segment start point </param>
@@ -2023,7 +2023,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a point has projection to a segment
+        /// Check if the point has projection to the segment
         /// </summary>
         /// <param name="pointX"> Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -2099,7 +2099,6 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="point1"> Point 1 </param>
         /// <param name="point2"> Point 2 </param>
-        /// <param name="eps"> Epsilon </param>
         /// <returns> True, if equals </returns>
         public static bool Equals(this PointF point1, PointF point2)
         {
@@ -2111,7 +2110,6 @@ namespace GeoPlanarNet
         /// </summary>
         /// <param name="point1"> Point 1 </param>
         /// <param name="point2"> Point 2 </param>
-        /// <param name="eps"> Epsilon </param>
         /// <returns> True, if equals </returns>
         public static bool Equals(this Point point1, Point point2)
         {
@@ -2171,7 +2169,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Rotate point around the center
+        /// Rotate the point around the center point
         /// </summary>
         /// <param name="point"> Source point </param>
         /// <param name="center"> Center point </param>
@@ -2184,7 +2182,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Rotate point around the center
+        /// Rotate the point around the center point
         /// </summary>
         /// <param name="point"> Source point </param>
         /// <param name="center"> Center point </param>
@@ -2197,7 +2195,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Rotate point around the center
+        /// Rotate the point around the center point
         /// </summary>
         /// <param name="pointX">Point: X coordinate </param>
         /// <param name="pointY"> Point: Y coordinate </param>
@@ -2270,7 +2268,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get axis-degree between two points
+        /// Get axis-degree angle between two points
         /// </summary>
         /// <param name="point1"> Point 1 </param>
         /// <param name="point2"> Point 2 </param>
@@ -2281,7 +2279,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get axis-degree between two points
+        /// Get axis-degree angle between two points
         /// </summary>
         /// <param name="point1"> Point 1 </param>
         /// <param name="point2"> Point 2 </param>
@@ -2292,7 +2290,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get axis-degree between two points
+        /// Get axis-degree angle between two points
         /// </summary>
         /// <param name="point1X"> Point 1: X coordinate </param>
         /// <param name="point1Y"> Point 1: Y coordinate </param>
@@ -2310,7 +2308,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find the minimal distance from a curve to a point
+        /// Find the minimal distance from the curve to the point
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="curve"> Curve </param>
@@ -2321,11 +2319,11 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find the minimal distance from a curve to a point
+        /// Find the minimal distance from the curve to the point
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="curve"> Curve </param>
-        /// <param name="nearestPointIndex"> Index of a nearest point in the curve </param>
+        /// <param name="nearestPointIndex"> Index of the nearest point in the curve </param>
         /// <returns> Minimal distance </returns>
         public static double MinDistanceToCurveLine(this PointF point, PointF[] curve, out int nearestPointIndex)
         {
@@ -2333,7 +2331,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find the minimal distance from a curve to a point
+        /// Find the minimal distance from the curve to the point
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="curve"> Curve </param>
@@ -2344,11 +2342,11 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find the minimal distance from a curve to a point
+        /// Find the minimal distance from the curve to the point
         /// </summary>
         /// <param name="point"> Point </param>
         /// <param name="curve"> Curve </param>
-        /// <param name="nearestPointIndex"> Index of a nearest point in the curve </param>
+        /// <param name="nearestPointIndex"> Index of the nearest point in the curve </param>
         /// <returns> Minimal distance </returns>
         public static double MinDistanceToCurveLine(this Point point, Point[] curve, out int nearestPointIndex)
         {

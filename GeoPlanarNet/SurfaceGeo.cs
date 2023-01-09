@@ -44,7 +44,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a minimum point of the surface
+        /// Get the minimum point of the surface
         /// </summary>
         /// <param name="surface"> Surface </param>
         /// <returns> Minimum point </returns>
@@ -87,7 +87,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a maximum point of the surface
+        /// Get the maximum point of the surface
         /// </summary>
         /// <param name="surface"> Surface </param>
         /// <returns> Maximum point </returns>
@@ -131,7 +131,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a minimum point of the surface
+        /// Get the minimum point of the surface
         /// </summary>
         /// <param name="surface"> Surface </param>
         /// <returns> Minimum point </returns>
@@ -174,7 +174,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get a maximum point of the surface
+        /// Get the maximum point of the surface
         /// </summary>
         /// <param name="surface"> Surface </param>
         /// <returns> Maximum point </returns>

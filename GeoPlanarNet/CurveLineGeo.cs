@@ -43,7 +43,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find the minimal distance from a curve to a point
+        /// Find the minimal distance from the curve to the point
         /// </summary>
         /// <param name="curve"> Curve </param>
         /// <param name="point"> Point </param>
@@ -54,11 +54,11 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find the minimal distance from a curve to a point
+        /// Find the minimal distance from the curve to the point
         /// </summary>
         /// <param name="curve"> Curve </param>
         /// <param name="point"> Point </param>
-        /// <param name="nearestPointIndex"> Index of a nearest point in the curve </param>
+        /// <param name="nearestPointIndex"> Index of the nearest point in the curve </param>
         /// <returns> Minimal distance </returns>
         public static double MinDistanceToPoint(PointF[] curve, PointF point, out int nearestPointIndex)
         {
@@ -85,7 +85,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find the minimal distance from a curve to a point
+        /// Find the minimal distance from the curve to the point
         /// </summary>
         /// <param name="curve"> Curve </param>
         /// <param name="point"> Point </param>
@@ -96,11 +96,11 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Find the minimal distance from a curve to a point
+        /// Find the minimal distance from the curve to the point
         /// </summary>
         /// <param name="curve"> Curve </param>
         /// <param name="point"> Point </param>
-        /// <param name="nearestPointIndex"> Index of a nearest point in the curve </param>
+        /// <param name="nearestPointIndex"> Index of the nearest point in the curve </param>
         /// <returns> Minimal distance </returns>
         public static double MinDistanceToPoint(Point[] curve, Point point, out int nearestPointIndex)
         {
@@ -127,7 +127,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Split a curve line to small parts by a segments length
+        /// Split the curve line to small parts by the segments length
         /// </summary>
         /// <param name="curve"> Curve </param>
         /// <param name="partsLength"> Length of each part of the curve line </param>
@@ -150,7 +150,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Split a curve line to small parts by a segments length
+        /// Split the curve line to small parts by the segments length
         /// </summary>
         /// <param name="curve"> Curve </param>
         /// <param name="partsLength"> Length of each part of the curve line </param>
@@ -173,7 +173,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a curve line and a segment has intersection
+        /// Check if the curve line and the segment has intersection
         /// </summary>
         /// <param name="curve"> Curve </param>
         /// <param name="segmentStartPoint"> Segment start point </param>
@@ -185,7 +185,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a curve line and a segment has intersection
+        /// Check if the curve line and the segment has intersection
         /// </summary>
         /// <param name="curve"> Curve </param>
         /// <param name="segmentStartPoint"> Segment start point </param>
@@ -197,7 +197,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a curve line and a segment has intersection
+        /// Check if the curve line and the segment has intersection
         /// </summary>
         /// <param name="curve"> Curve </param>
         /// <param name="segmentStartPoint"> Segment start point </param>
@@ -220,7 +220,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Check if a curve line and a segment has intersection
+        /// Check if the curve line and the segment has intersection
         /// </summary>
         /// <param name="curve"> Curve </param>
         /// <param name="segmentStartPoint"> Segment start point </param>

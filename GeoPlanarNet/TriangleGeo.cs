@@ -556,7 +556,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get shortest distnace from the point to the triangle
+        /// Get shortest distance from the point to the triangle
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
@@ -569,7 +569,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get shortest distnace from the point to the triangle
+        /// Get shortest distance from the point to the triangle
         /// </summary>
         /// <param name="apex1"> Apex 1 </param>
         /// <param name="apex2"> Apex 2 </param>
@@ -582,7 +582,7 @@ namespace GeoPlanarNet
         }
 
         /// <summary>
-        /// Get shortest distnace from the point to the triangle
+        /// Get shortest distance from the point to the triangle
         /// </summary>
         /// <param name="apex1X"> Apex 1: X coordinate </param>
         /// <param name="apex1Y"> Apex 1: Y coordinate </param>

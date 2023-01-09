@@ -1,7 +1,7 @@
 ﻿namespace GeoPlanarNet.Enums
 {
     /// <summary>
-    /// Point location against a figure
+    /// Point location against the figure
     /// </summary>
     public enum PointAgainstFigureLocation
     {

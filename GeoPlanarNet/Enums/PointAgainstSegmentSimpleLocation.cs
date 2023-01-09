@@ -1,7 +1,7 @@
 ﻿namespace GeoPlanarNet.Enums
 {
     /// <summary>
-    /// Point location against a segment
+    /// Point location against the segment
     /// </summary>
     public enum PointAgainstSegmentSimpleLocation
     {
